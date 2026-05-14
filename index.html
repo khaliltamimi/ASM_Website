@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muslim Student Association | POLIMI </title>
+    <meta name="description"
+        content="Welcome to the University Muslim Student Association. Find out about our events, prayer times, and community.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Header & Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <img src="assets/msa_logo.png" alt="MSA Logo">
+                <span>University POLIMI</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#events">Events</a>
+                <a href="#prayer-times">Prayer Times</a>
+                <a href="#leadership">Leadership</a>
+                <a href="#contact">Contact</a>
+                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join Us</a>
+            </nav>
+
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay">
+        <nav class="mobile-nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#events">Events</a>
+            <a href="#prayer-times">Prayer Times</a>
+            <a href="#leadership">Leadership</a>
+            <a href="#contact">Contact</a>
+            <a href="register.html">Join Us</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="animate-up">Welcome to your community.</h1>
+            <p class="animate-up delay-1">Fostering faith, brotherhood, sisterhood, and excellence on campus.</p>
+            <div class="hero-buttons animate-up delay-2">
+                <a href="#events" class="btn btn-primary">Upcoming Events</a>
+                <a href="register.html" class="btn btn-secondary">Become a Member</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>About Us</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>Our Mission</h3>
+                    <p>The Muslim Student Association strives to facilitate a welcoming and active community for Muslim
+                        students on campus. We aim to support our members in balancing their academic pursuits with
+                        their spiritual growth, while fostering an inclusive environment that promotes understanding and
+                        dialogue.</p>
+
+                    <h3>What We Do</h3>
+                    <ul class="feature-list">
+                        <li><strong>Spiritual:</strong> Weekly Halaqas, daily prayers, and Jummah services.</li>
+                        <li><strong>Social:</strong> Brotherhood/Sisterhood events, dinners, and game nights.</li>
+                        <li><strong>Service:</strong> Community service projects and charity fundraisers.</li>
+                        <li><strong>Education:</strong> Islam Awareness Week, guest speakers, and workshops.</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <!-- Placeholder for community photo -->
+                    <div class="image-placeholder">
+                        <span>Community Photo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section (Google Calendar) -->
+    <section id="events" class="section bg-light">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Upcoming Events</h2>
+                <div class="divider"></div>
+                <p>Stay updated with our latest halaqas, socials, and activities.</p>
+            </div>
+
+            <div class="calendar-container">
+                <!-- Google Calendar Embed -->
+                <!-- Replacing with a standard public calendar iframe for demonstration -->
+                <iframe
+                    src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&showTitle=0&showPrint=0&showCalendars=0&showTz=0&mode=AGENDA"
+                    style="border:solid 1px #e2e8f0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prayer Times Section -->
+    <section id="prayer-times" class="section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Daily Prayer Times</h2>
+                <div class="divider"></div>
+                <p>Prayer spaces are available in the Student Union Building, Room 302.</p>
+            </div>
+
+            <div class="prayer-times-card">
+                <div class="date-display" id="current-date">Loading date...</div>
+
+                <div class="prayer-grid">
+                    <div class="prayer-item">
+                        <div class="prayer-name">Fajr</div>
+                        <div class="prayer-time" id="fajr-time">--:-- AM</div>
+                    </div>
+                    <div class="prayer-item highlight">
+                        <div class="prayer-name">Dhuhr</div>
+                        <div class="prayer-time" id="dhuhr-time">--:-- PM</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Asr</div>
+                        <div class="prayer-time" id="asr-time">--:-- PM</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Maghrib</div>
+                        <div class="prayer-time" id="maghrib-time">--:-- PM</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Isha</div>
+                        <div class="prayer-time" id="isha-time">--:-- PM</div>
+                    </div>
+                </div>
+
+                <div class="jummah-info">
+                    <strong>Jummah Prayer:</strong> Fridays at 1:15 PM & 2:15 PM in the Main Hall.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section id="leadership" class="section bg-light">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Our Team</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="team-card">
+                    <div class="team-avatar">P</div>
+                    <h3 class="team-name">Omar Ali</h3>
+                    <p class="team-role">President</p>
+                </div>
+                <!-- Team Member 2 -->
+                <div class="team-card">
+                    <div class="team-avatar">V</div>
+                    <h3 class="team-name">Fatima Khan</h3>
+                    <p class="team-role">Vice President</p>
+                </div>
+                <!-- Team Member 3 -->
+                <div class="team-card">
+                    <div class="team-avatar">S</div>
+                    <h3 class="team-name">Aisha Rahman</h3>
+                    <p class="team-role">Secretary</p>
+                </div>
+                <!-- Team Member 4 -->
+                <div class="team-card">
+                    <div class="team-avatar">T</div>
+                    <h3 class="team-name">Zayd Ahmed</h3>
+                    <p class="team-role">Treasurer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Join Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Get in Touch</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <p>Have questions? Want to collaborate? Reach out to us!</p>
+
+                    <div class="info-item">
+                        <strong>Email:</strong> Polimi@university.edu
+                    </div>
+                    <div class="info-item">
+                        <strong>Office:</strong> Student Union Building, Room 302
+                    </div>
+
+                    <h3 class="mt-4">Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">Instagram</a>
+                        <a href="#" class="social-icon">Facebook</a>
+                        <a href="#" class="social-icon">Discord</a>
+                    </div>
+                </div>
+
+                <div class="contact-form-container" id="join">
+                    <h3>Join Our Mailing List</h3>
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">University Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Graduation Year</label>
+                            <select id="year">
+                                <option value="">Select Year...</option>
+                                <option value="2027">2027</option>
+                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="grad">Graduate Student</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/msa_logo.png" alt="MSA Logo" width="40" style="filter: brightness(0) invert(1);">
+                    <span>University POLIMI</span>
+                </div>
+                <div class="footer-copyright">
+                    &copy; 2026 University Muslim Student Association. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

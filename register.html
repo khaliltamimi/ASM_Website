@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Registration | POLIMI MSA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Header & Navigation -->
+    <header class="navbar"
+        style="background-color: var(--color-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 0;">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/msa_logo.png" alt="MSA Logo">
+                <span>University POLIMI</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="index.html#home">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#events">Events</a>
+                <a href="index.html#prayer-times">Prayer Times</a>
+                <a href="index.html#leadership">Leadership</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join
+                    Us</a>
+            </nav>
+
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay">
+        <nav class="mobile-nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About Us</a>
+            <a href="index.html#events">Events</a>
+            <a href="index.html#prayer-times">Prayer Times</a>
+            <a href="index.html#leadership">Leadership</a>
+            <a href="index.html#contact">Contact</a>
+            <a href="register.html">Join Us</a>
+        </nav>
+    </div>
+
+    <!-- Registration Section -->
+    <section class="section" style="margin-top: 80px; min-height: 80vh;">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>New Member Application</h2>
+                <div class="divider"></div>
+                <p>Join the POLIMI Muslim Student Association and become part of our active community.</p>
+            </div>
+
+            <div class="contact-form-container" style="max-width: 800px; margin: 0 auto; padding: 0;">
+                <!-- Google Form Embed Placeholder -->
+                <div
+                    style="width: 100%; display: flex; justify-content: center; overflow: hidden; border-radius: 1rem;">
+                    <iframe
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSeaXV2VdR08pr81JZa2zRefxB2HaUhi_qlBj6Zkaa0_t0RtuQ/viewform?usp=dialog"
+                        width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                </div>
+                <p style="text-align: center; margin: 1.5rem 0; color: var(--color-text-light); font-size: 0.95rem;">
+                    <strong>Note for Admin:</strong> To make this form work, create a form at <a
+                        href="https://forms.google.com" target="_blank"
+                        style="color: var(--color-primary); text-decoration: underline;">Google Forms</a>, click "Send",
+                    choose the `&lt; &gt;` embed icon, and replace the iframe `src` link in `register.html` with your
+                    real form link.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/msa_logo.png" alt="MSA Logo" width="40" style="filter: brightness(0) invert(1);">
+                    <span>University POLIMI</span>
+                </div>
+                <div class="footer-copyright">
+                    &copy; 2026 University Muslim Student Association. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

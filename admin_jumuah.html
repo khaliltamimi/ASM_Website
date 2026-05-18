@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin: Jumu'ah Settings | ASM</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+    <style>
+        .admin-container {
+            max-width: 600px;
+            margin: 100px auto 4rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            padding: 0.75rem;
+            background: #f8d7da;
+            border-radius: 0.25rem;
+        }
+
+        .success-message {
+            color: #198754;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            padding: 0.75rem;
+            background: #d1e7dd;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- Header & Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/asm_logo.png" alt="ASM Logo">
+                <span>ASM POLIMI</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html#home">Home</a>
+                <a href="events.html">Events</a>
+                <a href="resources.html">Resources</a>
+                <a href="support.html">Support</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="jumuah.html">Jumu'ah</a>
+                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join
+                    Us</a>
+                <div class="dropdown">
+                    <button class="dropbtn" aria-label="Settings">
+                        &#8942;
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="admin.html">Admin: Events</a>
+                        <a href="admin_jumuah.html">Admin: Jumu'ah</a>
+                        <a href="admin_users.html">Admin: Users</a>
+                    </div>
+                </div>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay">
+        <nav class="mobile-nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="events.html">Events</a>
+            <a href="resources.html">Resources</a>
+            <a href="support.html">Support</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="jumuah.html">Jumu'ah</a>
+            <a href="register.html">Join Us</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="admin-container" id="login-section">
+            <h2 class="text-center mb-2">Admin Login</h2>
+            <div id="login-error" class="error-message hidden"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+        </div>
+
+        <div class="admin-container hidden" id="dashboard-section">
+            <h2 class="text-center mb-2">Jumu'ah Settings</h2>
+            <div class="text-center mb-4" style="margin-bottom: 2rem;">
+                <a href="admin.html"
+                    style="color: var(--color-primary); font-size: 0.9rem; text-decoration: underline;">Switch to Events
+                    & Announcements Admin</a>
+            </div>
+
+            <div id="update-message" class="hidden"></div>
+            <form id="update-form">
+                <div
+                    style="background: #f9fafb; padding: 1.5rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; border: 1px solid #e5e7eb;">
+                    <h3 class="mb-2" style="font-size: 1.25rem;">Bovisa Campus</h3>
+                    <div class="form-group">
+                        <label for="bovisa_count">How many Jumu'ah prayers?</label>
+                        <select id="bovisa_count" onchange="toggleCampusFields('bovisa')">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="0">None</option>
+                        </select>
+                    </div>
+
+                    <div id="bovisa_motivation_div" class="form-group hidden">
+                        <label for="bovisa_motivation">Motivation</label>
+                        <select id="bovisa_motivation">
+                            <option value="Strike">Strike</option>
+                            <option value="Holiday">Holiday</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <input type="text" id="bovisa_motivation_other" class="mt-2 hidden"
+                            placeholder="Specify other reason">
+                    </div>
+
+                    <div id="bovisa_time1_div" class="form-group">
+                        <label for="bovisa_time1">Time (or Time for First)</label>
+                        <input type="text" id="bovisa_time1" placeholder="e.g. 13:15">
+                    </div>
+
+                    <div id="bovisa_time2_div" class="form-group hidden">
+                        <label for="bovisa_time2">Time for Second</label>
+                        <input type="text" id="bovisa_time2" placeholder="e.g. 14:15">
+                    </div>
+                </div>
+
+                <div
+                    style="background: #f9fafb; padding: 1.5rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; border: 1px solid #e5e7eb;">
+                    <h3 class="mb-2" style="font-size: 1.25rem;">Leonardo Campus</h3>
+                    <div class="form-group">
+                        <label for="leonardo_count">How many Jumu'ah prayers?</label>
+                        <select id="leonardo_count" onchange="toggleCampusFields('leonardo')">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="0">None</option>
+                        </select>
+                    </div>
+
+                    <div id="leonardo_motivation_div" class="form-group hidden">
+                        <label for="leonardo_motivation">Motivation</label>
+                        <select id="leonardo_motivation">
+                            <option value="Strike">Strike</option>
+                            <option value="Holiday">Holiday</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <input type="text" id="leonardo_motivation_other" class="mt-2 hidden"
+                            placeholder="Specify other reason">
+                    </div>
+
+                    <div id="leonardo_time1_div" class="form-group">
+                        <label for="leonardo_time1">Time (or Time for First)</label>
+                        <input type="text" id="leonardo_time1" placeholder="e.g. 13:15">
+                    </div>
+
+                    <div id="leonardo_time2_div" class="form-group hidden">
+                        <label for="leonardo_time2">Time for Second</label>
+                        <input type="text" id="leonardo_time2" placeholder="e.g. 14:15">
+                    </div>
+                </div>
+
+                <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #e5e7eb;">
+                <button type="submit" class="btn btn-primary w-100">Publish Changes</button>
+                <button type="button" class="btn btn-secondary w-100 mt-2" id="logout-btn"
+                    style="color: var(--color-primary); border-color: var(--color-primary);">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const loginSection = document.getElementById('login-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const loginForm = document.getElementById('login-form');
+        const updateForm = document.getElementById('update-form');
+        const loginError = document.getElementById('login-error');
+        const updateMessage = document.getElementById('update-message');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        let token = localStorage.getItem('adminToken');
+
+        if (token) {
+            showDashboard();
+        }
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    token = data.token;
+                    localStorage.setItem('adminToken', token);
+                    showDashboard();
+                } else {
+                    loginError.textContent = data.message;
+                    loginError.classList.remove('hidden');
+                }
+            } catch (err) {
+                loginError.textContent = "Error connecting to server.";
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        function toggleCampusFields(campus) {
+            const count = document.getElementById(campus + '_count').value;
+            const motivationDiv = document.getElementById(campus + '_motivation_div');
+            const time1Div = document.getElementById(campus + '_time1_div');
+            const time2Div = document.getElementById(campus + '_time2_div');
+
+            if (count === '0') {
+                motivationDiv.classList.remove('hidden');
+                time1Div.classList.add('hidden');
+                time2Div.classList.add('hidden');
+            } else if (count === '1') {
+                motivationDiv.classList.add('hidden');
+                time1Div.classList.remove('hidden');
+                time2Div.classList.add('hidden');
+            } else if (count === '2') {
+                motivationDiv.classList.add('hidden');
+                time1Div.classList.remove('hidden');
+                time2Div.classList.remove('hidden');
+            }
+        }
+
+        ['bovisa', 'leonardo'].forEach(campus => {
+            const motSelect = document.getElementById(campus + '_motivation');
+            const motOther = document.getElementById(campus + '_motivation_other');
+            motSelect.addEventListener('change', () => {
+                if (motSelect.value === 'Other') {
+                    motOther.classList.remove('hidden');
+                } else {
+                    motOther.classList.add('hidden');
+                }
+            });
+        });
+
+        async function showDashboard() {
+            loginSection.classList.add('hidden');
+            dashboardSection.classList.remove('hidden');
+
+            try {
+                const response = await fetch('/api/content');
+                const data = await response.json();
+                if (data.jumuah_info) {
+                    ['bovisa', 'leonardo'].forEach(campus => {
+                        const info = data.jumuah_info[campus];
+                        if (info) {
+                            document.getElementById(campus + '_count').value = info.count || '1';
+                            if (info.motivation && info.motivation !== 'Strike' && info.motivation !== 'Holiday') {
+                                document.getElementById(campus + '_motivation').value = 'Other';
+                                document.getElementById(campus + '_motivation_other').value = info.motivation;
+                                document.getElementById(campus + '_motivation_other').classList.remove('hidden');
+                            } else {
+                                document.getElementById(campus + '_motivation').value = info.motivation || 'Strike';
+                            }
+                            document.getElementById(campus + '_time1').value = info.time1 || '';
+                            document.getElementById(campus + '_time2').value = info.time2 || '';
+                            toggleCampusFields(campus);
+                        }
+                    });
+                } else {
+                    toggleCampusFields('bovisa');
+                    toggleCampusFields('leonardo');
+                }
+            } catch (err) {
+                console.error("Failed to load content", err);
+            }
+        }
+
+        updateForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            function getCampusData(campus) {
+                const count = document.getElementById(campus + '_count').value;
+                let motivation = document.getElementById(campus + '_motivation').value;
+                if (motivation === 'Other') {
+                    motivation = document.getElementById(campus + '_motivation_other').value;
+                }
+                const time1 = document.getElementById(campus + '_time1').value;
+                const time2 = document.getElementById(campus + '_time2').value;
+                return { count, motivation, time1, time2 };
+            }
+
+            function getNextFriday() {
+                const date = new Date();
+                const day = date.getDay();
+                const daysUntilFriday = (5 - day + 7) % 7;
+                date.setDate(date.getDate() + daysUntilFriday);
+                const options = { weekday: 'long', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            }
+
+            const jumuah_info = {
+                bovisa: getCampusData('bovisa'),
+                leonardo: getCampusData('leonardo'),
+                date: getNextFriday()
+            };
+
+            try {
+                const response = await fetch('/api/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ jumuah_info })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    updateMessage.textContent = "Jumu'ah Settings published successfully!";
+                    updateMessage.className = "success-message";
+                    updateMessage.classList.remove('hidden');
+                    setTimeout(() => updateMessage.classList.add('hidden'), 3000);
+                } else {
+                    if (response.status === 401) {
+                        logout();
+                    } else {
+                        updateMessage.textContent = data.message || "Error updating content.";
+                        updateMessage.className = "error-message";
+                        updateMessage.classList.remove('hidden');
+                    }
+                }
+            } catch (err) {
+                updateMessage.textContent = "Error connecting to server.";
+                updateMessage.className = "error-message";
+                updateMessage.classList.remove('hidden');
+            }
+        });
+
+        logoutBtn.addEventListener('click', logout);
+
+        function logout() {
+            localStorage.removeItem('adminToken');
+            token = null;
+            document.getElementById('password').value = '';
+            dashboardSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+            loginError.classList.add('hidden');
+        }
+    </script>
+</body>
+
+</html>

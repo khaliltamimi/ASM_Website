@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin: Manage Users | ASM</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .admin-container {
+            max-width: 600px;
+            margin: 100px auto 4rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            padding: 0.75rem;
+            background: #f8d7da;
+            border-radius: var(--radius-sm);
+        }
+
+        .success-message {
+            color: #198754;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            padding: 0.75rem;
+            background: #d1e7dd;
+            border-radius: var(--radius-sm);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- Header & Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/asm_logo.png" alt="ASM Logo">
+                <span>ASM POLIMI</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html#home">Home</a>
+                <a href="events.html">Events</a>
+                <a href="resources.html">Resources</a>
+                <a href="support.html">Support</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="jumuah.html">Jumu'ah</a>
+                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join
+                    Us</a>
+                <div class="dropdown">
+                    <button class="dropbtn" aria-label="Settings">
+                        &#8942;
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="admin.html">Admin: Events</a>
+                        <a href="admin_jumuah.html">Admin: Jumu'ah</a>
+                        <a href="admin_users.html">Admin: Users</a>
+                    </div>
+                </div>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay">
+        <nav class="mobile-nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="events.html">Events</a>
+            <a href="resources.html">Resources</a>
+            <a href="support.html">Support</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="jumuah.html">Jumu'ah</a>
+            <a href="register.html">Join Us</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="admin-container" id="login-section">
+            <h2 class="text-center mb-2">Admin Login</h2>
+            <div id="login-error" class="error-message hidden"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+        </div>
+
+        <div class="admin-container hidden" id="dashboard-section">
+            <h2 class="text-center mb-2">Manage Admin Accounts</h2>
+            <div class="text-center mb-4" style="margin-bottom: 2rem;">
+                <a href="admin.html"
+                    style="color: var(--color-primary); font-size: 0.9rem; text-decoration: underline;">Switch to Events
+                    Admin</a>
+                <span style="margin: 0 0.5rem;">|</span>
+                <a href="admin_jumuah.html"
+                    style="color: var(--color-primary); font-size: 0.9rem; text-decoration: underline;">Switch to
+                    Jumu'ah Admin</a>
+            </div>
+
+            <div id="update-message" class="hidden"></div>
+
+            <h3 class="mb-2">Current Admins</h3>
+            <div id="users-list" style="margin-bottom: 2rem;">
+                <p class="text-center">Loading users...</p>
+            </div>
+
+            <div style="background: #f9fafb; padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem;">
+                <h4 class="mb-2" style="font-size: 1rem;">Add New Admin</h4>
+                <form id="add-user-form">
+                    <div class="form-group">
+                        <label for="new-username">Username</label>
+                        <input type="text" id="new-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">Password</label>
+                        <input type="password" id="new-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-role">Role</label>
+                        <select id="new-role" required>
+                            <option value="admin">Admin (Events & Jumu'ah only)</option>
+                            <option value="superadmin">Superadmin (Manage users & everything)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-secondary w-100"
+                        style="color: var(--color-primary); border-color: var(--color-primary);">Create Account</button>
+                </form>
+            </div>
+
+            <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #e5e7eb;">
+            <button type="button" class="btn btn-secondary w-100" id="logout-btn"
+                style="color: var(--color-primary); border-color: var(--color-primary);">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        const loginSection = document.getElementById('login-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const loginForm = document.getElementById('login-form');
+        const addUserForm = document.getElementById('add-user-form');
+        const loginError = document.getElementById('login-error');
+        const updateMessage = document.getElementById('update-message');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        let token = localStorage.getItem('adminToken');
+        let users = [];
+
+        if (token) {
+            showDashboard();
+        }
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    token = data.token;
+                    localStorage.setItem('adminToken', token);
+                    showDashboard();
+                } else {
+                    loginError.textContent = data.message;
+                    loginError.classList.remove('hidden');
+                }
+            } catch (err) {
+                loginError.textContent = "Error connecting to server.";
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        async function showDashboard() {
+            loginSection.classList.add('hidden');
+            dashboardSection.classList.remove('hidden');
+            fetchUsers();
+        }
+
+        async function fetchUsers() {
+            try {
+                const response = await fetch('/api/users', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+                const data = await response.json();
+                if (data.success) {
+                    users = data.users;
+                    renderUsers();
+                } else {
+                    showMessage(data.message, false);
+                }
+            } catch (err) {
+                showMessage("Failed to load users.", false);
+            }
+        }
+
+        function renderUsers() {
+            const list = document.getElementById('users-list');
+            list.innerHTML = '';
+
+            users.forEach((username) => {
+                const div = document.createElement('div');
+                div.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding: 0.75rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 4px; margin-bottom: 0.5rem;';
+
+                const isMainAdmin = username === 'admin';
+                const deleteBtn = isMainAdmin ? '<span style="color: #9ca3af; font-size: 0.8rem; padding: 0.25rem 0.5rem;">Default (Cannot Delete)</span>' : `<button type="button" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; border-color: #dc3545; color: #dc3545; background: none;" onclick="deleteUser('${username}')">Delete</button>`;
+
+                div.innerHTML = `
+                    <div>
+                        <strong>${username}</strong>
+                    </div>
+                    ${deleteBtn}
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        window.deleteUser = async function (username) {
+            if (!confirm(`Are you sure you want to delete the account '${username}'?`)) return;
+
+            try {
+                const response = await fetch('/api/users', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ username })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage("User deleted successfully!", true);
+                    fetchUsers();
+                } else {
+                    showMessage(data.message, false);
+                }
+            } catch (err) {
+                showMessage("Error connecting to server.", false);
+            }
+        };
+
+        addUserForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('new-username').value;
+            const password = document.getElementById('new-password').value;
+
+            try {
+                const response = await fetch('/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage("Account created successfully!", true);
+                    document.getElementById('new-username').value = '';
+                    document.getElementById('new-password').value = '';
+                    fetchUsers();
+                } else {
+                    showMessage(data.message, false);
+                }
+            } catch (err) {
+                showMessage("Error connecting to server.", false);
+            }
+        });
+
+        function showMessage(msg, isSuccess) {
+            updateMessage.textContent = msg;
+            updateMessage.className = isSuccess ? "success-message" : "error-message";
+            updateMessage.classList.remove('hidden');
+            setTimeout(() => updateMessage.classList.add('hidden'), 4000);
+        }
+
+        logoutBtn.addEventListener('click', logout);
+
+        function logout() {
+            localStorage.removeItem('adminToken');
+            token = null;
+            document.getElementById('password').value = '';
+            dashboardSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+            loginError.classList.add('hidden');
+        }
+    </script>
+</body>
+
+</html>

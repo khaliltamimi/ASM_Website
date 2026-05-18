@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events & Registration | ASM POLIMI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Header & Navigation -->
+    <header class="navbar"
+        style="background-color: var(--color-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 0;">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/asm_logo.png" alt="ASM Logo">
+                <span>ASM POLIMI</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="index.html#home">Home</a>
+                <a href="events.html">Events</a>
+                <a href="resources.html">Resources</a>
+                <a href="support.html">Support</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="jumuah.html">Jumu'ah</a>
+                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join
+                    Us</a>
+                <div class="dropdown">
+                    <button class="dropbtn" aria-label="Settings">
+                        &#8942;
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="admin.html">Admin: Events</a>
+                        <a href="admin_jumuah.html">Admin: Jumu'ah</a>
+                        <a href="admin_users.html">Admin: Users</a>
+                    </div>
+                </div>
+            </nav>
+
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay">
+        <nav class="mobile-nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="events.html">Events</a>
+            <a href="resources.html">Resources</a>
+            <a href="support.html">Support</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="jumuah.html">Jumu'ah</a>
+            <a href="register.html">Join Us</a>
+        </nav>
+    </div>
+
+    <!-- Announcement Banner -->
+    <div id="announcement-banner" class="hidden"
+        style="background-color: rgba(251, 191, 36, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--color-text); text-align: center; padding: 0.75rem 1rem; font-weight: 600; z-index: 990; position: sticky; top: 80px; margin-top: 80px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-bottom: 1px solid rgba(251, 191, 36, 0.3);">
+        <span style="margin-right: 0.5rem;">&#128226;</span> <span id="announcement-text"></span>
+    </div>
+
+    <!-- Events Section (Dynamic) -->
+    <section id="events" class="section bg-light">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Featured Events</h2>
+                <div class="divider"></div>
+                <p>Stay updated with our latest halaqas, socials, and activities.</p>
+            </div>
+
+            <div id="dynamic-events-container" class="team-grid">
+                <!-- Events will be populated here by JS -->
+                <p class="text-center w-100" style="grid-column: 1 / -1;">Loading events...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Registration Form Section -->
+    <section id="register-form" class="section" style="min-height: 80vh; scroll-margin-top: 100px;">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Register for an Event</h2>
+                <div class="divider"></div>
+                <p>Reserve your spot by filling out the form below.</p>
+            </div>
+
+            <div class="contact-form-container" style="max-width: 800px; margin: 0 auto; padding: 0;">
+                <!-- Google Form Embed Placeholder -->
+                <div
+                    style="width: 100%; display: flex; justify-content: center; overflow: hidden; border-radius: 1rem;">
+                    <iframe
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSeaXV2VdR08pr81JZa2zRefxB2HaUhi_qlBj6Zkaa0_t0RtuQ/viewform?usp=dialog"
+                        width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                </div>
+                <p style="text-align: center; margin: 1.5rem 0; color: var(--color-text-light); font-size: 0.95rem;">
+                    <strong>Note for Admin:</strong> To make this form work for events, create a form at <a
+                        href="https://forms.google.com" target="_blank"
+                        style="color: var(--color-primary); text-decoration: underline;">Google Forms</a>, click "Send",
+                    choose the `&lt; &gt;` embed icon, and replace the iframe `src` link in `events.html` with your
+                    real form link.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/asm_logo.png" alt="ASM Logo" width="40" style="filter: brightness(0) invert(1);">
+                    <span>ASM POLIMI</span>
+                </div>
+                <div class="footer-copyright">
+                    &copy; 2026 University Muslim Student Association. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fetch Announcements and Events -->
+    <script>
+        fetch('/api/content')
+            .then(response => response.json())
+            .then(data => {
+                // Announcement Banner
+                if (data.announcement && data.announcement.trim() !== '') {
+                    const banner = document.getElementById('announcement-banner');
+                    const text = document.getElementById('announcement-text');
+                    if (banner && text) {
+                        text.textContent = data.announcement;
+                        banner.classList.remove('hidden');
+                        banner.style.display = 'block';
+                    }
+                }
+
+                // Render Events
+                const eventsContainer = document.getElementById('dynamic-events-container');
+                if (eventsContainer) {
+                    if (data.events && data.events.length > 0) {
+                        eventsContainer.innerHTML = ''; // Clear loading
+                        data.events.forEach(event => {
+                            if (event.title || event.date || event.desc) {
+                                const card = document.createElement('a');
+                                card.href = '#register-form';
+                                card.className = 'team-card animate-up';
+                                card.style.display = 'block';
+                                card.style.textDecoration = 'none';
+                                card.style.cursor = 'pointer';
+                                card.innerHTML = `
+                                    <div class="team-info">
+                                        <h3 style="color: var(--color-primary);">${event.title || 'Untitled Event'}</h3>
+                                        <p style="color: var(--color-secondary); font-weight: 500; margin-bottom: 0.5rem;">${event.date || 'Date TBD'}</p>
+                                        <p style="color: var(--color-text-light); font-size: 0.95rem;">${event.desc || ''}</p>
+                                    </div>
+                                `;
+                                eventsContainer.appendChild(card);
+                            }
+                        });
+                    } else {
+                        eventsContainer.innerHTML = '<p class="text-center w-100" style="grid-column: 1 / -1;">No upcoming events at this time. Check back later!</p>';
+                    }
+                }
+            })
+            .catch(err => console.error('Error fetching events/announcements:', err));
+    </script>
+</body>
+
+</html>

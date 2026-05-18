@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jumu'ah | ASM POLIMI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body class="bg-light">
+
+    <!-- Header & Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/asm_logo.png" alt="ASM Logo">
+                <span>ASM POLIMI</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="index.html#home">Home</a>
+                <a href="events.html">Events</a>
+                <a href="resources.html">Resources</a>
+                <a href="support.html">Support</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="jumuah.html">Jumu'ah</a>
+                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join
+                    Us</a>
+                <div class="dropdown">
+                    <button class="dropbtn" aria-label="Settings">
+                        &#8942;
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="admin.html">Admin: Events</a>
+                        <a href="admin_jumuah.html">Admin: Jumu'ah</a>
+                        <a href="admin_users.html">Admin: Users</a>
+                    </div>
+                </div>
+            </nav>
+
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay">
+        <nav class="mobile-nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="events.html">Events</a>
+            <a href="resources.html">Resources</a>
+            <a href="support.html">Support</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="jumuah.html">Jumu'ah</a>
+            <a href="register.html">Join Us</a>
+        </nav>
+    </div>
+
+    <!-- Announcement Banner -->
+    <div id="announcement-banner" class="hidden"
+        style="background-color: rgba(251, 191, 36, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--color-text); text-align: center; padding: 0.75rem 1rem; font-weight: 600; z-index: 990; position: sticky; top: 80px; margin-top: 80px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-bottom: 1px solid rgba(251, 191, 36, 0.3);">
+        <span style="margin-right: 0.5rem;">&#128226;</span> <span id="announcement-text"></span>
+    </div>
+
+    <!-- Jumu'ah Info Section -->
+    <section class="section" style="margin-top: 80px; min-height: 80vh;">
+        <div class="container">
+            <!--
+            <div class="section-header text-center">
+                <h2>Jumu'ah Prayers</h2>
+                <div class="divider"></div>
+                <p>
+                    يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا نُودِيَ لِلصَّلَاةِ مِن يَوْمِ الْجُمُعَةِ فَاسْعَوْا إِلَىٰ
+                    ذِكْرِ اللَّهِ وَذَرُوا الْبَيْعَ ۚ ذَٰلِكُمْ خَيْرٌ لَّكُمْ إِن كُنتُمْ تَعْلَمُونَ
+                    O you who have believed, when [the adhan] is called for the prayer on the day of Jumu'ah [Friday],
+                    then proceed to the remembrance of Allah and leave trade. That is better for you, if you only knew.
+                    (Quran 62:9)</p>
+            </div>
+            -->
+            <div class="section-header text-center">
+                <h2>Jumu'ah Prayers</h2>
+                <div class="divider"></div>
+
+                <p
+                    style="font-family: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif; direction: rtl; font-size: 1.6rem; line-height: 1.8; color: var(--color-primary);">
+                    يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا نُودِيَ لِلصَّلَاةِ مِن يَوْمِ الْجُمُعَةِ فَاسْعَوْا إِلَىٰ
+                    ذِكْرِ اللَّهِ وَذَرُوا الْبَيْعَ ۚ ذَٰلِكُمْ خَيْرٌ لَّكُمْ إِن كُنتُمْ تَعْلَمُونَ
+                </p>
+
+                <p style="font-size: 1.1rem; font-style: italic; color: var(--color-text-light); margin-top: 0.5rem;">
+                    O you who have believed, when [the adhan] is called for the prayer on the day of Jumu'ah (Friday),
+                    then proceed to the remembrance of Allah and leave trade. That is better for you, if you only knew.
+                    (Quran 62:9)
+                </p>
+            </div>
+
+
+            <div class="contact-grid">
+                <!-- Location & Timing -->
+                <div class="contact-info"
+                    style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Prayer Details for <span
+                            id="next-friday-date" style="color: var(--color-secondary);"></span></h3>
+
+                    <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e5e7eb;">
+                        <h4 style="color: var(--color-secondary); margin-bottom: 0.75rem; font-size: 1.25rem;">Bovisa
+                            Campus</h4>
+                        <div id="bovisa-status" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">
+                            Loading...
+                        </div>
+                        <div style="color: var(--color-text-light); font-size: 0.95rem;">
+                            Location: <a href="#location-bovisa"
+                                style="color: var(--color-primary); text-decoration: underline; font-weight: 500;">Main
+                                Prayer Room, Bovisa Campus</a><br>
+                            Please arrive early to secure a spot.
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e5e7eb;">
+                        <h4 style="color: var(--color-secondary); margin-bottom: 0.75rem; font-size: 1.25rem;">Leonardo
+                            Campus</h4>
+                        <div id="leonardo-status" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">
+                            Loading...
+                        </div>
+                        <div style="color: var(--color-text-light); font-size: 0.95rem;">
+                            Location: <a href="#location-leonardo"
+                                style="color: var(--color-primary); text-decoration: underline; font-weight: 500;">Main
+                                Hall, Student Union Building</a><br>
+                            Please arrive early to secure a spot.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sunnahs of Jumuah -->
+                <div class="contact-form-container">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Sunnahs of Friday</h3>
+                    <ul class="feature-list">
+                        <li><strong>Ghusl:</strong> Performing the ritual bath before heading to the prayer.</li>
+                        <li><strong>Clean Clothes:</strong> Wearing your best and cleanest clothes.</li>
+                        <li><strong>Perfume (Attar):</strong> Applying perfume (for men).</li>
+                        <li><strong>Siwak:</strong> Using the miswak to clean your teeth.</li>
+                        <li><strong>Surah Al-Kahf:</strong> Reciting Surah Al-Kahf during the day or the night before.
+                        </li>
+                        <li><strong>Durood:</strong> Sending abundant blessings upon the Prophet Muhammad (PBUH).</li>
+                        <li><strong>Dua:</strong> Making earnest supplications, especially during the 'hour of
+                            acceptance'.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations & Directions Section -->
+    <section id="locations" class="section bg-light">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Locations & Directions</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="contact-grid">
+                <!-- Bovisa Location -->
+                <div id="location-bovisa" class="contact-info"
+                    style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); scroll-margin-top: 100px;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Bovisa Campus</h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--color-text-light);">Building 24 level -1, Via Privata
+                        Giuseppe La Masa, 34, 20156 Milano
+                        Campus<br>Please check the video below if you are unsure how to find the room.</p>
+
+                    <a href="https://goo.gl/maps/jVDEEckRJZBkWT5q7" target="_blank" class="btn btn-primary"
+                        style="display: block; text-align: center; margin-bottom: 1rem; padding: 0.75rem;">
+                        Open in Google Maps
+                    </a>
+
+                    <a href="https://youtube.com/results?search_query=how+to+reach+bovisa+prayer+room" target="_blank"
+                        class="btn btn-secondary"
+                        style="display: block; text-align: center; padding: 0.75rem; color: var(--color-primary); border-color: var(--color-primary);">
+                        Watch Video Guide
+                    </a>
+                </div>
+
+                <!-- Leonardo Location -->
+                <div id="location-leonardo" class="contact-info"
+                    style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); scroll-margin-top: 100px;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Unimi Campus</h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--color-text-light);"> Room 300 Unimi
+                        Building<br>Please check the video below if you are unsure how to find the hall.</p>
+
+                    <a href="https://goo.gl/maps/cdUrXTAdf1Q9cGds9%7C" target="_blank" class="btn btn-primary"
+                        style="display: block; text-align: center; margin-bottom: 1rem; padding: 0.75rem;">
+                        Open in Google Maps
+                    </a>
+
+                    <a href="https://youtube.com/results?search_query=how+to+reach+leonardo+prayer+room" target="_blank"
+                        class="btn btn-secondary"
+                        style="display: block; text-align: center; padding: 0.75rem; color: var(--color-primary); border-color: var(--color-primary);">
+                        Watch Video Guide
+                    </a>
+                </div>
+                <!-- Leonardo second Location -->
+                <div id="location-leonardo2" class="contact-info"
+                    style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); scroll-margin-top: 100px;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Leonardo Campus No Jumuah
+                    </h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--color-text-light);">Building 32.1.2
+                        Campus<br>Please check the video below if you are unsure how to find the room.</p>
+                    <a href="https://maps.app.goo.gl/FFZ3KJW3ns3FZHXDA" target="_blank" class="btn btn-primary"
+                        style="display: block; text-align: center; margin-bottom: 1rem; padding: 0.75rem;">
+                        Open in Google Maps
+                    </a>
+
+                    <a href="https://youtube.com/results?search_query=how+to+reach+bovisa+prayer+room" target="_blank"
+                        class="btn btn-secondary"
+                        style="display: block; text-align: center; padding: 0.75rem; color: var(--color-primary); border-color: var(--color-primary);">
+                        Watch Video Guide
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/asm_logo.png" alt="ASM Logo" width="40" style="filter: brightness(0) invert(1);">
+                    <span>ASM POLIMI</span>
+                </div>
+                <div class="footer-copyright">
+                    &copy; 2026 University Muslim Student Association. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fetch dynamic content
+        fetch('/api/content')
+            .then(response => response.json())
+            .then(data => {
+                if (data.announcement && data.announcement.trim() !== '') {
+                    const banner = document.getElementById('announcement-banner');
+                    const text = document.getElementById('announcement-text');
+                    if (banner && text) {
+                        text.textContent = data.announcement;
+                        banner.classList.remove('hidden');
+                        banner.style.display = 'block';
+                    }
+                }
+
+                function renderCampus(campus, info) {
+                    const statusDiv = document.getElementById(campus + '-status');
+                    if (!statusDiv) return;
+
+                    if (!info) {
+                        statusDiv.textContent = 'Information not yet updated.';
+                        return;
+                    }
+
+                    if (info.count === '0') {
+                        statusDiv.innerHTML = `<span style="color: #dc3545;">No Jumu'ah Prayer</span><br><span style="font-size: 0.95rem; font-weight: 400;">Reason: ${info.motivation}</span>`;
+                    } else if (info.count === '1') {
+                        statusDiv.innerHTML = `<span style="color: var(--color-primary);">One Prayer:</span> ${info.time1}`;
+                    } else if (info.count === '2') {
+                        statusDiv.innerHTML = `<span style="color: var(--color-primary);">First Prayer:</span> ${info.time1} <br><span style="color: var(--color-primary);">Second Prayer:</span> ${info.time2}`;
+                    }
+                }
+
+                if (data.jumuah_info) {
+                    renderCampus('bovisa', data.jumuah_info.bovisa);
+                    renderCampus('leonardo', data.jumuah_info.leonardo);
+                    if (data.jumuah_info.date) {
+                        const dateEl = document.getElementById('next-friday-date');
+                        if (dateEl) dateEl.textContent = data.jumuah_info.date;
+                    }
+                } else if (data.jummah_prayer) {
+                    // Fallback to legacy string format
+                    const bovisaDiv = document.getElementById('bovisa-status');
+                    if (bovisaDiv) bovisaDiv.textContent = data.jummah_prayer;
+                    const leonardoDiv = document.getElementById('leonardo-status');
+                    if (leonardoDiv) leonardoDiv.textContent = "See above.";
+                }
+            })
+            .catch(err => console.error('Error fetching dynamic content:', err));
+    </script>
+</body>
+
+</html>

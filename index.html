@@ -12,8 +12,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
 </head>
 
 <body>
@@ -22,18 +22,29 @@
     <header class="navbar">
         <div class="container nav-container">
             <a href="#" class="logo">
-                <img src="msa_logo.png" alt="MSA Logo">
-                <span>University POLIMI</span>
+                <img src="assets/asm_logo.png" alt="ASM Logo">
+                <span>ASM POLIMI</span>
             </a>
 
             <nav class="nav-links">
                 <a href="#home">Home</a>
-                <a href="#about">About</a>
                 <a href="#events">Events</a>
-                <a href="#prayer-times">Prayer Times</a>
-                <a href="#leadership">Leadership</a>
-                <a href="#contact">Contact</a>
-                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join Us</a>
+                <a href="resources.html">Resources</a>
+                <a href="support.html">Support</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="jumuah.html">Jumu'ah</a>
+                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join
+                    Us</a>
+                <div class="dropdown">
+                    <button class="dropbtn" aria-label="Settings">
+                        &#8942;
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="admin.html">Admin: Events</a>
+                        <a href="admin_jumuah.html">Admin: Jumu'ah</a>
+                        <a href="admin_users.html">Admin: Users</a>
+                    </div>
+                </div>
             </nav>
 
             <button class="mobile-menu-btn" aria-label="Toggle menu">
@@ -44,15 +55,21 @@
         </div>
     </header>
 
+    <!-- Announcement Banner -->
+    <div id="announcement-banner" class="hidden"
+        style="background-color: rgba(251, 191, 36, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--color-text); text-align: center; padding: 0.75rem 1rem; font-weight: 600; z-index: 990; position: sticky; top: 80px; margin-top: 80px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-bottom: 1px solid rgba(251, 191, 36, 0.3);">
+        <span style="margin-right: 0.5rem;">&#128226;</span> <span id="announcement-text"></span>
+    </div>
+
     <!-- Mobile Navigation Overlay -->
     <div class="mobile-nav-overlay">
         <nav class="mobile-nav-links">
-            <a href="#home">Home</a>
-            <a href="#about">About Us</a>
-            <a href="#events">Events</a>
-            <a href="#prayer-times">Prayer Times</a>
-            <a href="#leadership">Leadership</a>
-            <a href="#contact">Contact</a>
+            <a href="index.html#home">Home</a>
+            <a href="events.html">Events</a>
+            <a href="resources.html">Resources</a>
+            <a href="support.html">Support</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="jumuah.html">Jumu'ah</a>
             <a href="register.html">Join Us</a>
         </nav>
     </div>
@@ -64,8 +81,26 @@
             <h1 class="animate-up">Welcome to your community.</h1>
             <p class="animate-up delay-1">Fostering faith, brotherhood, sisterhood, and excellence on campus.</p>
             <div class="hero-buttons animate-up delay-2">
-                <a href="#events" class="btn btn-primary">Upcoming Events</a>
+                <a href="events.html" class="btn btn-primary">Upcoming Events</a>
                 <a href="register.html" class="btn btn-secondary">Become a Member</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Ayah Section -->
+    <section class="section bg-light" style="padding: 3rem 0;">
+        <div class="container">
+            <div
+                style="background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); text-align: center; max-width: 800px; margin: 0 auto; position: relative;">
+                <div style="font-size: 2rem; color: var(--color-secondary); margin-bottom: 1rem; opacity: 0.5;">&#10077;
+                </div>
+                <p id="daily-ayah-arabic"
+                    style="font-size: 1.75rem; font-family: 'Traditional Arabic', serif; margin-bottom: 1.5rem; color: var(--color-primary); direction: rtl; line-height: 1.8;">
+                </p>
+                <p id="daily-ayah-text"
+                    style="font-size: 1.25rem; font-weight: 500; font-style: italic; margin-bottom: 1rem; color: var(--color-primary);">
+                    Loading Ayah of the day...</p>
+                <p id="daily-ayah-ref" style="font-weight: 600; color: var(--color-text-light);"></p>
             </div>
         </div>
     </section>
@@ -80,7 +115,8 @@
             <div class="about-grid">
                 <div class="about-text">
                     <h3>Our Mission</h3>
-                    <p>The Muslim Student Association strives to facilitate a welcoming and active community for Muslim
+                    <p>The Muslim Student Association (ASM) strives to facilitate a welcoming and active community for
+                        Muslim
                         students on campus. We aim to support our members in balancing their academic pursuits with
                         their spiritual growth, while fostering an inclusive environment that promotes understanding and
                         dialogue.</p>
@@ -103,21 +139,24 @@
         </div>
     </section>
 
-    <!-- Events Section (Google Calendar) -->
+    <!-- Events Section (Dynamic) -->
     <section id="events" class="section bg-light">
         <div class="container">
             <div class="section-header text-center">
-                <h2>Upcoming Events</h2>
+                <h2>Featured Events</h2>
                 <div class="divider"></div>
                 <p>Stay updated with our latest halaqas, socials, and activities.</p>
             </div>
 
-            <div class="calendar-container">
-                <!-- Google Calendar Embed -->
-                <!-- Replacing with a standard public calendar iframe for demonstration -->
-                <iframe
-                    src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&showTitle=0&showPrint=0&showCalendars=0&showTz=0&mode=AGENDA"
-                    style="border:solid 1px #e2e8f0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+            <div id="dynamic-events-container" class="team-grid" style="margin-bottom: 3rem;">
+                <!-- Events will be populated here by JS -->
+                <p class="text-center w-100" style="grid-column: 1 / -1;">Loading events...</p>
+            </div>
+
+            <div class="text-center" style="margin-top: 1rem;">
+                <a href="events.html" class="btn"
+                    style="padding: 1.25rem 2.5rem; font-size: 1.2rem; font-weight: 700; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); border: none; background-color: var(--color-secondary); color: var(--color-text); text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; transition: all 0.3s ease;">👉
+                    See All Events & Register Now 👈</a>
             </div>
         </div>
     </section>
@@ -128,7 +167,7 @@
             <div class="section-header text-center">
                 <h2>Daily Prayer Times</h2>
                 <div class="divider"></div>
-                <p>Prayer spaces are available in the Student Union Building, Room 302.</p>
+                <p>Check our Jumuah page for Jumu'ah timings and prayer locations</p>
             </div>
 
             <div class="prayer-times-card">
@@ -157,7 +196,7 @@
                     </div>
                 </div>
 
-                <div class="jummah-info">
+                <div class="jummah-info" id="jummah-prayer-info">
                     <strong>Jummah Prayer:</strong> Fridays at 1:15 PM & 2:15 PM in the Main Hall.
                 </div>
             </div>
@@ -176,26 +215,32 @@
                 <!-- Team Member 1 -->
                 <div class="team-card">
                     <div class="team-avatar">P</div>
-                    <h3 class="team-name">Omar Ali</h3>
+                    <h3 class="team-name">Hanea Boumchita</h3>
                     <p class="team-role">President</p>
                 </div>
                 <!-- Team Member 2 -->
                 <div class="team-card">
                     <div class="team-avatar">V</div>
-                    <h3 class="team-name">Fatima Khan</h3>
+                    <h3 class="team-name">Mariam Abou El Seoud </h3>
                     <p class="team-role">Vice President</p>
                 </div>
                 <!-- Team Member 3 -->
                 <div class="team-card">
                     <div class="team-avatar">S</div>
-                    <h3 class="team-name">Aisha Rahman</h3>
+                    <h3 class="team-name">Razia</h3>
                     <p class="team-role">Secretary</p>
                 </div>
                 <!-- Team Member 4 -->
                 <div class="team-card">
                     <div class="team-avatar">T</div>
-                    <h3 class="team-name">Zayd Ahmed</h3>
+                    <h3 class="team-name">Mohamad</h3>
                     <p class="team-role">Treasurer</p>
+                </div>
+                <!-- Team Member 5 -->
+                <div class="team-card">
+                    <div class="team-avatar">A</div>
+                    <h3 class="team-name">Omar Saleh</h3>
+                    <p class="team-role">Advisor</p>
                 </div>
             </div>
         </div>
@@ -215,7 +260,7 @@
                     <p>Have questions? Want to collaborate? Reach out to us!</p>
 
                     <div class="info-item">
-                        <strong>Email:</strong> Polimi@university.edu
+                        <strong>Email:</strong> asm.polimi@gmail.com
                     </div>
                     <div class="info-item">
                         <strong>Office:</strong> Student Union Building, Room 302
@@ -223,9 +268,10 @@
 
                     <h3 class="mt-4">Follow Us</h3>
                     <div class="social-links">
-                        <a href="#" class="social-icon">Instagram</a>
-                        <a href="#" class="social-icon">Facebook</a>
-                        <a href="#" class="social-icon">Discord</a>
+                        <a href="https://www.instagram.com/asm.polimi/" class="social-icon">Instagram</a>
+                        <a href="https://www.facebook.com/ASMPolimi/" class="social-icon">Facebook</a>
+                        <a href="https://chat.whatsapp.com/LhULMwU6OkMCboPEpmfhy2" class="social-icon">Whatsapp</a>
+                        <a href="https://t.me/asmpolimi" class="social-icon">Telegram</a>
                     </div>
                 </div>
 
@@ -263,16 +309,67 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <img src="msa_logo.png" alt="MSA Logo" width="40" style="filter: brightness(0) invert(1);">
-                    <span>University POLIMI</span>
+                    <img src="assets/asm_logo.png" alt="ASM Logo" width="40" height="40" style="border-radius: 20px">
+                    <span>ASM POLIMI</span>
                 </div>
                 <div class="footer-copyright">
-                    &copy; 2026 University Muslim Student Association. All rights reserved.
+                    &copy; 2026 ASM Politecnico di Milano. All rights reserved.
                 </div>
             </div>
         </div>
     </footer>
 
 </body>
+
+<script>
+    // Fetch dynamic content
+    fetch('/api/content')
+        .then(response => response.json())
+        .then(data => {
+            if (data.announcement && data.announcement.trim() !== '') {
+                const banner = document.getElementById('announcement-banner');
+                const text = document.getElementById('announcement-text');
+                if (banner && text) {
+                    text.textContent = data.announcement;
+                    banner.classList.remove('hidden');
+                    banner.style.display = 'block'; // Fallback in case hidden class is heavily overridden
+                }
+            }
+            if (data.jummah_prayer && data.jummah_prayer.trim() !== '') {
+                const jummahInfo = document.getElementById('jummah-prayer-info');
+                if (jummahInfo) {
+                    jummahInfo.innerHTML = `<strong>Jummah Prayer:</strong> ${data.jummah_prayer}`;
+                }
+            }
+
+            // Render Featured Events
+            if (data.events) {
+                const eventsContainer = document.getElementById('dynamic-events-container');
+                if (eventsContainer) {
+                    if (data.events.length === 0) {
+                        eventsContainer.innerHTML = '<p class="text-center w-100" style="grid-column: 1 / -1; color: var(--color-text-light);">No upcoming events scheduled at the moment.</p>';
+                    } else {
+                        eventsContainer.innerHTML = '';
+                        data.events.forEach(ev => {
+                            const card = document.createElement('a');
+                            card.href = 'events.html#register-form';
+                            card.className = 'team-card'; // Reuse team-card style
+                            card.style.textAlign = 'left';
+                            card.style.display = 'block';
+                            card.style.textDecoration = 'none';
+                            card.style.cursor = 'pointer';
+                            card.innerHTML = `
+                                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.25rem;">${ev.title}</h3>
+                                    <p style="color: var(--color-secondary); font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem;">${ev.date}</p>
+                                    <p style="color: var(--color-text-light); font-size: 0.95rem;">${ev.desc}</p>
+                                `;
+                            eventsContainer.appendChild(card);
+                        });
+                    }
+                }
+            }
+        })
+        .catch(err => console.error('Error fetching dynamic content:', err));
+</script>
 
 </html>

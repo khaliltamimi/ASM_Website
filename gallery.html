@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery | ASM POLIMI</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: transform var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            transform: translateY(100%);
+            transition: transform var(--transition-normal);
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <!-- Header & Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/asm_logo.png" alt="ASM Logo">
+                <span>ASM POLIMI</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html#home">Home</a>
+                <a href="events.html">Events</a>
+                <a href="resources.html">Resources</a>
+                <a href="support.html">Support</a>
+                <a href="gallery.html" class="active">Gallery</a>
+                <a href="jumuah.html">Jumu'ah</a>
+                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join
+                    Us</a>
+                <div class="dropdown">
+                    <button class="dropbtn" aria-label="Settings">&#8942;</button>
+                    <div class="dropdown-content">
+                        <a href="admin.html">Admin: Events</a>
+                        <a href="admin_jumuah.html">Admin: Jumu'ah</a>
+                        <a href="admin_users.html">Admin: Users</a>
+                    </div>
+                </div>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <div class="mobile-nav-overlay">
+        <nav class="mobile-nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="events.html">Events</a>
+            <a href="resources.html">Resources</a>
+            <a href="support.html">Support</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="jumuah.html">Jumu'ah</a>
+            <a href="register.html">Join Us</a>
+        </nav>
+    </div>
+
+    <section class="section" style="margin-top: 80px; min-height: 80vh;">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Media Gallery</h2>
+                <div class="divider"></div>
+                <p>Memories from our past events, halaqas, and community gatherings.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Gallery Items -->
+                <div class="gallery-item">
+                    <span>Image 1</span>
+                    <div class="gallery-caption">Welcome Back BBQ - Fall 2025</div>
+                </div>
+                <div class="gallery-item">
+                    <span>Image 2</span>
+                    <div class="gallery-caption">Weekly Halaqa Series</div>
+                </div>
+                <div class="gallery-item">
+                    <span>Image 3</span>
+                    <div class="gallery-caption">Islam Awareness Week Tabling</div>
+                </div>
+                <div class="gallery-item">
+                    <span>Image 4</span>
+                    <div class="gallery-caption">Community Service: Food Drive</div>
+                </div>
+                <div class="gallery-item">
+                    <span>Image 5</span>
+                    <div class="gallery-caption">Game Night Social</div>
+                </div>
+                <div class="gallery-item">
+                    <span>Image 6</span>
+                    <div class="gallery-caption">Interfaith Dialogue Event</div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4" style="margin-top: 4rem;">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Halaqa Recordings</h3>
+                <p style="color: var(--color-text-light); margin-bottom: 2rem;">Missed a Friday Khutbah or Wednesday
+                    Halaqa? Catch up on our YouTube channel.</p>
+                <a href="#" class="btn btn-primary">Visit our YouTube Channel</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/asm_logo.png" alt="ASM Logo" width="40" style="filter: brightness(0) invert(1);">
+                    <span>University POLIMI</span>
+                </div>
+                <div class="footer-copyright">&copy; 2026 University Muslim Student Association. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

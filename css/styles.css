@@ -787,6 +787,10 @@ body.dark-mode .navbar {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+body.dark-mode .mobile-nav-overlay {
+    background-color: #111827;
+}
+
 body.dark-mode .btn-primary {
     color: #0f172a !important;
     font-weight: 700;

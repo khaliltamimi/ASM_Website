@@ -6,22 +6,38 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('dark-mode');
     }
     
-    const navLinks = document.querySelector('.nav-links');
-    if (navLinks) {
+    // Dark Mode Toggle Helper to sync both buttons
+    function updateThemeToggleButtons(darkEnabled) {
+        const toggles = document.querySelectorAll('.theme-toggle-btn');
+        toggles.forEach(toggle => {
+            toggle.textContent = darkEnabled ? '☀️' : '🌙';
+        });
+    }
+
+    function createThemeToggle(isMobile) {
         const themeToggle = document.createElement('button');
-        themeToggle.id = 'theme-toggle';
+        themeToggle.className = 'theme-toggle-btn';
         themeToggle.setAttribute('aria-label', 'Toggle Dark Mode');
-        themeToggle.style.cssText = 'background: none; border: none; font-size: 1.25rem; cursor: pointer; margin-left: 1rem; color: var(--color-text-light); transition: color 0.2s;';
+        if (isMobile) {
+            themeToggle.style.cssText = 'background: none; border: none; font-size: 1.5rem; cursor: pointer; margin-top: 1.5rem; color: white; transition: color 0.2s; display: block; text-align: center; width: 100%;';
+        } else {
+            themeToggle.style.cssText = 'background: none; border: none; font-size: 1.25rem; cursor: pointer; margin-left: 1rem; color: var(--color-text-light); transition: color 0.2s;';
+        }
         themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
         
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             const darkEnabled = document.body.classList.contains('dark-mode');
             localStorage.setItem('darkMode', darkEnabled);
-            themeToggle.textContent = darkEnabled ? '☀️' : '🌙';
+            updateThemeToggleButtons(darkEnabled);
         });
         
-        navLinks.appendChild(themeToggle);
+        return themeToggle;
+    }
+
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+        navLinks.appendChild(createThemeToggle(false));
     }
 
     // Mobile Menu Toggle
@@ -44,6 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dynamic Admin links for mobile navigation
     const mobileNavLinksContainer = document.querySelector('.mobile-nav-links');
     if (mobileNavLinksContainer) {
+        // Add theme toggle to mobile navigation menu (above admin lines)
+        const mobileThemeToggle = createThemeToggle(true);
+        mobileThemeToggle.style.marginTop = '0.5rem';
+        mobileNavLinksContainer.appendChild(mobileThemeToggle);
+
         const divider = document.createElement('div');
         divider.style.cssText = 'border-top: 1px solid rgba(255, 255, 255, 0.2); margin: 0.5rem 0; width: 100%;';
         mobileNavLinksContainer.appendChild(divider);

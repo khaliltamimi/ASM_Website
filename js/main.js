@@ -78,8 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set Current Date in Prayer Times
     const dateDisplay = document.getElementById('current-date');
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    dateDisplay.textContent = new Date().toLocaleDateString('en-US', options);
+    if (dateDisplay) {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateDisplay.textContent = new Date().toLocaleDateString('en-US', options);
+    }
 
     // Fetch live prayer times using Aladhan API for Milan, Italy
     async function fetchPrayerTimes() {
@@ -100,11 +102,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     return `${h12}:${minutes} ${ampm}`;
                 };
 
-                document.getElementById('fajr-time').textContent = formatTime(timings.Fajr);
-                document.getElementById('dhuhr-time').textContent = formatTime(timings.Dhuhr);
-                document.getElementById('asr-time').textContent = formatTime(timings.Asr);
-                document.getElementById('maghrib-time').textContent = formatTime(timings.Maghrib);
-                document.getElementById('isha-time').textContent = formatTime(timings.Isha);
+                const fajrEl = document.getElementById('fajr-time');
+                if (fajrEl) fajrEl.textContent = formatTime(timings.Fajr);
+                const dhuhrEl = document.getElementById('dhuhr-time');
+                if (dhuhrEl) dhuhrEl.textContent = formatTime(timings.Dhuhr);
+                const asrEl = document.getElementById('asr-time');
+                if (asrEl) asrEl.textContent = formatTime(timings.Asr);
+                const maghribEl = document.getElementById('maghrib-time');
+                if (maghribEl) maghribEl.textContent = formatTime(timings.Maghrib);
+                const ishaEl = document.getElementById('isha-time');
+                if (ishaEl) ishaEl.textContent = formatTime(timings.Isha);
 
                 // Highlight the next coming prayer
                 const updateHighlight = () => {
@@ -162,7 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Error fetching prayer times:', error);
-            document.getElementById('fajr-time').textContent = '--:--';
+            const fajrTime = document.getElementById('fajr-time');
+            if (fajrTime) fajrTime.textContent = '--:--';
         }
     }
 
@@ -204,21 +212,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Form submission
     const form = document.querySelector('.contact-form');
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const btn = form.querySelector('button');
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('button');
         const originalText = btn.textContent;
         btn.textContent = 'Subscribed!';
         btn.style.backgroundColor = '#047857';
         btn.style.color = 'white';
         form.reset();
         
-        setTimeout(() => {
-            btn.textContent = originalText;
-            btn.style.backgroundColor = '';
-            btn.style.color = '';
-        }, 3000);
-    });
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.backgroundColor = '';
+                btn.style.color = '';
+            }, 3000);
+        });
+    }
 
     // Scroll Animations Observer
     const scrollObserverOptions = {

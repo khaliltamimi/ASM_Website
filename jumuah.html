@@ -145,14 +145,17 @@
                 <div class="contact-form-container">
                     <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Sunnahs of Friday</h3>
                     <ul class="feature-list">
-                        <li><strong>Ghusl:</strong> Performing the ritual bath before heading to the prayer.</li>
+                        <li><strong>Ghusl (غسل):</strong> Performing the ritual bath before heading to the prayer.</li>
                         <li><strong>Clean Clothes:</strong> Wearing your best and cleanest clothes.</li>
-                        <li><strong>Perfume (Attar):</strong> Applying perfume (for men).</li>
-                        <li><strong>Siwak:</strong> Using the miswak to clean your teeth.</li>
-                        <li><strong>Surah Al-Kahf:</strong> Reciting Surah Al-Kahf during the day or the night before.
+                        <li><strong>Perfume:</strong> Applying perfume (for men).</li>
+                        <li><strong>Siwak (سواك):</strong> Using the miswak to clean your teeth.</li>
+                        <li><strong>Surah Al-Kahf (سورة الكهف):</strong> Reciting Surah Al-Kahf during the day or the
+                            night before.
                         </li>
-                        <li><strong>Durood:</strong> Sending abundant blessings upon the Prophet Muhammad (PBUH).</li>
-                        <li><strong>Dua:</strong> Making earnest supplications, especially during the 'hour of
+                        <li><strong>Prayer on the Profhet (الصلاة على النبي ﷺ):</strong> Sending abundant blessings upon
+                            the Prophet
+                            Muhammad (PBUH).</li>
+                        <li><strong>Dua (الدعاء):</strong> Making earnest supplications, especially during the 'hour of
                             acceptance'.</li>
                     </ul>
                 </div>
@@ -170,8 +173,7 @@
 
             <div class="contact-grid">
                 <!-- Bovisa Location -->
-                <div id="location-bovisa" class="contact-info"
-                    style="scroll-margin-top: 100px;">
+                <div id="location-bovisa" class="contact-info" style="scroll-margin-top: 100px;">
                     <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Bovisa Campus</h3>
                     <p style="margin-bottom: 1.5rem; color: var(--color-text-light);">Building 24 level -1, Via Privata
                         Giuseppe La Masa, 34, 20156 Milano
@@ -190,12 +192,11 @@
                 </div>
 
                 <!-- Leonardo Location -->
-                <div id="location-leonardo" class="contact-info"
-                    style="scroll-margin-top: 100px;">
+                <div id="location-leonardo" class="contact-info" style="scroll-margin-top: 100px;">
                     <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Unimi Campus</h3>
                     <p style="margin-bottom: 1.5rem; color: var(--color-text-light);"> Room 300 Unimi
                         Building<br>Please check the video below if you are unsure how to find the hall.</p>
-
+                    <br>
                     <a href="https://goo.gl/maps/cdUrXTAdf1Q9cGds9%7C" target="_blank" class="btn btn-primary"
                         style="display: block; text-align: center; margin-bottom: 1rem; padding: 0.75rem;">
                         Open in Google Maps
@@ -208,8 +209,7 @@
                     </a>
                 </div>
                 <!-- Leonardo second Location -->
-                <div id="location-leonardo2" class="contact-info"
-                    style="scroll-margin-top: 100px;">
+                <div id="location-leonardo2" class="contact-info" style="scroll-margin-top: 100px;">
                     <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Leonardo Campus No Jumuah
                     </h3>
                     <p style="margin-bottom: 1.5rem; color: var(--color-text-light);">Building 32.1.2
@@ -224,6 +224,65 @@
                         style="display: block; text-align: center; padding: 0.75rem; color: var(--color-primary); border-color: var(--color-primary);">
                         Watch Video Guide
                     </a>
+                </div>
+                <!-- Local mosques -->
+                <div id="location-mosques" class="contact-info" style="scroll-margin-top: 100px;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Local Mosques
+                    </h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--color-text-light);"><strong>Check the google maps
+                            links below
+                        </strong>:
+                    </p>
+                    <a href="https://maps.app.goo.gl/mASJ" target="_blank" class="btn btn-primary"
+                        style="display: block; text-align: center; margin-bottom: 1rem; padding: 0.75rem;">
+                        <strong> Casa della Cultura Islamica Onlus:</strong> Via Padova, 144, 20132 MI
+                    </a>
+
+                    <a href="https://maps.app.goo.gl/y6Q5veskFkXbj9H18" target="_blank" class="btn btn-primary"
+                        style="display: block; text-align: center; margin-bottom: 1rem; padding: 0.75rem;">
+                        <strong>Mosque of the Merciful:</strong> Via Cassanese, 3, 20134 MI
+                    </a>
+                    <a href="https://maps.app.goo.gl/7M2ktytL5uwPYtzRA" target="_blank" class="btn btn-primary"
+                        style="display: block; text-align: center; margin-bottom: 0.5rem; padding: 0.75rem;">
+                        <strong>Mariam Mosque:</strong> Via Padova 366, 20132 M
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Prayer Times Section -->
+    <section id="daily-prayers" class="section fade-in" style="padding-top: 0;">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Daily Prayer Times</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="prayer-times-card">
+                <div class="date-display" id="current-date">Loading date...</div>
+
+                <div class="prayer-grid">
+                    <div class="prayer-item">
+                        <div class="prayer-name">Fajr</div>
+                        <div class="prayer-time" id="fajr-time">--:-- AM</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Dhuhr</div>
+                        <div class="prayer-time" id="dhuhr-time">--:-- PM</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Asr</div>
+                        <div class="prayer-time" id="asr-time">--:-- PM</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Maghrib</div>
+                        <div class="prayer-time" id="maghrib-time">--:-- PM</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Isha</div>
+                        <div class="prayer-time" id="isha-time">--:-- PM</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -256,6 +315,16 @@
                         text.textContent = data.announcement;
                         banner.classList.remove('hidden');
                         banner.style.display = 'block';
+
+                        // Hide after 30 seconds
+                        setTimeout(() => {
+                            banner.style.transition = 'opacity 0.5s ease';
+                            banner.style.opacity = '0';
+                            setTimeout(() => {
+                                banner.classList.add('hidden');
+                                banner.style.display = 'none';
+                            }, 500);
+                        }, 20000);
                     }
                 }
 

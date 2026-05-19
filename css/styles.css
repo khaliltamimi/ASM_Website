@@ -250,7 +250,9 @@ a {
     z-index: 999;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    overflow-y: auto;
+    padding: 6rem 1.5rem 3rem 1.5rem;
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--transition-normal);
@@ -727,4 +729,12 @@ a {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+/* Responsive adjustments for Admin Pages */
+@media (max-width: 768px) {
+    .admin-container {
+        margin: 90px auto 2rem auto !important;
+        padding: 1.25rem !important;
+    }
 }

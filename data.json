@@ -19,10 +19,10 @@
       "title": "test all prayer room"
     },
     {
-      "title": "test 3",
       "date": "no ",
       "desc": "d",
-      "reg_link": "https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform"
+      "reg_link": "https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform",
+      "title": "test 3"
     }
   ],
   "jumuah_info": {
@@ -40,5 +40,6 @@
     },
     "date": "Friday, May 22"
   },
-  "join_us_link": ""
+  "join_us_link": "https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform",
+  "global_event_reg_link": "https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform"
 }

@@ -42,6 +42,7 @@
                         <a href="admin.html">Admin: Events</a>
                         <a href="admin_jumuah.html">Admin: Jumu'ah</a>
                         <a href="admin_users.html">Admin: Users</a>
+                        <a href="admin_questions.html">Admin: Questions</a>
                     </div>
                 </div>
             </nav>
@@ -135,6 +136,7 @@
     <!-- Fetch Announcements and Events -->
     <script>
         const DEFAULT_REG_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSeaXV2VdR08pr81JZa2zRefxB2HaUhi_qlBj6Zkaa0_t0RtuQ/viewform?usp=dialog';
+        let activeDefaultForm = DEFAULT_REG_FORM;
 
         // Check if registration link was passed as query parameter
         const urlParams = new URLSearchParams(window.location.search);
@@ -149,6 +151,19 @@
         fetch('/api/content')
             .then(response => response.json())
             .then(data => {
+                // Set active default form from admin settings
+                if (data.global_event_reg_link && data.global_event_reg_link.trim() !== '') {
+                    activeDefaultForm = data.global_event_reg_link;
+                }
+
+                // If no specific link query parameter exists, default the iframe to our active form
+                if (!queryRegLink) {
+                    const iframe = document.querySelector('#register-form iframe');
+                    if (iframe) {
+                        iframe.src = activeDefaultForm;
+                    }
+                }
+
                 // Announcement Banner
                 if (data.announcement && data.announcement.trim() !== '') {
                     const banner = document.getElementById('announcement-banner');
@@ -183,7 +198,7 @@
                                 card.addEventListener('click', () => {
                                     const iframe = document.querySelector('#register-form iframe');
                                     if (iframe) {
-                                        iframe.src = event.reg_link && event.reg_link.trim() !== '' ? event.reg_link : DEFAULT_REG_FORM;
+                                        iframe.src = event.reg_link && event.reg_link.trim() !== '' ? event.reg_link : activeDefaultForm;
                                     }
                                 });
                                 eventsContainer.appendChild(card);

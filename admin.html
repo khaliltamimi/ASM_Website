@@ -9,6 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
     <style>
         .admin-container {
             max-width: 600px;
@@ -69,6 +70,7 @@
                         <a href="admin.html">Admin: Events</a>
                         <a href="admin_jumuah.html">Admin: Jumu'ah</a>
                         <a href="admin_users.html">Admin: Users</a>
+                        <a href="admin_questions.html">Admin: Questions</a>
                     </div>
                 </div>
             </nav>
@@ -128,6 +130,10 @@
                 <div class="form-group">
                     <label for="join-us-link">Membership "Join Us" Form Link (Change if needed only)</label>
                     <input type="text" id="join-us-link" placeholder="e.g. https://docs.google.com/forms/...">
+                </div>
+                <div class="form-group">
+                    <label for="global-event-reg-link">Global Event Registration Form Link</label>
+                    <input type="text" id="global-event-reg-link" placeholder="e.g. https://docs.google.com/forms/...">
                 </div>
 
                 <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #e5e7eb;">
@@ -218,6 +224,7 @@
                 const data = await response.json();
                 document.getElementById('announcement').value = data.announcement || '';
                 document.getElementById('join-us-link').value = data.join_us_link || '';
+                document.getElementById('global-event-reg-link').value = data.global_event_reg_link || '';
                 events = data.events || [];
                 renderEvents();
             } catch (err) {
@@ -273,6 +280,7 @@
             e.preventDefault();
             const announcement = document.getElementById('announcement').value;
             const join_us_link = document.getElementById('join-us-link').value;
+            const global_event_reg_link = document.getElementById('global-event-reg-link').value;
 
             try {
                 const response = await fetch('/api/update', {
@@ -281,7 +289,7 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ announcement, join_us_link, events })
+                    body: JSON.stringify({ announcement, join_us_link, global_event_reg_link, events })
                 });
 
                 const data = await response.json();

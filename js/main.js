@@ -17,6 +17,29 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', toggleMenu);
     });
 
+    // Dynamic Admin links for mobile navigation
+    const mobileNavLinksContainer = document.querySelector('.mobile-nav-links');
+    if (mobileNavLinksContainer) {
+        const divider = document.createElement('div');
+        divider.style.cssText = 'border-top: 1px solid rgba(255, 255, 255, 0.2); margin: 0.5rem 0; width: 100%;';
+        mobileNavLinksContainer.appendChild(divider);
+
+        const adminLinks = [
+            { text: 'Admin: Events', href: 'admin.html' },
+            { text: "Admin: Jumu'ah", href: 'admin_jumuah.html' },
+            { text: 'Admin: Users', href: 'admin_users.html' },
+            { text: 'Admin: Questions', href: 'admin_questions.html' }
+        ];
+
+        adminLinks.forEach(linkInfo => {
+            const a = document.createElement('a');
+            a.href = linkInfo.href;
+            a.textContent = linkInfo.text;
+            a.style.cssText = 'font-size: 1.1rem; opacity: 0.8;';
+            mobileNavLinksContainer.appendChild(a);
+        });
+    }
+
     // Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
     
@@ -58,6 +81,60 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('asr-time').textContent = formatTime(timings.Asr);
                 document.getElementById('maghrib-time').textContent = formatTime(timings.Maghrib);
                 document.getElementById('isha-time').textContent = formatTime(timings.Isha);
+
+                // Highlight the next coming prayer
+                const updateHighlight = () => {
+                    const now = new Date();
+                    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+                    const getMinutes = (time24) => {
+                        const [hours, minutes] = time24.split(':');
+                        return parseInt(hours, 10) * 60 + parseInt(minutes, 10);
+                    };
+
+                    const prayers = [
+                        { id: 'fajr-time', time: timings.Fajr },
+                        { id: 'dhuhr-time', time: timings.Dhuhr },
+                        { id: 'asr-time', time: timings.Asr },
+                        { id: 'maghrib-time', time: timings.Maghrib },
+                        { id: 'isha-time', time: timings.Isha }
+                    ];
+
+                    let nextPrayer = null;
+                    for (const prayer of prayers) {
+                        if (getMinutes(prayer.time) > currentMinutes) {
+                            nextPrayer = prayer;
+                            break;
+                        }
+                    }
+
+                    // If all prayers today have passed, the next prayer is Fajr (tomorrow)
+                    if (!nextPrayer) {
+                        nextPrayer = prayers[0];
+                    }
+
+                    // Remove highlight from all prayer items
+                    prayers.forEach(p => {
+                        const element = document.getElementById(p.id);
+                        if (element) {
+                            const prayerItem = element.closest('.prayer-item');
+                            if (prayerItem) {
+                                prayerItem.classList.remove('highlight');
+                            }
+                        }
+                    });
+
+                    // Add highlight to the next prayer item
+                    const nextElement = document.getElementById(nextPrayer.id);
+                    if (nextElement) {
+                        const nextPrayerItem = nextElement.closest('.prayer-item');
+                        if (nextPrayerItem) {
+                            nextPrayerItem.classList.add('highlight');
+                        }
+                    }
+                };
+
+                updateHighlight();
             }
         } catch (error) {
             console.error('Error fetching prayer times:', error);

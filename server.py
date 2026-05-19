@@ -8,7 +8,7 @@ CORS(app)
 
 DATA_FILE = 'data.json'
 USERS_FILE = 'users.json'
-ALLOWED_FILES = ['index.html', 'register.html', 'admin.html', 'admin_jumuah.html', 'admin_users.html', 'jumuah.html', 'resources.html', 'support.html', 'gallery.html', 'events.html']
+ALLOWED_FILES = ['index.html', 'register.html', 'admin.html', 'admin_jumuah.html', 'admin_users.html', 'jumuah.html', 'resources.html', 'support.html', 'gallery.html', 'events.html', 'admin_questions.html']
 ALLOWED_DIRS = ['assets', 'css', 'js']
 
 @app.route('/')
@@ -131,6 +131,103 @@ def update_content():
     with open(DATA_FILE, 'w') as f:
         json.dump(current_data, f, indent=2)
     return jsonify({"success": True})
+
+QUESTIONS_FILE = 'questions.json'
+
+def load_questions():
+    if os.path.exists(QUESTIONS_FILE):
+        try:
+            with open(QUESTIONS_FILE, 'r') as f:
+                return json.load(f)
+        except Exception:
+            return []
+    return []
+
+def save_questions(questions):
+    try:
+        with open(QUESTIONS_FILE, 'w') as f:
+            json.dump(questions, f, indent=2)
+    except Exception as e:
+        print("Error saving questions:", e)
+
+@app.route('/api/questions', methods=['POST'])
+def add_question():
+    data = request.json
+    if not data or not data.get('question') or not data.get('topic'):
+        return jsonify({"success": False, "message": "Topic and question details are required"}), 400
+    
+    if not data.get('email') and not data.get('phone'):
+        return jsonify({"success": False, "message": "Either email or phone number is required"}), 400
+    
+    import datetime
+    questions = load_questions()
+    new_q = {
+        "id": str(int(datetime.datetime.now().timestamp() * 1000)),
+        "topic": data.get('topic'),
+        "question": data.get('question'),
+        "email": data.get('email', ''),
+        "phone": data.get('phone', ''),
+        "answered": False,
+        "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    questions.append(new_q)
+    save_questions(questions)
+    return jsonify({"success": True})
+
+@app.route('/api/questions', methods=['GET'])
+def get_questions():
+    auth_header = request.headers.get('Authorization')
+    role = get_user_role(auth_header)
+    if not role:
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+    
+    return jsonify({"success": True, "questions": load_questions()})
+
+@app.route('/api/questions/toggle', methods=['POST'])
+def toggle_question_status():
+    auth_header = request.headers.get('Authorization')
+    role = get_user_role(auth_header)
+    if not role:
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+        
+    data = request.json
+    q_id = data.get('id') if data else None
+    if not q_id:
+        return jsonify({"success": False, "message": "Question ID required"}), 400
+        
+    questions = load_questions()
+    found = False
+    for q in questions:
+        if q.get('id') == q_id:
+            q['answered'] = not q.get('answered', False)
+            found = True
+            break
+            
+    if not found:
+        return jsonify({"success": False, "message": "Question not found"}), 404
+        
+    save_questions(questions)
+    return jsonify({"success": True, "questions": questions})
+
+@app.route('/api/questions', methods=['DELETE'])
+def delete_question():
+    auth_header = request.headers.get('Authorization')
+    role = get_user_role(auth_header)
+    if role != 'superadmin':
+        return jsonify({"success": False, "message": "Forbidden. Only superadmin access level can delete questions."}), 403
+        
+    data = request.json
+    q_id = data.get('id') if data else None
+    if not q_id:
+        return jsonify({"success": False, "message": "Question ID required"}), 400
+        
+    questions = load_questions()
+    new_questions = [q for q in questions if q.get('id') != q_id]
+    if len(new_questions) == len(questions):
+        return jsonify({"success": False, "message": "Question not found"}), 404
+        
+    save_questions(new_questions)
+    return jsonify({"success": True, "questions": new_questions})
 
 if __name__ == '__main__':
     print("Starting server on http://localhost:8080")

@@ -352,7 +352,9 @@
                         eventsContainer.innerHTML = '';
                         data.events.forEach(ev => {
                             const card = document.createElement('a');
-                            card.href = 'events.html#register-form';
+                            card.href = ev.reg_link && ev.reg_link.trim() !== ''
+                                ? `events.html?reg_link=${encodeURIComponent(ev.reg_link)}#register-form`
+                                : 'events.html#register-form';
                             card.className = 'team-card'; // Reuse team-card style
                             card.style.textAlign = 'left';
                             card.style.display = 'block';

@@ -134,6 +134,18 @@
 
     <!-- Fetch Announcements and Events -->
     <script>
+        const DEFAULT_REG_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSeaXV2VdR08pr81JZa2zRefxB2HaUhi_qlBj6Zkaa0_t0RtuQ/viewform?usp=dialog';
+
+        // Check if registration link was passed as query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const queryRegLink = urlParams.get('reg_link');
+        if (queryRegLink) {
+            const iframe = document.querySelector('#register-form iframe');
+            if (iframe) {
+                iframe.src = decodeURIComponent(queryRegLink);
+            }
+        }
+
         fetch('/api/content')
             .then(response => response.json())
             .then(data => {
@@ -168,6 +180,12 @@
                                         <p style="color: var(--color-text-light); font-size: 0.95rem;">${event.desc || ''}</p>
                                     </div>
                                 `;
+                                card.addEventListener('click', () => {
+                                    const iframe = document.querySelector('#register-form iframe');
+                                    if (iframe) {
+                                        iframe.src = event.reg_link && event.reg_link.trim() !== '' ? event.reg_link : DEFAULT_REG_FORM;
+                                    }
+                                });
                                 eventsContainer.appendChild(card);
                             }
                         });

@@ -8,9 +8,21 @@
       "title": "PaintBall Event"
     },
     {
-      "title": "Welcome Event",
       "date": "Monday November 10:00",
-      "desc": "Welcome event: get to know ASM \u0627\u062e\u062a\u0628\u0627\u0631 \u0639\u0631\u0628\u064a "
+      "desc": "Welcome event: get to know ASM \u0627\u062e\u062a\u0628\u0627\u0631 \u0639\u0631\u0628\u064a ",
+      "title": "Welcome Event"
+    },
+    {
+      "date": "20/01/2027",
+      "desc": "test",
+      "reg_link": "https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform",
+      "title": "test all prayer room"
+    },
+    {
+      "title": "test 3",
+      "date": "no ",
+      "desc": "d",
+      "reg_link": "https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform"
     }
   ],
   "jumuah_info": {
@@ -27,5 +39,6 @@
       "time2": "14:00"
     },
     "date": "Friday, May 22"
-  }
+  },
+  "join_us_link": ""
 }

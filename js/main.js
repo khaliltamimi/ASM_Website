@@ -219,4 +219,26 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.style.color = '';
         }, 3000);
     });
+
+    // Scroll Animations Observer
+    const scrollObserverOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+    };
+
+    const scrollObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                // Optional: stop observing once visible
+                observer.unobserve(entry.target);
+            }
+        });
+    }, scrollObserverOptions);
+
+    document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+        scrollObserver.observe(el);
+    });
+
 });

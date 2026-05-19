@@ -167,7 +167,9 @@
             <div class="section-header text-center">
                 <h2>Daily Prayer Times</h2>
                 <div class="divider"></div>
-                <p>Check our <a href="jumuah.html" style="color: var(--color-primary); text-decoration: underline; font-weight: 500;">Jumu'ah page</a> for Jumu'ah timings and prayer locations</p>
+                <p>Check our <a href="jumuah.html"
+                        style="color: var(--color-primary); text-decoration: underline; font-weight: 500;">Jumu'ah
+                        page</a> for Jumu'ah timings and prayer locations</p>
             </div>
 
             <div class="prayer-times-card">
@@ -197,7 +199,8 @@
                 </div>
 
                 <a href="jumuah.html" class="jummah-info" id="jummah-prayer-info">
-                    <strong>Jumu'ah Prayer:</strong> Click here for Friday timings and campus locations <span style="margin-left: 0.5rem; font-weight: 700;">&rarr;</span>
+                    <strong>Jumu'ah Prayer:</strong> Click here for Friday timings and campus locations <span
+                        style="margin-left: 0.5rem; font-weight: 700;">&rarr;</span>
                 </a>
             </div>
         </div>
@@ -336,7 +339,7 @@
                     text.textContent = data.announcement;
                     banner.classList.remove('hidden');
                     banner.style.display = 'block'; // Fallback in case hidden class is heavily overridden
-                    
+
                     // Hide after 30 seconds
                     setTimeout(() => {
                         banner.style.transition = 'opacity 0.5s ease';
@@ -345,7 +348,7 @@
                             banner.classList.add('hidden');
                             banner.style.display = 'none';
                         }, 500);
-                    }, 30000);
+                    }, 20000);
                 }
             }
             if (data.jummah_prayer && data.jummah_prayer.trim() !== '') {

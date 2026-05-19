@@ -38,6 +38,10 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.hidden {
+    display: none !important;
+}
+
 h1,
 h2,
 h3,
@@ -113,6 +117,15 @@ a {
 /* Sections */
 .section {
     padding: 5rem 0;
+}
+
+.first-section {
+    padding-top: 7rem !important;
+    transition: padding-top 0.5s ease;
+}
+
+#announcement-banner:not(.hidden) ~ .first-section {
+    padding-top: 3rem !important;
 }
 
 .bg-light {
@@ -567,6 +580,7 @@ a.jummah-info:hover {
 .social-links {
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .social-icon {
@@ -874,4 +888,27 @@ body.dark-mode .hero-overlay {
 .slide-in-right.is-visible {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* Mobile Responsive Optimizations for Contact Section */
+@media (max-width: 768px) {
+    .contact-grid {
+        gap: 2rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-info,
+    .contact-form-container {
+        padding: 1.25rem !important;
+    }
+    
+    .social-links {
+        gap: 0.5rem !important;
+    }
+    
+    .social-icon {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.8rem !important;
+    }
 }

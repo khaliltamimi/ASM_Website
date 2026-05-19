@@ -738,3 +738,48 @@ a {
         padding: 1.25rem !important;
     }
 }
+
+/* Dark Mode */
+body.dark-mode {
+    --color-text: #e5e7eb;
+    --color-text-light: #9ca3af;
+    --color-bg: #111827;
+    --color-bg-light: #1f2937;
+    --color-primary: #8bc2db;
+    --color-primary-light: #436b7d;
+}
+
+body.dark-mode .navbar {
+    background-color: rgba(17, 24, 39, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .calendar-container,
+body.dark-mode .prayer-times-card,
+body.dark-mode .team-card,
+body.dark-mode .contact-form-container,
+body.dark-mode .dropdown-content,
+body.dark-mode .admin-container {
+    background-color: #1f2937;
+    color: #e5e7eb;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .form-group input,
+body.dark-mode .form-group select {
+    background-color: #374151;
+    color: #e5e7eb;
+    border-color: #4b5563;
+}
+
+body.dark-mode .dropdown-content a {
+    color: #e5e7eb;
+}
+
+body.dark-mode .dropdown-content a:hover {
+    background-color: #374151;
+}
+
+body.dark-mode .hero-overlay {
+    background: linear-gradient(to right, rgba(17, 24, 39, 0.9), rgba(17, 24, 39, 0.5));
+}

@@ -1,5 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    // Dark Mode Toggle
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+    }
+    
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+        const themeToggle = document.createElement('button');
+        themeToggle.id = 'theme-toggle';
+        themeToggle.setAttribute('aria-label', 'Toggle Dark Mode');
+        themeToggle.style.cssText = 'background: none; border: none; font-size: 1.25rem; cursor: pointer; margin-left: 1rem; color: var(--color-text-light); transition: color 0.2s;';
+        themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const darkEnabled = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', darkEnabled);
+            themeToggle.textContent = darkEnabled ? '☀️' : '🌙';
+        });
+        
+        navLinks.appendChild(themeToggle);
+    }
+
     // Mobile Menu Toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');

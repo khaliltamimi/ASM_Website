@@ -213,13 +213,34 @@ a {
     color: var(--color-text-light);
     padding: 1rem 1.25rem;
     border-radius: 0.5rem;
-    transition: all var(--transition-fast);
+    transition: all var(--transition-normal);
+    position: relative;
+}
+
+.nav-links>a:not(.btn)::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 1.25rem;
+    right: 1.25rem;
+    height: 3px;
+    background-color: var(--color-secondary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2px;
+}
+
+.nav-links>a:not(.btn):hover::after,
+.nav-links>a:not(.btn).active::after {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 .nav-links>a:not(.btn):hover,
 .nav-links>a:not(.btn).active {
     color: var(--color-primary);
-    background-color: rgba(18, 74, 97, 0.08);
+    background-color: rgba(18, 74, 97, 0.06);
 }
 
 .mobile-menu-btn {
@@ -463,6 +484,19 @@ a {
     padding: 2rem 1rem;
     text-align: center;
     border-right: 1px solid var(--color-bg-light);
+    transition: all var(--transition-normal);
+    position: relative;
+}
+
+.prayer-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    background-color: rgba(18, 74, 97, 0.04);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    z-index: 2;
+}
+
+body.dark-mode .prayer-item:hover {
+    background-color: rgba(251, 191, 36, 0.05) !important;
 }
 
 .prayer-item:last-child {
@@ -860,7 +894,7 @@ body.dark-mode .hero-overlay {
 .fade-in {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .fade-in.is-visible {
@@ -868,10 +902,32 @@ body.dark-mode .hero-overlay {
     transform: translateY(0);
 }
 
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.fade-in-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scale-in {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.scale-in.is-visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
 .slide-in-left {
     opacity: 0;
     transform: translateX(-50px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .slide-in-left.is-visible {
@@ -882,12 +938,239 @@ body.dark-mode .hero-overlay {
 .slide-in-right {
     opacity: 0;
     transform: translateX(50px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .slide-in-right.is-visible {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* Checklist Animations for Friday Sunnahs */
+.feature-list.checklist li {
+    cursor: pointer;
+    padding-left: 2.25rem !important;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    user-select: none;
+}
+
+.feature-list.checklist li::before {
+    content: '☐';
+    color: var(--color-text-light);
+    font-size: 1.35rem;
+    position: absolute;
+    left: 0;
+    top: -2px;
+    transition: all 0.3s ease;
+}
+
+.feature-list.checklist li.checked {
+    color: var(--color-text-light);
+    text-decoration: line-through;
+    opacity: 0.6;
+    transform: translateX(5px);
+}
+
+.feature-list.checklist li.checked::before {
+    content: '☑';
+    color: #10b981; /* Emerald */
+    font-size: 1.35rem;
+    transform: scale(1.1);
+}
+
+/* Target Hash Outline Highlight Flash Animation */
+@keyframes target-flash {
+    0% {
+        box-shadow: 0 0 0 0px var(--color-secondary);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 0 6px var(--color-secondary);
+        transform: scale(1.02);
+    }
+    100% {
+        box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.25);
+        transform: scale(1);
+    }
+}
+
+.flash-target-active {
+    animation: target-flash 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Theme Toggle Button click rotate */
+.theme-toggle-btn {
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), color var(--transition-fast) !important;
+}
+
+.theme-toggle-btn.clicked {
+    transform: rotate(360deg) scale(1.2);
+}
+
+/* Back to Top circular progress indicator */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 999;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.back-to-top:hover {
+    transform: translateY(-5px) scale(1.05);
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+}
+
+.back-to-top svg.progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    transform: rotate(-90deg);
+}
+
+.back-to-top svg.progress-ring circle {
+    fill: transparent;
+    stroke: var(--color-secondary);
+    stroke-width: 3;
+    stroke-dasharray: 138.2; /* 2 * PI * r = 2 * 3.14159 * 22 */
+    stroke-dashoffset: 138.2;
+    transition: stroke-dashoffset 0.1s ease-out;
+}
+
+/* Gallery Lightbox modal */
+.lightbox-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(17, 24, 39, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.lightbox-modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 80%;
+    max-height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.lightbox-modal.show .lightbox-content {
+    transform: scale(1);
+}
+
+.lightbox-card {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+    color: white;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 2rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    position: relative;
+    min-width: 300px;
+    aspect-ratio: 4/3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-card span {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.lightbox-card .caption {
+    font-size: 1.25rem;
+    font-weight: 500;
+    opacity: 0.95;
+    margin-top: 1rem;
+    font-family: var(--font-body);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.lightbox-close:hover {
+    color: var(--color-secondary);
+}
+
+.lightbox-prev, .lightbox-next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    transition: 0.3s ease;
+    border-radius: 5px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.lightbox-next {
+    right: 25px;
+}
+
+.lightbox-prev {
+    left: 25px;
+}
+
+.lightbox-prev:hover, .lightbox-next:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--color-secondary);
 }
 
 /* Mobile Responsive Optimizations for Contact Section */

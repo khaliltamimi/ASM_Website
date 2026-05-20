@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
         themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
         
         themeToggle.addEventListener('click', () => {
+            themeToggle.classList.add('clicked');
+            setTimeout(() => themeToggle.classList.remove('clicked'), 600);
             document.body.classList.toggle('dark-mode');
             const darkEnabled = document.body.classList.contains('dark-mode');
             localStorage.setItem('darkMode', darkEnabled);
@@ -88,12 +90,68 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
     
+    // Inject top Scroll Progress Bar
+    const progressContainer = document.createElement('div');
+    progressContainer.id = 'scroll-progress-container';
+    progressContainer.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: rgba(0,0,0,0.05); z-index: 1002; pointer-events: none;';
+    const progressBar = document.createElement('div');
+    progressBar.id = 'scroll-progress';
+    progressBar.style.cssText = 'width: 0%; height: 100%; background: linear-gradient(90deg, var(--color-secondary), var(--color-primary-light)); transition: width 0.1s ease-out;';
+    progressContainer.appendChild(progressBar);
+    document.body.appendChild(progressContainer);
+
+    // Inject Circular Back to Top Button
+    const backToTopBtn = document.createElement('button');
+    backToTopBtn.className = 'back-to-top';
+    backToTopBtn.setAttribute('aria-label', 'Back to top');
+    backToTopBtn.innerHTML = `
+        <svg class="progress-ring" width="50" height="50">
+            <circle cx="25" cy="25" r="22"/>
+        </svg>
+        <span style="font-size: 1.5rem; position: relative; z-index: 2;">↑</span>
+    `;
+    document.body.appendChild(backToTopBtn);
+
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    const progressCircle = backToTopBtn.querySelector('circle');
+    const radius = progressCircle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+    
+    progressCircle.style.strokeDasharray = circumference;
+    progressCircle.style.strokeDashoffset = circumference;
+
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
-            navbar.style.padding = '0';
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        
+        // Update top progress bar
+        progressBar.style.width = `${scrollPercent}%`;
+
+        // Update circular indicator
+        if (scrollTop > 300) {
+            backToTopBtn.classList.add('show');
         } else {
-            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+            backToTopBtn.classList.remove('show');
+        }
+
+        const offset = circumference - (scrollPercent / 100) * circumference;
+        progressCircle.style.strokeDashoffset = offset;
+
+        // Navbar Shadow
+        if (navbar) {
+            if (scrollTop > 50) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+                navbar.style.padding = '0';
+            } else {
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+            }
         }
     });
 
@@ -251,25 +309,183 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Friday Sunnah checklist functionality
+    const sunnahList = document.getElementById('sunnah-checklist');
+    if (sunnahList) {
+        sunnahList.classList.add('checklist');
+        const items = sunnahList.querySelectorAll('li');
+        const todayStr = new Date().toISOString().split('T')[0]; // Reset checklist daily
+        const savedChecksKey = `sunnahs-checked-${todayStr}`;
+
+        // Get saved indexes from localStorage
+        let checkedIndexes = [];
+        try {
+            const saved = localStorage.getItem(savedChecksKey);
+            if (saved) {
+                checkedIndexes = JSON.parse(saved);
+            } else {
+                // Clear old keys to save space
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith('sunnahs-checked-')) {
+                        localStorage.removeItem(key);
+                    }
+                });
+            }
+        } catch (e) {
+            console.error('Error loading checks', e);
+        }
+
+        items.forEach((item, index) => {
+            // Apply checked class if loaded from storage
+            if (checkedIndexes.includes(index)) {
+                item.classList.add('checked');
+            }
+
+            // Click listener
+            item.addEventListener('click', () => {
+                item.classList.toggle('checked');
+                
+                // Recalculate checked list
+                const currentChecked = [];
+                items.forEach((li, idx) => {
+                    if (li.classList.contains('checked')) {
+                        currentChecked.push(idx);
+                    }
+                });
+                
+                try {
+                    localStorage.setItem(savedChecksKey, JSON.stringify(currentChecked));
+                } catch(e) {
+                    console.error('Error saving checks', e);
+                }
+            });
+        });
+    }
+
+    // Gallery Lightbox Modal
+    const galleryGrid = document.querySelector('.gallery-grid');
+    if (galleryGrid) {
+        // Create Lightbox Markup
+        const lightbox = document.createElement('div');
+        lightbox.id = 'gallery-lightbox';
+        lightbox.className = 'lightbox-modal';
+        lightbox.innerHTML = `
+            <span class="lightbox-close">&times;</span>
+            <div class="lightbox-content">
+                <div class="lightbox-card">
+                    <span class="lightbox-img-span"></span>
+                    <div class="caption"></div>
+                </div>
+            </div>
+            <a class="lightbox-prev">&#10094;</a>
+            <a class="lightbox-next">&#10095;</a>
+        `;
+        document.body.appendChild(lightbox);
+
+        const items = Array.from(document.querySelectorAll('.gallery-item'));
+        const imgSpan = lightbox.querySelector('.lightbox-img-span');
+        const caption = lightbox.querySelector('.caption');
+        const closeBtn = lightbox.querySelector('.lightbox-close');
+        const prevBtn = lightbox.querySelector('.lightbox-prev');
+        const nextBtn = lightbox.querySelector('.lightbox-next');
+        let currentIndex = 0;
+
+        const openLightbox = (index) => {
+            currentIndex = index;
+            const item = items[index];
+            const spanText = item.querySelector('span').textContent;
+            const captionText = item.querySelector('.gallery-caption').textContent;
+            
+            imgSpan.textContent = spanText;
+            caption.textContent = captionText;
+            
+            lightbox.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeLightbox = () => {
+            lightbox.classList.remove('show');
+            document.body.style.overflow = '';
+        };
+
+        const showNext = (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % items.length;
+            openLightbox(currentIndex);
+        };
+
+        const showPrev = (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            openLightbox(currentIndex);
+        };
+
+        items.forEach((item, index) => {
+            item.addEventListener('click', () => openLightbox(index));
+        });
+
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', closeLightbox);
+        lightbox.querySelector('.lightbox-content').addEventListener('click', (e) => e.stopPropagation());
+        nextBtn.addEventListener('click', showNext);
+        prevBtn.addEventListener('click', showPrev);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('show')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') showNext(e);
+            if (e.key === 'ArrowLeft') showPrev(e);
+        });
+    }
+
+    // Hash Scroll highlight animation flash effect
+    document.querySelectorAll('a[href^="#"], a[href*=".html#"]').forEach(anchor => {
+        anchor.addEventListener('click', function() {
+            const href = this.getAttribute('href');
+            const hash = href.includes('#') ? '#' + href.split('#')[1] : null;
+            if (hash) {
+                const target = document.querySelector(hash);
+                if (target) {
+                    setTimeout(() => {
+                        target.classList.add('flash-target-active');
+                        setTimeout(() => {
+                            target.classList.remove('flash-target-active');
+                        }, 1200);
+                    }, 500); // delay to align with scroll finish
+                }
+            }
+        });
+    });
+
     // Scroll Animations Observer
     const scrollObserverOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.15
+        threshold: 0.1
     };
 
     const scrollObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
-                // Optional: stop observing once visible
                 observer.unobserve(entry.target);
             }
         });
     }, scrollObserverOptions);
 
-    document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+    // Watch animation elements
+    document.querySelectorAll('.fade-in, .fade-in-up, .scale-in, .slide-in-left, .slide-in-right').forEach(el => {
         scrollObserver.observe(el);
+    });
+
+    // Stagger layout grids automatically
+    document.querySelectorAll('.stagger-children').forEach(container => {
+        Array.from(container.children).forEach((child, index) => {
+            child.style.transitionDelay = `${index * 120}ms`;
+            child.classList.add('fade-in-up');
+            scrollObserver.observe(child);
+        });
     });
 
 });

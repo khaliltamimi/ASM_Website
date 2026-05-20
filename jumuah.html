@@ -74,20 +74,8 @@
     </div>
 
     <!-- Jumu'ah Info Section -->
-    <section class="section first-section" style="min-height: 0vh;">
+    <section class="section first-section" style="min-height: 80vh;">
         <div class="container">
-            <!--
-            <div class="section-header text-center">
-                <h2>Jumu'ah Prayers</h2>
-                <div class="divider"></div>
-                <p>
-                    يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا نُودِيَ لِلصَّلَاةِ مِن يَوْمِ الْجُمُعَةِ فَاسْعَوْا إِلَىٰ
-                    ذِكْرِ اللَّهِ وَذَرُوا الْبَيْعَ ۚ ذَٰلِكُمْ خَيْرٌ لَّكُمْ إِن كُنتُمْ تَعْلَمُونَ
-                    O you who have believed, when [the adhan] is called for the prayer on the day of Jumu'ah [Friday],
-                    then proceed to the remembrance of Allah and leave trade. That is better for you, if you only knew.
-                    (Quran 62:9)</p>
-            </div>
-            -->
             <div class="section-header text-center">
                 <h2>Jumu'ah Prayers</h2>
                 <div class="divider"></div>
@@ -106,7 +94,7 @@
             </div>
 
 
-            <div class="contact-grid">
+            <div class="contact-grid stagger-children">
                 <!-- Location & Timing -->
                 <div class="contact-info">
                     <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Prayer Details for <span
@@ -144,7 +132,7 @@
                 <!-- Sunnahs of Jumuah -->
                 <div class="contact-form-container">
                     <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Sunnahs of Friday</h3>
-                    <ul class="feature-list">
+                    <ul class="feature-list checklist" id="sunnah-checklist">
                         <li><strong>Ghusl (غسل):</strong> Performing the ritual bath before heading to the prayer.</li>
                         <li><strong>Clean Clothes:</strong> Wearing your best and cleanest clothes.</li>
                         <li><strong>Perfume:</strong> Applying perfume (for men).</li>
@@ -171,7 +159,7 @@
                 <div class="divider"></div>
             </div>
 
-            <div class="contact-grid">
+            <div class="contact-grid stagger-children">
                 <!-- Bovisa Location -->
                 <div id="location-bovisa" class="contact-info" style="scroll-margin-top: 100px;">
                     <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Bovisa Campus</h3>
@@ -184,7 +172,7 @@
                         Open in Google Maps
                     </a>
 
-                    <a href="https://youtube.com/results?search_query=how+to+reach+bovisa+prayer+room" target="_blank"
+                    <a href="https://youtube.com/shorts/rXHHH2kImDc?is=Ea-2FxbiN4gJlDbk" target="_blank"
                         class="btn btn-secondary"
                         style="display: block; text-align: center; padding: 0.75rem; color: var(--color-primary); border-color: var(--color-primary);">
                         Watch Video Guide
@@ -195,14 +183,14 @@
                 <div id="location-leonardo" class="contact-info" style="scroll-margin-top: 100px;">
                     <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Unimi Campus</h3>
                     <p style="margin-bottom: 1.5rem; color: var(--color-text-light);"> Room 300 Unimi
-                        Building<br>Please check the video below if you are unsure how to find the hall.</p>
-                    <br>
+                        Building.</p>
                     <a href="https://goo.gl/maps/cdUrXTAdf1Q9cGds9%7C" target="_blank" class="btn btn-primary"
                         style="display: block; text-align: center; margin-bottom: 1rem; padding: 0.75rem;">
                         Open in Google Maps
                     </a>
-
-                    <a href="https://youtube.com/results?search_query=how+to+reach+leonardo+prayer+room" target="_blank"
+                    <p style="margin-bottom: 1.5rem; color: var(--color-text-light);">
+                        Please check the video below if you are unsure how to find the hall.</p>
+                    <a href="https://youtube.com/shorts/A5vwr2wduu4?is=2Yd-BOlo2g3o-ypL" target="_blank"
                         class="btn btn-secondary"
                         style="display: block; text-align: center; padding: 0.75rem; color: var(--color-primary); border-color: var(--color-primary);">
                         Watch Video Guide
@@ -219,7 +207,7 @@
                         Open in Google Maps
                     </a>
 
-                    <a href="https://youtube.com/results?search_query=how+to+reach+bovisa+prayer+room" target="_blank"
+                    <a href="https://youtube.com/shorts/I_jQXZ8b7zU?is=2z-M87fbhU_21VSL" target="_blank"
                         class="btn btn-secondary"
                         style="display: block; text-align: center; padding: 0.75rem; color: var(--color-primary); border-color: var(--color-primary);">
                         Watch Video Guide
@@ -262,7 +250,7 @@
             <div class="prayer-times-card">
                 <div class="date-display" id="current-date">Loading date...</div>
 
-                <div class="prayer-grid">
+                <div class="prayer-grid stagger-children">
                     <div class="prayer-item">
                         <div class="prayer-name">Fajr</div>
                         <div class="prayer-time" id="fajr-time">--:-- AM</div>

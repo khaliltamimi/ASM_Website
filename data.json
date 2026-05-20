@@ -41,5 +41,69 @@
     "date": "Friday, May 22"
   },
   "join_us_link": "https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform",
-  "global_event_reg_link": "https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform"
+  "global_event_reg_link": "https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform",
+  "board_members": [
+    {
+      "avatar": "P",
+      "name": "Hanea B",
+      "role": "president",
+      "title": "President"
+    },
+    {
+      "avatar": "V",
+      "name": "Khalil T",
+      "role": "vicepresident",
+      "title": "Vice President"
+    },
+    {
+      "avatar": "S",
+      "name": "Razia A",
+      "role": "secretary",
+      "title": "Secretary"
+    },
+    {
+      "avatar": "T",
+      "name": "Mariam A",
+      "role": "treasurer",
+      "title": "Treasurer"
+    },
+    {
+      "avatar": "A",
+      "name": "Numaan R",
+      "role": "advisor",
+      "title": "Advisor"
+    }
+  ],
+  "gallery": [
+    {
+      "image": "assets/gallery_event1.png",
+      "role": "event1",
+      "title": "Escape Room"
+    },
+    {
+      "image": "assets/gallery_event2.jpg",
+      "role": "event2",
+      "title": "Hiking event"
+    },
+    {
+      "image": "assets/gallery_event3.jpg",
+      "role": "event3",
+      "title": "Islam Awareness Week"
+    },
+    {
+      "image": "assets/gallery_event4.jpg",
+      "role": "event4",
+      "title": "Community Service: Food Drive"
+    },
+    {
+      "image": "assets/gallery_event5.jpg",
+      "role": "event5",
+      "title": "Game Social"
+    },
+    {
+      "image": "assets/gallery_event6.jpg",
+      "role": "event6",
+      "title": "Ramadiamo"
+    }
+  ]
 }

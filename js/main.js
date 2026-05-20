@@ -382,7 +382,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         document.body.appendChild(lightbox);
 
-        const items = Array.from(document.querySelectorAll('.gallery-item'));
         const caption = lightbox.querySelector('.caption');
         const closeBtn = lightbox.querySelector('.lightbox-close');
         const prevBtn = lightbox.querySelector('.lightbox-prev');
@@ -390,6 +389,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
 
         const openLightbox = (index) => {
+            const items = Array.from(galleryGrid.querySelectorAll('.gallery-item'));
+            if (index < 0 || index >= items.length) return;
             currentIndex = index;
             const item = items[index];
             const imgElement = item.querySelector('img');
@@ -413,18 +414,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const showNext = (e) => {
             e.stopPropagation();
+            const items = Array.from(galleryGrid.querySelectorAll('.gallery-item'));
             currentIndex = (currentIndex + 1) % items.length;
             openLightbox(currentIndex);
         };
 
         const showPrev = (e) => {
             e.stopPropagation();
+            const items = Array.from(galleryGrid.querySelectorAll('.gallery-item'));
             currentIndex = (currentIndex - 1 + items.length) % items.length;
             openLightbox(currentIndex);
         };
 
-        items.forEach((item, index) => {
-            item.addEventListener('click', () => openLightbox(index));
+        // Use event delegation for click listener on gallery items
+        galleryGrid.addEventListener('click', (e) => {
+            const item = e.target.closest('.gallery-item');
+            if (!item) return;
+            const items = Array.from(galleryGrid.querySelectorAll('.gallery-item'));
+            const index = items.indexOf(item);
+            if (index !== -1) {
+                openLightbox(index);
+            }
         });
 
         closeBtn.addEventListener('click', closeLightbox);
@@ -476,6 +486,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, scrollObserverOptions);
+
+    window.scrollObserver = scrollObserver; // Expose globally for dynamic elements
 
     // Watch animation elements
     document.querySelectorAll('.fade-in, .fade-in-up, .scale-in, .slide-in-left, .slide-in-right').forEach(el => {

@@ -166,9 +166,43 @@
 
                 <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #e5e7eb;">
                 <button type="submit" class="btn btn-primary w-100">Publish Changes</button>
-                <button type="button" class="btn btn-secondary w-100 mt-2" id="logout-btn"
-                    style="color: var(--color-primary); border-color: var(--color-primary);">Logout</button>
             </form>
+
+            <!-- Manage Media Gallery Section -->
+            <div style="background: #f9fafb; padding: 1.5rem; border-radius: var(--radius-sm); margin-top: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #e5e7eb;">
+                <h3 class="mb-2" style="font-size: 1.2rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">Manage Media Gallery</h3>
+                <form id="media-gallery-form">
+                    <div class="form-group">
+                        <label for="gallery-event1">Image 1 Caption</label>
+                        <input type="text" id="gallery-event1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-event2">Image 2 Caption</label>
+                        <input type="text" id="gallery-event2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-event3">Image 3 Caption</label>
+                        <input type="text" id="gallery-event3" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-event4">Image 4 Caption</label>
+                        <input type="text" id="gallery-event4" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-event5">Image 5 Caption</label>
+                        <input type="text" id="gallery-event5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-event6">Image 6 Caption</label>
+                        <input type="text" id="gallery-event6" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Save Gallery Captions</button>
+                </form>
+            </div>
+
+            <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #e5e7eb;">
+            <button type="button" class="btn btn-secondary w-100" id="logout-btn"
+                style="color: var(--color-primary); border-color: var(--color-primary);">Logout</button>
         </div>
     </div>
 
@@ -227,6 +261,8 @@
                 document.getElementById('global-event-reg-link').value = data.global_event_reg_link || '';
                 events = data.events || [];
                 renderEvents();
+                // Load gallery captions
+                fetchGalleryCaptions();
             } catch (err) {
                 console.error("Failed to load content", err);
             }
@@ -324,6 +360,77 @@
             loginSection.classList.remove('hidden');
             loginError.classList.add('hidden');
         }
+
+        function showMessage(msg, isSuccess) {
+            updateMessage.textContent = msg;
+            updateMessage.className = isSuccess ? "success-message" : "error-message";
+            updateMessage.classList.remove('hidden');
+            setTimeout(() => updateMessage.classList.add('hidden'), 3000);
+        }
+
+        let galleryData = [
+            { "role": "event1", "title": "", "image": "assets/gallery_event1.png" },
+            { "role": "event2", "title": "", "image": "assets/gallery_event2.jpg" },
+            { "role": "event3", "title": "", "image": "assets/gallery_event3.jpg" },
+            { "role": "event4", "title": "", "image": "assets/gallery_event4.jpg" },
+            { "role": "event5", "title": "", "image": "assets/gallery_event5.jpg" },
+            { "role": "event6", "title": "", "image": "assets/gallery_event6.jpg" }
+        ];
+
+        async function fetchGalleryCaptions() {
+            try {
+                const response = await fetch('/api/content');
+                const data = await response.json();
+                if (data.gallery) {
+                    galleryData = data.gallery;
+                    data.gallery.forEach(item => {
+                        const input = document.getElementById(`gallery-${item.role}`);
+                        if (input) {
+                            input.value = item.title;
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error("Failed to load gallery captions:", err);
+            }
+        }
+
+        const galleryForm = document.getElementById('media-gallery-form');
+        galleryForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const updatedGallery = galleryData.map(item => {
+                const input = document.getElementById(`gallery-${item.role}`);
+                return {
+                    ...item,
+                    title: input ? input.value.trim() : item.title
+                };
+            });
+
+            try {
+                const response = await fetch('/api/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ gallery: updatedGallery })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage("Gallery captions updated successfully!", true);
+                    galleryData = updatedGallery;
+                } else {
+                    if (response.status === 401) {
+                        logout();
+                    } else {
+                        showMessage(data.message || "Error updating gallery.", false);
+                    }
+                }
+            } catch (err) {
+                showMessage("Error connecting to server.", false);
+            }
+        });
     </script>
 </body>
 

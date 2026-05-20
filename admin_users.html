@@ -154,6 +154,37 @@
                 </form>
             </div>
 
+            <!-- Manage Board Members Section -->
+            <div id="board-members-section"
+                style="background: #f9fafb; padding: 1.5rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; border: 1px solid #e5e7eb;">
+                <h3 class="mb-2"
+                    style="font-size: 1.2rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                    Manage Board Members</h3>
+                <form id="board-members-form">
+                    <div class="form-group">
+                        <label for="board-president">President Name</label>
+                        <input type="text" id="board-president" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="board-vicepresident">Vice President Name</label>
+                        <input type="text" id="board-vicepresident" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="board-secretary">Secretary Name</label>
+                        <input type="text" id="board-secretary" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="board-treasurer">Treasurer Name</label>
+                        <input type="text" id="board-treasurer" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="board-advisor">Advisor Name</label>
+                        <input type="text" id="board-advisor" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Save Board Names</button>
+                </form>
+            </div>
+
             <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #e5e7eb;">
             <button type="button" class="btn btn-secondary w-100" id="logout-btn"
                 style="color: var(--color-primary); border-color: var(--color-primary);">Logout</button>
@@ -170,7 +201,7 @@
         const logoutBtn = document.getElementById('logout-btn');
 
         let token = localStorage.getItem('adminToken');
-let role = localStorage.getItem('adminRole');
+        let role = localStorage.getItem('adminRole');
         let users = [];
 
         if (token) {
@@ -211,15 +242,23 @@ let role = localStorage.getItem('adminRole');
             dashboardSection.classList.remove('hidden');
             // Load users first
             fetchUsers();
+            // Load board members only for superadmin
+            if (role === 'superadmin') {
+                fetchBoardMembers();
+            }
             // Role‑based UI adjustments
             if (role !== 'superadmin') {
+                // Hide the Manage Board Members section
+                const boardSection = document.getElementById('board-members-section');
+                if (boardSection) boardSection.style.display = 'none';
+
                 // Hide the Add New Admin container and Current Admins list
                 const addContainer = document.getElementById('add-user-form')?.parentElement;
                 if (addContainer) addContainer.style.display = 'none';
-                
+
                 const usersList = document.getElementById('users-list');
                 if (usersList) usersList.style.display = 'none';
-                
+
                 const currentAdminsHeader = document.querySelector('h3.mb-2');
                 if (currentAdminsHeader) currentAdminsHeader.style.display = 'none';
 
@@ -231,7 +270,7 @@ let role = localStorage.getItem('adminRole');
                     msg.textContent = 'Forbidden. Superadmin access required.';
                     msg.className = 'error-message';
                     msg.style.marginTop = '1rem';
-                    
+
                     const updateMsg = document.getElementById('update-message');
                     updateMsg.parentNode.insertBefore(msg, updateMsg.nextSibling);
                 }
@@ -273,7 +312,7 @@ let role = localStorage.getItem('adminRole');
                 div.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding: 0.75rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 4px; margin-bottom: 0.5rem;';
 
                 const isMainAdmin = username === 'admin';
-                const deleteBtn = (role === 'superadmin') ? (isMainAdmin ? '<span style="color: #9ca3af; font-size: 0.8rem; padding: 0.25rem 0.5rem;">Default (Cannot Delete)</span>' : `<button type="button" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; border-color: #dc3545; color: #dc3545; background: none;" onclick="deleteUser('${username}')">Delete</button>` ) : '<span style="color: #9ca3af; font-size: 0.8rem; padding: 0.25rem 0.5rem;">No Delete Permission</span>';
+                const deleteBtn = (role === 'superadmin') ? (isMainAdmin ? '<span style="color: #9ca3af; font-size: 0.8rem; padding: 0.25rem 0.5rem;">Default (Cannot Delete)</span>' : `<button type="button" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; border-color: #dc3545; color: #dc3545; background: none;" onclick="deleteUser('${username}')">Delete</button>`) : '<span style="color: #9ca3af; font-size: 0.8rem; padding: 0.25rem 0.5rem;">No Delete Permission</span>';
 
                 div.innerHTML = `
                     <div>
@@ -346,6 +385,67 @@ let role = localStorage.getItem('adminRole');
             updateMessage.classList.remove('hidden');
             setTimeout(() => updateMessage.classList.add('hidden'), 4000);
         }
+
+        let boardMembersData = [
+            { "role": "president", "title": "President", "name": "", "avatar": "P" },
+            { "role": "vicepresident", "title": "Vice President", "name": "", "avatar": "V" },
+            { "role": "secretary", "title": "Secretary", "name": "", "avatar": "S" },
+            { "role": "treasurer", "title": "Treasurer", "name": "", "avatar": "T" },
+            { "role": "advisor", "title": "Advisor", "name": "", "avatar": "A" }
+        ];
+
+        async function fetchBoardMembers() {
+            try {
+                const response = await fetch('/api/content');
+                const data = await response.json();
+                if (data.board_members) {
+                    boardMembersData = data.board_members;
+                    data.board_members.forEach(member => {
+                        const input = document.getElementById(`board-${member.role}`);
+                        if (input) {
+                            input.value = member.name;
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error("Failed to load board members:", err);
+            }
+        }
+
+        const boardForm = document.getElementById('board-members-form');
+        boardForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const updatedBoard = boardMembersData.map(member => {
+                const input = document.getElementById(`board-${member.role}`);
+                return {
+                    ...member,
+                    name: input ? input.value.trim() : member.name
+                };
+            });
+
+            try {
+                const response = await fetch('/api/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ board_members: updatedBoard })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage("Board members updated successfully!", true);
+                    boardMembersData = updatedBoard;
+                } else {
+                    showMessage(data.message, false);
+                }
+            } catch (err) {
+                showMessage("Error connecting to server.", false);
+            }
+        });
+
+
 
         logoutBtn.addEventListener('click', logout);
 

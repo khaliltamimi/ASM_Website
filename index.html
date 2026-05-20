@@ -220,53 +220,9 @@
                 <div class="divider"></div>
             </div>
 
-            <div class="team-grid stagger-children">
-                <!-- Team Member 1 -->
-                <div class="team-card">
-                    <div class="team-avatar">
-                        <img src="assets/board_president.png" alt="Hanea Boumchita" onerror="this.style.display='none'">
-                        <span>P</span>
-                    </div>
-                    <h3 class="team-name">Hanea</h3>
-                    <p class="team-role">President</p>
-                </div>
-                <!-- Team Member 2 -->
-                <div class="team-card">
-                    <div class="team-avatar">
-                        <img src="assets/board_vicepresident.png" alt="Mariam Abou El Seoud"
-                            onerror="this.style.display='none'">
-                        <span>V</span>
-                    </div>
-                    <h3 class="team-name">Khalil</h3>
-                    <p class="team-role">Vice President</p>
-                </div>
-                <!-- Team Member 3 -->
-                <div class="team-card">
-                    <div class="team-avatar">
-                        <img src="assets/board_secretary.png" alt="Razia" onerror="this.style.display='none'">
-                        <span>S</span>
-                    </div>
-                    <h3 class="team-name">Razia</h3>
-                    <p class="team-role">Secretary</p>
-                </div>
-                <!-- Team Member 4 -->
-                <div class="team-card">
-                    <div class="team-avatar">
-                        <img src="assets/board_treasurer.png" alt="Mohamad" onerror="this.style.display='none'">
-                        <span>T</span>
-                    </div>
-                    <h3 class="team-name">Mariam</h3>
-                    <p class="team-role">Treasurer</p>
-                </div>
-                <!-- Team Member 5 -->
-                <div class="team-card">
-                    <div class="team-avatar">
-                        <img src="assets/board_advisor.png" alt="Omar Saleh" onerror="this.style.display='none'">
-                        <span>A</span>
-                    </div>
-                    <h3 class="team-name">Numaan</h3>
-                    <p class="team-role">Advisor</p>
-                </div>
+            <div class="team-grid stagger-children" id="dynamic-board-container">
+                <!-- Board members will be populated here by JS -->
+                <p class="text-center w-100" style="grid-column: 1 / -1;">Loading team...</p>
             </div>
         </div>
     </section>
@@ -391,7 +347,7 @@
                         data.events.forEach(ev => {
                             const card = document.createElement('a');
                             card.href = ev.reg_link && ev.reg_link.trim() !== ''
-                                ? `events.html?reg_link=${encodeURIComponent(ev.reg_link)}#register-form`
+                               ? `events.html?reg_link=${encodeURIComponent(ev.reg_link)}#register-form`
                                 : 'events.html#register-form';
                             card.className = 'team-card'; // Reuse team-card style
                             card.style.textAlign = 'left';
@@ -406,6 +362,27 @@
                             eventsContainer.appendChild(card);
                         });
                     }
+                }
+            }
+
+            // Render Board Members
+            if (data.board_members) {
+                const boardContainer = document.getElementById('dynamic-board-container');
+                if (boardContainer) {
+                    boardContainer.innerHTML = '';
+                    data.board_members.forEach(member => {
+                        const card = document.createElement('div');
+                        card.className = 'team-card';
+                        card.innerHTML = `
+                            <div class="team-avatar">
+                                <img src="assets/board_${member.role}.png" alt="${member.name}" onerror="this.style.display='none'">
+                                <span>${member.avatar}</span>
+                            </div>
+                            <h3 class="team-name">${member.name}</h3>
+                            <p class="team-role">${member.title}</p>
+                        `;
+                        boardContainer.appendChild(card);
+                    });
                 }
             }
         })

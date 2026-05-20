@@ -129,7 +129,7 @@
                     </div>
                 </div>
 
-                <!-- Sunnahs of Jumuah -->
+                <!-- Sunnahs of Jumu'ah -->
                 <div class="contact-form-container">
                     <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Sunnahs of Friday</h3>
                     <ul class="feature-list checklist" id="sunnah-checklist">
@@ -198,7 +198,7 @@
                 </div>
                 <!-- Leonardo second Location -->
                 <div id="location-leonardo2" class="contact-info" style="scroll-margin-top: 100px;">
-                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Leonardo Campus No Jumuah
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Leonardo Campus No Jumu'ah
                     </h3>
                     <p style="margin-bottom: 1.5rem; color: var(--color-text-light);">Building 32.1.2
                         Campus<br>Please check the video below if you are unsure how to find the room.</p>
@@ -341,10 +341,10 @@
                         const dateEl = document.getElementById('next-friday-date');
                         if (dateEl) dateEl.textContent = data.jumuah_info.date;
                     }
-                } else if (data.jummah_prayer) {
+                } else if (data.jumuah_prayer) {
                     // Fallback to legacy string format
                     const bovisaDiv = document.getElementById('bovisa-status');
-                    if (bovisaDiv) bovisaDiv.textContent = data.jummah_prayer;
+                    if (bovisaDiv) bovisaDiv.textContent = data.jumuah_prayer;
                     const leonardoDiv = document.getElementById('leonardo-status');
                     if (leonardoDiv) leonardoDiv.textContent = "See above.";
                 }

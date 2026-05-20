@@ -525,7 +525,7 @@ body.dark-mode .prayer-item:hover {
     color: var(--color-primary);
 }
 
-.jummah-info {
+.jumuah-info {
     padding: 1.5rem;
     text-align: center;
     background-color: var(--color-bg-light);
@@ -535,7 +535,7 @@ body.dark-mode .prayer-item:hover {
     transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-a.jummah-info:hover {
+a.jumuah-info:hover {
     background-color: var(--color-primary);
     color: white;
 }

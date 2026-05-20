@@ -29,7 +29,7 @@ def get_content():
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, 'r') as f:
             return jsonify(json.load(f))
-    return jsonify({"announcement": "", "jummah_prayer": ""})
+    return jsonify({"announcement": "", "jumuah_prayer": ""})
 
 def load_users():
     if os.path.exists(USERS_FILE):
@@ -121,7 +121,7 @@ def update_content():
     if not data:
         return jsonify({"success": False, "message": "No data provided"}), 400
         
-    current_data = {"announcement": "", "jummah_prayer": "", "events": []}
+    current_data = {"announcement": "", "jumuah_prayer": "", "events": []}
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, 'r') as f:
             current_data.update(json.load(f))

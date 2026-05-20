@@ -123,7 +123,7 @@
 
                     <h3>What We Do</h3>
                     <ul class="feature-list">
-                        <li><strong>Spiritual:</strong> Weekly Halaqas, daily prayers, and Jummah services.</li>
+                        <li><strong>Spiritual:</strong> Weekly Halaqas, daily prayers, and Jumu'ah services.</li>
                         <li><strong>Social:</strong> Brotherhood/Sisterhood events, dinners, and game nights.</li>
                         <li><strong>Service:</strong> Community service projects and charity fundraisers.</li>
                         <li><strong>Education:</strong> Islam Awareness Week, guest speakers, and workshops.</li>
@@ -198,11 +198,18 @@
                     </div>
                 </div>
 
-                <a href="jumuah.html" class="jummah-info" id="jummah-prayer-info">
+                <a href="jumuah.html" class="jumuah-info" id="jumuah-prayer-info">
                     <strong>Jumu'ah Prayer:</strong> Click here for Friday timings and campus locations <span
                         style="margin-left: 0.5rem; font-weight: 700;">&rarr;</span>
                 </a>
             </div>
+
+            <div class="text-center" style="margin-top: 1rem;">
+                <a href="jumuah.html" class="btn"
+                    style="padding: 1.25rem 2.5rem; font-size: 1.2rem; font-weight: 700; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); border: none; background-color: var(--color-secondary); color: var(--color-text); text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; transition: all 0.3s ease;">
+                    Jumu'ah Info </a>
+            </div>
+
         </div>
     </section>
 
@@ -351,10 +358,10 @@
                     }, 20000);
                 }
             }
-            if (data.jummah_prayer && data.jummah_prayer.trim() !== '') {
-                const jummahInfo = document.getElementById('jummah-prayer-info');
-                if (jummahInfo) {
-                    jummahInfo.innerHTML = `<strong>Jummah Prayer:</strong> ${data.jummah_prayer}`;
+            if (data.jumuah_prayer && data.jumuah_prayer.trim() !== '') {
+                const jumuahInfo = document.getElementById('jumuah-prayer-info');
+                if (jumuahInfo) {
+                    jumuahInfo.innerHTML = `<strong>Jumu'ah Prayer:</strong> ${data.jumuah_prayer}`;
                 }
             }
 

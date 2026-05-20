@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // Mobile Menu Toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const adminLinks = [
             { text: 'Admin: Events', href: 'admin.html' },
             { text: "Admin: Jumu'ah", href: 'admin_jumuah.html' },
-            { text: 'Admin: Users', href: 'admin_users.html' },
             { text: 'Admin: Questions', href: 'admin_questions.html' }
+            { text: 'Admin: Users', href: 'admin_users.html' },
         ];
 
         adminLinks.forEach(linkInfo => {
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
-    
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
@@ -63,10 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // You can change 'method=2' (ISNA) to other calculation methods if needed
             const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Milan&country=Italy&method=2');
             const result = await response.json();
-            
+
             if (result && result.data && result.data.timings) {
                 const timings = result.data.timings;
-                
+
                 // Helper to convert 24h API time to 12h format
                 const formatTime = (time24) => {
                     const [hours, minutes] = time24.split(':');
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fetchPrayerTimes();
-    
+
     // Form submission
     const form = document.querySelector('.contact-form');
     form.addEventListener('submit', (e) => {
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.style.backgroundColor = '#047857';
         btn.style.color = 'white';
         form.reset();
-        
+
         setTimeout(() => {
             btn.textContent = originalText;
             btn.style.backgroundColor = '';

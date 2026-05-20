@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // Dark Mode Toggle
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
     if (isDarkMode) {
         document.body.classList.add('dark-mode');
     }
-    
+
     // Dark Mode Toggle Helper to sync both buttons
     function updateThemeToggleButtons(darkEnabled) {
         const toggles = document.querySelectorAll('.theme-toggle-btn');
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             themeToggle.style.cssText = 'background: none; border: none; font-size: 1.25rem; cursor: pointer; margin-left: 1rem; color: var(--color-text-light); transition: color 0.2s;';
         }
         themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
-        
+
         themeToggle.addEventListener('click', () => {
             themeToggle.classList.add('clicked');
             setTimeout(() => themeToggle.classList.remove('clicked'), 600);
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('darkMode', darkEnabled);
             updateThemeToggleButtons(darkEnabled);
         });
-        
+
         return themeToggle;
     }
 
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
-    
+
     // Inject top Scroll Progress Bar
     const progressContainer = document.createElement('div');
     progressContainer.id = 'scroll-progress-container';
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressCircle = backToTopBtn.querySelector('circle');
     const radius = progressCircle.r.baseVal.value;
     const circumference = radius * 2 * Math.PI;
-    
+
     progressCircle.style.strokeDasharray = circumference;
     progressCircle.style.strokeDashoffset = circumference;
 
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollTop = window.scrollY;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        
+
         // Update top progress bar
         progressBar.style.width = `${scrollPercent}%`;
 
@@ -168,10 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // You can change 'method=2' (ISNA) to other calculation methods if needed
             const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Milan&country=Italy&method=2');
             const result = await response.json();
-            
+
             if (result && result.data && result.data.timings) {
                 const timings = result.data.timings;
-                
+
                 // Helper to convert 24h API time to 12h format
                 const formatTime = (time24) => {
                     const [hours, minutes] = time24.split(':');
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fetchPrayerTimes();
-    
+
     // Fetch daily Ayah using AlQuran API
     async function fetchDailyAyah() {
         try {
@@ -262,20 +262,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const randomAyah = Math.floor(Math.random() * 6236) + 1;
             const response = await fetch(`http://api.alquran.cloud/v1/ayah/${randomAyah}/editions/quran-uthmani,en.asad`);
             const result = await response.json();
-            
+
             if (result && result.data && result.data.length === 2) {
                 const arabicData = result.data[0];
                 const englishData = result.data[1];
-                
+
                 const arabicText = arabicData.text;
                 const englishText = englishData.text;
                 const surahName = englishData.surah.englishName;
                 const ayahNumber = englishData.numberInSurah;
-                
+
                 const arabicDisplay = document.getElementById('daily-ayah-arabic');
                 const englishDisplay = document.getElementById('daily-ayah-text');
                 const ayahRef = document.getElementById('daily-ayah-ref');
-                
+
                 if (arabicDisplay && englishDisplay && ayahRef) {
                     arabicDisplay.textContent = arabicText;
                     englishDisplay.textContent = `"${englishText}"`;
@@ -288,19 +288,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fetchDailyAyah();
-    
+
     // Form submission
     const form = document.querySelector('.contact-form');
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = form.querySelector('button');
-        const originalText = btn.textContent;
-        btn.textContent = 'Subscribed!';
-        btn.style.backgroundColor = '#047857';
-        btn.style.color = 'white';
-        form.reset();
-        
+            const originalText = btn.textContent;
+            btn.textContent = 'Subscribed!';
+            btn.style.backgroundColor = '#047857';
+            btn.style.color = 'white';
+            form.reset();
+
             setTimeout(() => {
                 btn.textContent = originalText;
                 btn.style.backgroundColor = '';
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Click listener
             item.addEventListener('click', () => {
                 item.classList.toggle('checked');
-                
+
                 // Recalculate checked list
                 const currentChecked = [];
                 items.forEach((li, idx) => {
@@ -352,10 +352,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         currentChecked.push(idx);
                     }
                 });
-                
+
                 try {
                     localStorage.setItem(savedChecksKey, JSON.stringify(currentChecked));
-                } catch(e) {
+                } catch (e) {
                     console.error('Error saving checks', e);
                 }
             });
@@ -395,14 +395,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = items[index];
             const imgElement = item.querySelector('img');
             const captionText = item.querySelector('.gallery-caption').textContent;
-            
+
             const lightboxImg = lightbox.querySelector('.lightbox-img');
             if (imgElement && lightboxImg) {
                 lightboxImg.src = imgElement.src;
                 lightboxImg.alt = imgElement.alt || 'Gallery Image';
             }
             caption.textContent = captionText;
-            
+
             lightbox.classList.add('show');
             document.body.style.overflow = 'hidden';
         };
@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hash Scroll highlight animation flash effect
     document.querySelectorAll('a[href^="#"], a[href*=".html#"]').forEach(anchor => {
-        anchor.addEventListener('click', function() {
+        anchor.addEventListener('click', function () {
             const href = this.getAttribute('href');
             const hash = href.includes('#') ? '#' + href.split('#')[1] : null;
             if (hash) {

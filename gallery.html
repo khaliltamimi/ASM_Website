@@ -80,8 +80,8 @@
                     <div class="dropdown-content">
                         <a href="admin.html">Admin: Events</a>
                         <a href="admin_jumuah.html">Admin: Jumu'ah</a>
-                        <a href="admin_users.html">Admin: Users</a>
                         <a href="admin_questions.html">Admin: Questions</a>
+                        <a href="admin_users.html">Admin: Users</a>
                     </div>
                 </div>
             </nav>
@@ -111,7 +111,8 @@
 
             <div class="gallery-grid stagger-children" id="dynamic-gallery-container">
                 <!-- Gallery items will load here -->
-                <p class="text-center w-100" style="grid-column: 1 / -1; color: var(--color-text-light);">Loading gallery...</p>
+                <p class="text-center w-100" style="grid-column: 1 / -1; color: var(--color-text-light);">Loading
+                    gallery...</p>
             </div>
 
             <div class="text-center mt-4" style="margin-top: 4rem;">
@@ -154,7 +155,7 @@
                             <div class="gallery-caption" style="z-index: 2;">${item.title}</div>
                         `;
                         galleryContainer.appendChild(div);
-                        
+
                         // Register with global scrollObserver if it exists
                         if (window.scrollObserver) {
                             window.scrollObserver.observe(div);

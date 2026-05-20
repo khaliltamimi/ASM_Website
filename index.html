@@ -123,7 +123,7 @@
 
                     <h3>What We Do</h3>
                     <ul class="feature-list">
-                        <li><strong>Spiritual:</strong> Weekly Halaqas, daily prayers, and Jumu'ah services.</li>
+                        <li><strong>Spiritual:</strong> Weekly Halaqas, daily prayers, and Jummah services.</li>
                         <li><strong>Social:</strong> Brotherhood/Sisterhood events, dinners, and game nights.</li>
                         <li><strong>Service:</strong> Community service projects and charity fundraisers.</li>
                         <li><strong>Education:</strong> Islam Awareness Week, guest speakers, and workshops.</li>
@@ -167,9 +167,6 @@
             <div class="section-header text-center">
                 <h2>Daily Prayer Times</h2>
                 <div class="divider"></div>
-                <p>Check our <a href="jumuah.html"
-                        style="color: var(--color-primary); text-decoration: underline; font-weight: 500;">Jumu'ah
-                        page</a> for Jumu'ah timings and prayer locations</p>
             </div>
 
             <div class="prayer-times-card">
@@ -199,8 +196,8 @@
                 </div>
 
                 <a href="jumuah.html" class="jumuah-info" id="jumuah-prayer-info">
-                    <strong>Jumu'ah Prayer:</strong> Click here for Friday timings and campus locations <span
-                        style="margin-left: 0.5rem; font-weight: 700;">&rarr;</span>
+                    Check our <span style="text-decoration: underline; font-weight: 500;">Jumu'ah page</span> for
+                    Jumu'ah timings and prayer locations
                 </a>
             </div>
 
@@ -217,7 +214,7 @@
     <section id="leadership" class="section bg-light fade-in">
         <div class="container">
             <div class="section-header text-center">
-                <h2>Our Team</h2>
+                <h2>Our Board members</h2>
                 <div class="divider"></div>
             </div>
 
@@ -358,10 +355,10 @@
                     }, 20000);
                 }
             }
-            if (data.jumuah_prayer && data.jumuah_prayer.trim() !== '') {
-                const jumuahInfo = document.getElementById('jumuah-prayer-info');
-                if (jumuahInfo) {
-                    jumuahInfo.innerHTML = `<strong>Jumu'ah Prayer:</strong> ${data.jumuah_prayer}`;
+            if (data.jummah_prayer && data.jummah_prayer.trim() !== '') {
+                const jummahInfo = document.getElementById('jummah-prayer-info');
+                if (jummahInfo) {
+                    jummahInfo.innerHTML = `<strong>Jummah Prayer:</strong> ${data.jummah_prayer}`;
                 }
             }
 

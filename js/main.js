@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="lightbox-close">&times;</span>
             <div class="lightbox-content">
                 <div class="lightbox-card">
-                    <span class="lightbox-img-span"></span>
+                    <img class="lightbox-img" src="" alt="Gallery Image">
                     <div class="caption"></div>
                 </div>
             </div>
@@ -383,7 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(lightbox);
 
         const items = Array.from(document.querySelectorAll('.gallery-item'));
-        const imgSpan = lightbox.querySelector('.lightbox-img-span');
         const caption = lightbox.querySelector('.caption');
         const closeBtn = lightbox.querySelector('.lightbox-close');
         const prevBtn = lightbox.querySelector('.lightbox-prev');
@@ -393,10 +392,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const openLightbox = (index) => {
             currentIndex = index;
             const item = items[index];
-            const spanText = item.querySelector('span').textContent;
+            const imgElement = item.querySelector('img');
             const captionText = item.querySelector('.gallery-caption').textContent;
             
-            imgSpan.textContent = spanText;
+            const lightboxImg = lightbox.querySelector('.lightbox-img');
+            if (imgElement && lightboxImg) {
+                lightboxImg.src = imgElement.src;
+                lightboxImg.alt = imgElement.alt || 'Gallery Image';
+            }
             caption.textContent = captionText;
             
             lightbox.classList.add('show');

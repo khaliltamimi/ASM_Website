@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Get a random ayah between 1 and 6236
             const randomAyah = Math.floor(Math.random() * 6236) + 1;
-            const response = await fetch(`http://api.alquran.cloud/v1/ayah/${randomAyah}/editions/quran-uthmani,en.asad`);
+            const response = await fetch(`https://api.alquran.cloud/v1/ayah/${randomAyah}/editions/quran-uthmani,en.asad`);
             const result = await response.json();
 
             if (result && result.data && result.data.length === 2) {

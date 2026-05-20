@@ -131,7 +131,9 @@
                 </div>
                 <div class="about-image">
                     <!-- Placeholder for community photo -->
-                    <div class="image-placeholder">
+                    <div class="image-placeholder" style="position: relative; overflow: hidden;">
+                        <img src="assets/community.png" alt="ASM POLIMI Community" onerror="this.style.display='none'"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
                         <span>Community Photo</span>
                     </div>
                 </div>
@@ -221,32 +223,48 @@
             <div class="team-grid stagger-children">
                 <!-- Team Member 1 -->
                 <div class="team-card">
-                    <div class="team-avatar">P</div>
-                    <h3 class="team-name">Hanea Boumchita</h3>
+                    <div class="team-avatar">
+                        <img src="assets/board_president.png" alt="Hanea Boumchita" onerror="this.style.display='none'">
+                        <span>P</span>
+                    </div>
+                    <h3 class="team-name">Hanea</h3>
                     <p class="team-role">President</p>
                 </div>
                 <!-- Team Member 2 -->
                 <div class="team-card">
-                    <div class="team-avatar">V</div>
-                    <h3 class="team-name">Mariam Abou El Seoud </h3>
+                    <div class="team-avatar">
+                        <img src="assets/board_vicepresident.png" alt="Mariam Abou El Seoud"
+                            onerror="this.style.display='none'">
+                        <span>V</span>
+                    </div>
+                    <h3 class="team-name">Khalil</h3>
                     <p class="team-role">Vice President</p>
                 </div>
                 <!-- Team Member 3 -->
                 <div class="team-card">
-                    <div class="team-avatar">S</div>
+                    <div class="team-avatar">
+                        <img src="assets/board_secretary.png" alt="Razia" onerror="this.style.display='none'">
+                        <span>S</span>
+                    </div>
                     <h3 class="team-name">Razia</h3>
                     <p class="team-role">Secretary</p>
                 </div>
                 <!-- Team Member 4 -->
                 <div class="team-card">
-                    <div class="team-avatar">T</div>
-                    <h3 class="team-name">Mohamad</h3>
+                    <div class="team-avatar">
+                        <img src="assets/board_treasurer.png" alt="Mohamad" onerror="this.style.display='none'">
+                        <span>T</span>
+                    </div>
+                    <h3 class="team-name">Mariam</h3>
                     <p class="team-role">Treasurer</p>
                 </div>
                 <!-- Team Member 5 -->
                 <div class="team-card">
-                    <div class="team-avatar">A</div>
-                    <h3 class="team-name">Omar Saleh</h3>
+                    <div class="team-avatar">
+                        <img src="assets/board_advisor.png" alt="Omar Saleh" onerror="this.style.display='none'">
+                        <span>A</span>
+                    </div>
+                    <h3 class="team-name">Numaan</h3>
                     <p class="team-role">Advisor</p>
                 </div>
             </div>
@@ -355,10 +373,10 @@
                     }, 20000);
                 }
             }
-            if (data.jummah_prayer && data.jummah_prayer.trim() !== '') {
-                const jummahInfo = document.getElementById('jummah-prayer-info');
-                if (jummahInfo) {
-                    jummahInfo.innerHTML = `<strong>Jummah Prayer:</strong> ${data.jummah_prayer}`;
+            if (data.jumuah_prayer && data.jumuah_prayer.trim() !== '') {
+                const jumuahInfo = document.getElementById('jumuah-prayer-info');
+                if (jumuahInfo) {
+                    jumuahInfo.innerHTML = `<strong>Jumu'ah Prayer:</strong> ${data.jumuah_prayer}`;
                 }
             }
 

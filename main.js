@@ -59,86 +59,106 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch live prayer times using Aladhan API for Milan, Italy
     async function fetchPrayerTimes() {
+        const defaultTimings = {
+            Fajr: "04:30",
+            Dhuhr: "13:20",
+            Asr: "17:15",
+            Maghrib: "20:45",
+            Isha: "22:15"
+        };
+
+        const updatePrayerUI = (timings) => {
+            // Helper to convert 24h API time to 12h format
+            const formatTime = (time24) => {
+                const [hours, minutes] = time24.split(':');
+                const h = parseInt(hours, 10);
+                const ampm = h >= 12 ? 'PM' : 'AM';
+                const h12 = h % 12 || 12;
+                return `${h12}:${minutes} ${ampm}`;
+            };
+
+            const fajrEl = document.getElementById('fajr-time');
+            if (fajrEl) fajrEl.textContent = formatTime(timings.Fajr);
+            const dhuhrEl = document.getElementById('dhuhr-time');
+            if (dhuhrEl) dhuhrEl.textContent = formatTime(timings.Dhuhr);
+            const asrEl = document.getElementById('asr-time');
+            if (asrEl) asrEl.textContent = formatTime(timings.Asr);
+            const maghribEl = document.getElementById('maghrib-time');
+            if (maghribEl) maghribEl.textContent = formatTime(timings.Maghrib);
+            const ishaEl = document.getElementById('isha-time');
+            if (ishaEl) ishaEl.textContent = formatTime(timings.Isha);
+
+            // Highlight the next coming prayer
+            const updateHighlight = () => {
+                const now = new Date();
+                const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+                const getMinutes = (time24) => {
+                    const [hours, minutes] = time24.split(':');
+                    return parseInt(hours, 10) * 60 + parseInt(minutes, 10);
+                };
+
+                const prayers = [
+                    { id: 'fajr-time', time: timings.Fajr },
+                    { id: 'dhuhr-time', time: timings.Dhuhr },
+                    { id: 'asr-time', time: timings.Asr },
+                    { id: 'maghrib-time', time: timings.Maghrib },
+                    { id: 'isha-time', time: timings.Isha }
+                ];
+
+                let nextPrayer = null;
+                for (const prayer of prayers) {
+                    if (getMinutes(prayer.time) > currentMinutes) {
+                        nextPrayer = prayer;
+                        break;
+                    }
+                }
+
+                // If all prayers today have passed, the next prayer is Fajr (tomorrow)
+                if (!nextPrayer) {
+                    nextPrayer = prayers[0];
+                }
+
+                // Remove highlight from all prayer items
+                prayers.forEach(p => {
+                    const element = document.getElementById(p.id);
+                    if (element) {
+                        const prayerItem = element.closest('.prayer-item');
+                        if (prayerItem) {
+                            prayerItem.classList.remove('highlight');
+                        }
+                    }
+                });
+
+                // Add highlight to the next prayer item
+                const nextElement = document.getElementById(nextPrayer.id);
+                if (nextElement) {
+                    const nextPrayerItem = nextElement.closest('.prayer-item');
+                    if (nextPrayerItem) {
+                        nextPrayerItem.classList.add('highlight');
+                    }
+                }
+            };
+
+            updateHighlight();
+        };
+
         try {
             // You can change 'method=2' (ISNA) to other calculation methods if needed
             const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Milan&country=Italy&method=2');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const result = await response.json();
 
             if (result && result.data && result.data.timings) {
-                const timings = result.data.timings;
-
-                // Helper to convert 24h API time to 12h format
-                const formatTime = (time24) => {
-                    const [hours, minutes] = time24.split(':');
-                    const h = parseInt(hours, 10);
-                    const ampm = h >= 12 ? 'PM' : 'AM';
-                    const h12 = h % 12 || 12;
-                    return `${h12}:${minutes} ${ampm}`;
-                };
-
-                document.getElementById('fajr-time').textContent = formatTime(timings.Fajr);
-                document.getElementById('dhuhr-time').textContent = formatTime(timings.Dhuhr);
-                document.getElementById('asr-time').textContent = formatTime(timings.Asr);
-                document.getElementById('maghrib-time').textContent = formatTime(timings.Maghrib);
-                document.getElementById('isha-time').textContent = formatTime(timings.Isha);
-
-                // Highlight the next coming prayer
-                const updateHighlight = () => {
-                    const now = new Date();
-                    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-                    const getMinutes = (time24) => {
-                        const [hours, minutes] = time24.split(':');
-                        return parseInt(hours, 10) * 60 + parseInt(minutes, 10);
-                    };
-
-                    const prayers = [
-                        { id: 'fajr-time', time: timings.Fajr },
-                        { id: 'dhuhr-time', time: timings.Dhuhr },
-                        { id: 'asr-time', time: timings.Asr },
-                        { id: 'maghrib-time', time: timings.Maghrib },
-                        { id: 'isha-time', time: timings.Isha }
-                    ];
-
-                    let nextPrayer = null;
-                    for (const prayer of prayers) {
-                        if (getMinutes(prayer.time) > currentMinutes) {
-                            nextPrayer = prayer;
-                            break;
-                        }
-                    }
-
-                    // If all prayers today have passed, the next prayer is Fajr (tomorrow)
-                    if (!nextPrayer) {
-                        nextPrayer = prayers[0];
-                    }
-
-                    // Remove highlight from all prayer items
-                    prayers.forEach(p => {
-                        const element = document.getElementById(p.id);
-                        if (element) {
-                            const prayerItem = element.closest('.prayer-item');
-                            if (prayerItem) {
-                                prayerItem.classList.remove('highlight');
-                            }
-                        }
-                    });
-
-                    // Add highlight to the next prayer item
-                    const nextElement = document.getElementById(nextPrayer.id);
-                    if (nextElement) {
-                        const nextPrayerItem = nextElement.closest('.prayer-item');
-                        if (nextPrayerItem) {
-                            nextPrayerItem.classList.add('highlight');
-                        }
-                    }
-                };
-
-                updateHighlight();
+                updatePrayerUI(result.data.timings);
+            } else {
+                throw new Error("Invalid API response format");
             }
         } catch (error) {
-            console.error('Error fetching prayer times:', error);
-            document.getElementById('fajr-time').textContent = '--:--';
+            console.warn('Error fetching live prayer times, using Milan defaults:', error);
+            updatePrayerUI(defaultTimings);
         }
     }
 

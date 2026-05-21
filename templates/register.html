@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Member Registration | ASM POLIMI{% endblock %}
+
+{% block extra_head %}
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+{% endblock %}
+
+{% block header_style %}style="background-color: var(--color-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 0;"{% endblock %}
+
+{% block content %}
+<section class="section first-section" style="min-height: 80vh;">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>New Member Application</h2>
+                <div class="divider"></div>
+                <p>Join the POLIMI Muslim Student Association and become part of our active community.</p>
+            </div>
+
+            <div class="contact-form-container" style="max-width: 800px; margin: 0 auto; padding: 0;">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <a id="open-form-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform" target="_blank" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; border-color: var(--color-primary); color: var(--color-primary); font-weight: 600;">
+                        <span>📋</span> Open Form in New Tab
+                    </a>
+                </div>
+                <!-- Google Form Embed Placeholder -->
+                <div
+                    style="width: 100%; display: flex; justify-content: center; overflow: hidden; border-radius: 1rem;">
+                    <iframe
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSfa6iLQlLccx8UjKnXZI4OeBoojuvdr0kZUtgOM4k5tmyerEw/viewform"
+                        width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                </div>
+                <p style="text-align: center; margin: 1.5rem 0; color: var(--color-text-light); font-size: 0.95rem;">
+                    <strong>Note for admins:</strong>
+                    Add the form link in the Admin: Events page under the
+                    <strong>"Membership Join Us Form Link"</strong> field.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+        function setRegisterForm(url) {
+            const iframe = document.querySelector('section.section iframe');
+            if (iframe) {
+                iframe.src = url;
+            }
+            const openBtn = document.getElementById('open-form-btn');
+            if (openBtn) {
+                openBtn.href = url;
+            }
+        }
+
+        fetch('/api/content')
+            .then(response => response.json())
+            .then(data => {
+                if (data.join_us_link && data.join_us_link.trim() !== '') {
+                    setRegisterForm(data.join_us_link);
+                }
+            })
+            .catch(err => console.error('Error fetching dynamic Join Us link:', err));
+    </script>
+{% endblock %}

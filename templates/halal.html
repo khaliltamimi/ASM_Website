@@ -1,0 +1,522 @@
+{% extends 'base.html' %}
+
+{% block title %}Halal Product Scanner | ASM POLIMI{% endblock %}
+
+{% block extra_head %}
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- html5-qrcode library for barcode scanning -->
+    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <style>
+        .scanner-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md, 0 10px 30px rgba(0, 0, 0, 0.08));
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--color-bg-light);
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: var(--color-primary);
+            background-color: rgba(18, 74, 97, 0.08);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Camera scan styles */
+        #scanner-reader {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 2px solid var(--color-primary);
+            position: relative;
+        }
+
+        .scan-overlay-laser {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(239, 68, 68, 0.7);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.9);
+            animation: scanning 2s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        @keyframes scanning {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+
+        /* Results Card Styles */
+        .result-card {
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .result-image {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 0.5rem;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            flex-shrink: 0;
+        }
+
+        .result-info {
+            flex-grow: 1;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .status-halal {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+        }
+
+        .status-haram {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
+
+        .status-mushbooh {
+            background-color: #fff3cd;
+            color: #664d03;
+            border: 1px solid #ffecb5;
+        }
+
+        .highlight-haram {
+            color: #ef4444;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .highlight-mushbooh {
+            color: #d97706;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block body_class %}class="bg-light"{% endblock %}
+
+{% block content %}
+<section class="section first-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Halal Product Scanner</h2>
+                <div class="divider"></div>
+                <p>Check products instantly via barcode scanning or manual ingredients analysis.</p>
+            </div>
+
+            <div class="scanner-card">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab('camera-tab')">📷 Live Camera Scan</button>
+                    <button class="tab-btn" onclick="switchTab('barcode-tab')">🔢 Enter Barcode</button>
+                    <button class="tab-btn" onclick="switchTab('ingredients-tab')">📝 Ingredients Analyzer</button>
+                </div>
+
+                <!-- Tab 1: Camera Scanner -->
+                <div id="camera-tab" class="tab-content active">
+                    <p class="text-center mb-4" style="color: var(--color-text-light); margin-bottom: 1.5rem;">
+                        Align the barcode inside the camera viewpoint to scan automatically.
+                    </p>
+                    <div style="position: relative; max-width: 500px; margin: 0 auto 1.5rem auto;">
+                        <div id="scanner-reader"></div>
+                        <div class="scan-overlay-laser" id="laser-line" style="display: none;"></div>
+                    </div>
+                    <div class="text-center">
+                        <button id="start-camera-btn" class="btn btn-primary">Start Camera Scanner</button>
+                        <button id="stop-camera-btn" class="btn btn-secondary" style="display: none; border-color: var(--color-primary); color: var(--color-primary);">Stop Camera</button>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Manual Barcode -->
+                <div id="barcode-tab" class="tab-content">
+                    <form id="barcode-form" onsubmit="handleBarcodeSubmit(event)">
+                        <div class="form-group">
+                            <label for="barcode-input">Product Barcode (EAN/UPC Number)</label>
+                            <input type="text" id="barcode-input" placeholder="e.g. 3017670986872" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Look Up Product</button>
+                    </form>
+                </div>
+
+                <!-- Tab 3: Ingredients Text Analyzer -->
+                <div id="ingredients-tab" class="tab-content">
+                    <p class="mb-4" style="color: var(--color-text-light); margin-bottom: 1.5rem;">
+                        Paste the ingredients list of any product below. Our system will highlight any Haram or doubtful (Mushbooh) substances.
+                    </p>
+                    <form id="ingredients-form" onsubmit="handleIngredientsSubmit(event)">
+                        <div class="form-group">
+                            <label for="ingredients-input">Ingredients Text</label>
+                            <textarea id="ingredients-input" rows="6" placeholder="Paste ingredients list here..." required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-family: var(--font-body);"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Analyze Ingredients</button>
+                    </form>
+                </div>
+
+                <!-- Loader -->
+                <div id="scanner-loader" class="text-center mt-4 hidden" style="margin-top: 2rem;">
+                    <div style="font-size: 1.25rem; font-weight: 600; color: var(--color-primary);">Querying Database...</div>
+                </div>
+
+                <!-- Error Box -->
+                <div id="scanner-error" class="hidden" style="margin-top: 2rem; padding: 1rem; background-color: #f8d7da; color: #842029; border-radius: 0.5rem; text-align: center;">
+                </div>
+
+                <!-- Results Output Card -->
+                <div id="scanner-results" class="hidden">
+                    <!-- Dynamic Output -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Find clicked button based on tabId
+            const btnIndex = tabId === 'camera-tab' ? 0 : (tabId === 'barcode-tab' ? 1 : 2);
+            document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+
+            // Stop camera if leaving camera tab
+            if (tabId !== 'camera-tab') {
+                stopScanner();
+            }
+        }
+
+        // Haram & Mushbooh keywords dictionary
+        const DICTIONARY = {
+            haram: [
+                { word: 'pork', reason: 'Pork meat is strictly prohibited in Islam.' },
+                { word: 'lard', reason: 'Lard is fat from pig/pork, which is prohibited.' },
+                { word: 'bacon', reason: 'Bacon comes from pork.' },
+                { word: 'gelatine (pork)', reason: 'Pork-derived gelatin is strictly Haram.' },
+                { word: 'gelatin (pork)', reason: 'Pork-derived gelatin is strictly Haram.' },
+                { word: 'carmine', reason: 'Carmine (E120) is a red dye extracted from insects, considered Haram by the majority of scholars.' },
+                { word: 'cochineal', reason: 'Cochineal extract (E120) is a dye derived from insects.' },
+                { word: 'e120', reason: 'E120 (Carmine/Cochineal) is insect-derived red food color.' },
+                { word: 'alcohol', reason: 'Intoxicants are strictly Haram.' },
+                { word: 'wine', reason: 'Wine contains alcohol and is Haram.' },
+                { word: 'beer', reason: 'Beer is an alcoholic beverage.' },
+                { word: 'rum', reason: 'Rum contains alcohol.' },
+                { word: 'lardum', reason: 'Lardum is pork fat.' },
+                { word: 'ham', reason: 'Ham is pork meat.' }
+            ],
+            mushbooh: [
+                { word: 'gelatine', reason: 'Gelatin is doubtful unless specifically certified as Halal (it may be pork or non-dhabihah beef).' },
+                { word: 'gelatin', reason: 'Gelatin is doubtful unless specifically certified as Halal.' },
+                { word: 'whey', reason: 'Whey protein is doubtful as the rennet used in cheese production could come from non-halal slaughtered animals.' },
+                { word: 'rennet', reason: 'Rennet is doubtful unless from a halal/microbial source.' },
+                { word: 'pepsin', reason: 'Pepsin is an enzyme often sourced from pigs.' },
+                { word: 'emulsifier', reason: 'Emulsifiers (like mono- and diglycerides) can be derived from either animal or plant fats.' },
+                { word: 'mono- and diglycerides', reason: 'Could be of animal fat origin.' },
+                { word: 'mono and diglycerides', reason: 'Could be of animal fat origin.' },
+                { word: 'mono- & diglycerides', reason: 'Could be of animal fat origin.' },
+                { word: 'e471', reason: 'E471 (mono- and diglycerides) is doubtful as it may come from animal fats.' },
+                { word: 'e472', reason: 'E472 emulsifiers can be derived from animal fat.' },
+                { word: 'lecithin', reason: 'Lecithin (E322) is doubtful unless specified as soy/plant lecithin.' },
+                { word: 'glycerin', reason: 'Glycerin (E422) can be animal-derived.' },
+                { word: 'glycerol', reason: 'Glycerol can be derived from animal lipids.' }
+            ]
+        };
+
+        // Main parser/analyzer logic
+        function analyzeProductIngredients(ingredientsText, labelsText = '') {
+            const text = (ingredientsText + ' ' + labelsText).toLowerCase();
+            const foundHaram = [];
+            const foundMushbooh = [];
+
+            // Check if explicitly halal certified
+            const isHalalCertified = text.includes('halal certified') || 
+                                     text.includes('halal-certified') || 
+                                     (text.includes('halal') && !text.includes('non-halal') && !text.includes('not halal'));
+
+            DICTIONARY.haram.forEach(item => {
+                const regex = new RegExp(`\\b${item.word}\\b|\\b${item.word}s\\b`, 'i');
+                if (regex.test(text)) {
+                    foundHaram.push(item);
+                }
+            });
+
+            DICTIONARY.mushbooh.forEach(item => {
+                // If it is halal certified, we can skip general mushbooh items since they are verified
+                if (isHalalCertified) return;
+                
+                const regex = new RegExp(`\\b${item.word}\\b|\\b${item.word}s\\b`, 'i');
+                if (regex.test(text)) {
+                    // Avoid duplicate warnings if haram already flagged (e.g. pork gelatin vs gelatin)
+                    const matchesHaram = foundHaram.some(h => h.word.includes(item.word));
+                    if (!matchesHaram) {
+                        foundMushbooh.push(item);
+                    }
+                }
+            });
+
+            // Return state
+            if (foundHaram.length > 0) {
+                return { status: 'haram', reasons: foundHaram };
+            } else if (foundMushbooh.length > 0) {
+                return { status: 'mushbooh', reasons: foundMushbooh };
+            } else {
+                return { status: 'halal', certified: isHalalCertified, reasons: [] };
+            }
+        }
+
+        // Highlight matched keywords in ingredients text
+        function highlightIngredients(ingredientsText) {
+            let highlighted = ingredientsText;
+            
+            // Highlight Haram (Red)
+            DICTIONARY.haram.forEach(item => {
+                const regex = new RegExp(`\\b(${item.word})\\b`, 'gi');
+                highlighted = highlighted.replace(regex, '<span class="highlight-haram">$1</span>');
+            });
+
+            // Highlight Mushbooh (Amber)
+            DICTIONARY.mushbooh.forEach(item => {
+                const regex = new RegExp(`\\b(${item.word})\\b`, 'gi');
+                highlighted = highlighted.replace(regex, '<span class="highlight-mushbooh">$1</span>');
+            });
+
+            return highlighted;
+        }
+
+        // Display results block
+        function displayResults(product) {
+            const resultsDiv = document.getElementById('scanner-results');
+            resultsDiv.classList.remove('hidden');
+
+            const name = product.product_name || product.product_name_en || 'Unknown Product';
+            const brand = product.brands || 'Unknown Brand';
+            const img = product.image_url || 'https://images.openfoodfacts.org/images/placeholder/en.png';
+            const ingredients = product.ingredients_text || 'No ingredients list available for this product in Open Food Facts.';
+
+            // Run analysis
+            const labels = product.labels || '';
+            const analysis = analyzeProductIngredients(ingredients, name + ' ' + labels);
+
+            let statusClass = 'status-halal';
+            let statusText = 'Halal';
+            let reasonListHtml = '';
+
+            if (analysis.status === 'haram') {
+                statusClass = 'status-haram';
+                statusText = 'Haram';
+                reasonListHtml = `<h4 style="margin-top: 1rem; color: #842029;">Reasons:</h4>
+                    <ul style="margin-left: 1.5rem; color: var(--color-text);">
+                        ${analysis.reasons.map(r => `<li style="margin-bottom: 0.25rem;"><strong>${r.word}</strong>: ${r.reason}</li>`).join('')}
+                    </ul>`;
+            } else if (analysis.status === 'mushbooh') {
+                statusClass = 'status-mushbooh';
+                statusText = 'Mushbooh (Doubtful)';
+                reasonListHtml = `<h4 style="margin-top: 1rem; color: #664d03;">Doubtful Ingredients Found:</h4>
+                    <ul style="margin-left: 1.5rem; color: var(--color-text);">
+                        ${analysis.reasons.map(r => `<li style="margin-bottom: 0.25rem;"><strong>${r.word}</strong>: ${r.reason}</li>`).join('')}
+                    </ul>`;
+            } else {
+                reasonListHtml = `<p style="margin-top: 1rem; color: var(--color-text);">No Haram or doubtful ingredients were detected in the ingredients list.</p>`;
+                if (analysis.certified) {
+                    statusText = 'Certified Halal';
+                    reasonListHtml += `<p style="color: #0f5132; font-weight: 600; margin-top: 0.5rem;">✓ Product is listed as Halal-Certified.</p>`;
+                }
+            }
+
+            const highlightedIngredients = highlightIngredients(ingredients);
+
+            resultsDiv.innerHTML = `
+                <div class="result-card" style="border: 2px solid ${analysis.status === 'haram' ? '#f5c2c7' : (analysis.status === 'mushbooh' ? '#ffecb5' : '#badbcc')}; background-color: ${analysis.status === 'haram' ? '#fff8f8' : (analysis.status === 'mushbooh' ? '#fffdf5' : '#fcfdfc')};">
+                    <img class="result-image" src="${img}" alt="${name}" onerror="this.src='https://images.openfoodfacts.org/images/placeholder/en.png'">
+                    <div class="result-info">
+                        <div class="status-badge ${statusClass}">${statusText}</div>
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 0.25rem;">${name}</h3>
+                        <p style="color: var(--color-text-light); font-weight: 500; margin-bottom: 1rem;">Brand: ${brand}</p>
+                        
+                        ${reasonListHtml}
+
+                        <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #e5e7eb;">
+                        <h4 style="margin-bottom: 0.5rem; color: var(--color-primary);">Ingredients List:</h4>
+                        <p style="font-size: 0.95rem; color: var(--color-text-light); line-height: 1.5; font-style: italic;">
+                            ${highlightedIngredients}
+                        </p>
+                    </div>
+                </div>
+            `;
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Search by Barcode Form Submit
+        function handleBarcodeSubmit(e) {
+            e.preventDefault();
+            const barcode = document.getElementById('barcode-input').value.trim();
+            if (barcode) {
+                fetchProductByBarcode(barcode);
+            }
+        }
+
+        // Search by barcode API request
+        async function fetchProductByBarcode(barcode) {
+            const loader = document.getElementById('scanner-loader');
+            const errorDiv = document.getElementById('scanner-error');
+            const resultsDiv = document.getElementById('scanner-results');
+
+            loader.classList.remove('hidden');
+            errorDiv.classList.add('hidden');
+            resultsDiv.classList.add('hidden');
+
+            try {
+                const response = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`);
+                if (!response.ok) throw new Error("Server error fetching product.");
+                
+                const data = await response.json();
+                loader.classList.add('hidden');
+
+                if (data.status === 1 && data.product) {
+                    displayResults(data.product);
+                } else {
+                    errorDiv.textContent = `Product not found (Barcode: ${barcode}). You can still analyze it by copying the ingredients into the 'Ingredients Analyzer' tab.`;
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (err) {
+                loader.classList.add('hidden');
+                errorDiv.textContent = "Unable to connect to Open Food Facts database. Please check your network connection.";
+                errorDiv.classList.remove('hidden');
+                console.error(err);
+            }
+        }
+
+        // Ingredients Text Form Submit
+        function handleIngredientsSubmit(e) {
+            e.preventDefault();
+            const text = document.getElementById('ingredients-input').value.trim();
+            if (!text) return;
+
+            const loader = document.getElementById('scanner-loader');
+            const errorDiv = document.getElementById('scanner-error');
+            const resultsDiv = document.getElementById('scanner-results');
+
+            loader.classList.remove('hidden');
+            errorDiv.classList.add('hidden');
+            resultsDiv.classList.add('hidden');
+
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                const parsedProduct = {
+                    product_name: "Manual Text Analysis",
+                    brands: "User Entered",
+                    ingredients_text: text,
+                    image_url: ""
+                };
+                displayResults(parsedProduct);
+            }, 500);
+        }
+
+        // Camera Scanner Variables
+        let html5QrcodeScanner = null;
+
+        function startScanner() {
+            const laser = document.getElementById('laser-line');
+            laser.style.display = 'block';
+            document.getElementById('start-camera-btn').style.display = 'none';
+            document.getElementById('stop-camera-btn').style.display = 'inline-block';
+
+            html5QrcodeScanner = new Html5Qrcode("scanner-reader");
+            const config = { fps: 10, qrbox: { width: 250, height: 150 } };
+
+            html5QrcodeScanner.start(
+                { facingMode: "environment" },
+                config,
+                (decodedText) => {
+                    // Success callback (Scanned a barcode!)
+                    stopScanner();
+                    fetchProductByBarcode(decodedText);
+                },
+                (errorMessage) => {
+                    // Silent logging of scan failures (looking for barcodes)
+                }
+            ).catch(err => {
+                console.error("Camera access failed:", err);
+                document.getElementById('scanner-error').textContent = "Camera access denied or device has no camera. Please enter the barcode manually.";
+                document.getElementById('scanner-error').classList.remove('hidden');
+                stopScanner();
+            });
+        }
+
+        function stopScanner() {
+            const laser = document.getElementById('laser-line');
+            laser.style.display = 'none';
+            document.getElementById('start-camera-btn').style.display = 'inline-block';
+            document.getElementById('stop-camera-btn').style.display = 'none';
+
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.stop().then(() => {
+                    html5QrcodeScanner = null;
+                }).catch(err => console.error("Error stopping scanner:", err));
+            }
+        }
+
+        document.getElementById('start-camera-btn').addEventListener('click', startScanner);
+        document.getElementById('stop-camera-btn').addEventListener('click', stopScanner);
+    </script>
+{% endblock %}

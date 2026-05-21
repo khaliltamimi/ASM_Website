@@ -124,7 +124,7 @@ a {
     transition: padding-top 0.5s ease;
 }
 
-#announcement-banner:not(.hidden) ~ .first-section {
+#announcement-banner:not(.hidden)~.first-section {
     padding-top: 3rem !important;
 }
 
@@ -985,7 +985,8 @@ body.dark-mode .hero-overlay {
 
 .feature-list.checklist li.checked::before {
     content: '☑';
-    color: #10b981; /* Emerald */
+    color: #10b981;
+    /* Emerald */
     font-size: 1.35rem;
     transform: scale(1.1);
 }
@@ -996,10 +997,12 @@ body.dark-mode .hero-overlay {
         box-shadow: 0 0 0 0px var(--color-secondary);
         transform: scale(1);
     }
+
     50% {
         box-shadow: 0 0 0 6px var(--color-secondary);
         transform: scale(1.02);
     }
+
     100% {
         box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.25);
         transform: scale(1);
@@ -1065,7 +1068,8 @@ body.dark-mode .hero-overlay {
     fill: transparent;
     stroke: var(--color-secondary);
     stroke-width: 3;
-    stroke-dasharray: 138.2; /* 2 * PI * r = 2 * 3.14159 * 22 */
+    stroke-dasharray: 138.2;
+    /* 2 * PI * r = 2 * 3.14159 * 22 */
     stroke-dashoffset: 138.2;
     transition: stroke-dashoffset 0.1s ease-out;
 }
@@ -1154,7 +1158,8 @@ body.dark-mode .hero-overlay {
     color: var(--color-secondary);
 }
 
-.lightbox-prev, .lightbox-next {
+.lightbox-prev,
+.lightbox-next {
     cursor: pointer;
     position: absolute;
     top: 50%;
@@ -1178,7 +1183,8 @@ body.dark-mode .hero-overlay {
     left: 25px;
 }
 
-.lightbox-prev:hover, .lightbox-next:hover {
+.lightbox-prev:hover,
+.lightbox-next:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: var(--color-secondary);
 }
@@ -1188,18 +1194,101 @@ body.dark-mode .hero-overlay {
     .contact-grid {
         gap: 2rem !important;
     }
+
+    /* Horizontal scrolling for board members on mobile */
+    #dynamic-board-container {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        scroll-behavior: auto !important;
+        -webkit-overflow-scrolling: touch;
+        gap: 1rem;
+        padding: 0.75rem 0.25rem 1.5rem 0.25rem;
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    #dynamic-board-container::-webkit-scrollbar {
+        display: none;
+        /* Safari and Chrome */
+    }
+
+    #dynamic-board-container .team-card {
+        flex: 0 0 160px !important;
+        padding: 1.25rem 0.75rem !important;
+        border-radius: 0.75rem !important;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+    }
+
+    #dynamic-board-container .team-avatar {
+        width: 70px !important;
+        height: 70px !important;
+        font-size: 1.75rem !important;
+        margin: 0 auto 0.75rem auto !important;
+    }
+
+    #dynamic-board-container .team-name {
+        font-size: 0.95rem !important;
+        margin-bottom: 0.15rem !important;
+    }
+
+    #dynamic-board-container .team-role {
+        font-size: 0.8rem !important;
+    }
+
+    #dynamic-board-container .team-card-clone {
+        display: block !important;
+    }
+
+    /* Daily Ayah mobile adjustments */
+    #daily-ayah-section {
+        padding: 1.5rem 0 !important;
+    }
+
+    #daily-ayah-section .daily-ayah-card {
+        padding: 1.25rem 1rem !important;
+    }
+
+    #daily-ayah-section .ayah-quote {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    #daily-ayah-section #daily-ayah-arabic {
+        font-size: 1.25rem !important;
+        margin-bottom: 0.75rem !important;
+        line-height: 1.6 !important;
+    }
+
+    #daily-ayah-section #daily-ayah-text {
+        font-size: 0.95rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    #daily-ayah-section #daily-ayah-ref {
+        font-size: 0.8rem !important;
+    }
+}
+
+/* Hide cloned cards on desktop */
+@media (min-width: 769px) {
+    #dynamic-board-container .team-card-clone {
+        display: none !important;
+    }
 }
 
 @media (max-width: 576px) {
+
     .contact-info,
     .contact-form-container {
         padding: 1.25rem !important;
     }
-    
+
     .social-links {
         gap: 0.5rem !important;
     }
-    
+
     .social-icon {
         padding: 0.5rem 0.75rem !important;
         font-size: 0.8rem !important;

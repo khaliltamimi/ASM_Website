@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Gallery | ASM POLIMI</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+{% block title %}Photo Gallery | ASM POLIMI{% endblock %}
+
+{% block extra_head %}
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="js/main.js" defer></script>
     <style>
         .gallery-grid {
             display: grid;
@@ -56,52 +51,12 @@
             transform: translateY(0);
         }
     </style>
-</head>
+{% endblock %}
 
-<body class="bg-light">
-    <!-- Header & Navigation -->
-    <header class="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <img src="assets/asm_logo.png" alt="ASM Logo">
-                <span>ASM POLIMI</span>
-            </a>
-            <nav class="nav-links">
-                <a href="index.html#home">Home</a>
-                <a href="events.html">Events</a>
-                <a href="resources.html">Resources</a>
-                <a href="support.html">Support</a>
-                <a href="gallery.html" class="active">Gallery</a>
-                <a href="jumuah.html">Jumu'ah</a>
-                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join
-                    Us</a>
-                <div class="dropdown">
-                    <button class="dropbtn" aria-label="Settings">&#8942;</button>
-                    <div class="dropdown-content">
-                        <a href="admin.html">Admin: Events</a>
-                        <a href="admin_jumuah.html">Admin: Jumu'ah</a>
-                        <a href="admin_questions.html">Admin: Questions</a>
-                        <a href="admin_users.html">Admin: Users</a>
-                    </div>
-                </div>
-            </nav>
-            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-        </div>
-    </header>
+{% block body_class %}class="bg-light"{% endblock %}
 
-    <div class="mobile-nav-overlay">
-        <nav class="mobile-nav-links">
-            <a href="index.html#home">Home</a>
-            <a href="events.html">Events</a>
-            <a href="resources.html">Resources</a>
-            <a href="support.html">Support</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="jumuah.html">Jumu'ah</a>
-            <a href="register.html">Join Us</a>
-        </nav>
-    </div>
-
-    <section class="section first-section" style="min-height: 80vh;">
+{% block content %}
+<section class="section first-section" style="min-height: 80vh;">
         <div class="container">
             <div class="section-header text-center">
                 <h2>Media Gallery</h2>
@@ -125,19 +80,10 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <img src="assets/asm_logo.png" alt="ASM Logo" width="40" style="filter: brightness(0) invert(1);">
-                    <span>University POLIMI</span>
-                </div>
-                <div class="footer-copyright">&copy; 2026 University Muslim Student Association. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
-    <script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
         fetch('/api/content')
             .then(response => response.json())
             .then(data => {
@@ -167,6 +113,4 @@
             })
             .catch(err => console.error('Error fetching gallery content:', err));
     </script>
-</body>
-
-</html>
+{% endblock %}

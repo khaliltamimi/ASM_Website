@@ -1,81 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events & Registration | ASM POLIMI</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+{% block title %}Events & Registration | ASM POLIMI{% endblock %}
+
+{% block extra_head %}
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="js/main.js" defer></script>
-</head>
+{% endblock %}
 
-<body>
+{% block header_style %}style="background-color: var(--color-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 0;"{% endblock %}
 
-    <!-- Header & Navigation -->
-    <header class="navbar"
-        style="background-color: var(--color-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 0;">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <img src="assets/asm_logo.png" alt="ASM Logo">
-                <span>ASM POLIMI</span>
-            </a>
-
-            <nav class="nav-links">
-                <a href="index.html#home">Home</a>
-                <a href="events.html">Events</a>
-                <a href="resources.html">Resources</a>
-                <a href="support.html">Support</a>
-                <a href="gallery.html">Gallery</a>
-                <a href="jumuah.html">Jumu'ah</a>
-                <a href="register.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 1rem;">Join
-                    Us</a>
-                <div class="dropdown">
-                    <button class="dropbtn" aria-label="Settings">
-                        &#8942;
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="admin.html">Admin: Events</a>
-                        <a href="admin_jumuah.html">Admin: Jumu'ah</a>
-                        <a href="admin_questions.html">Admin: Questions</a>
-                        <a href="admin_users.html">Admin: Users</a>
-                    </div>
-                </div>
-            </nav>
-
-            <button class="mobile-menu-btn" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </header>
-
-    <!-- Mobile Navigation Overlay -->
-    <div class="mobile-nav-overlay">
-        <nav class="mobile-nav-links">
-            <a href="index.html#home">Home</a>
-            <a href="events.html">Events</a>
-            <a href="resources.html">Resources</a>
-            <a href="support.html">Support</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="jumuah.html">Jumu'ah</a>
-            <a href="register.html">Join Us</a>
-        </nav>
-    </div>
-
-    <!-- Announcement Banner -->
-    <div id="announcement-banner" class="hidden"
-        style="background-color: rgba(251, 191, 36, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--color-text); text-align: center; padding: 0.75rem 1rem; font-weight: 600; z-index: 990; position: sticky; top: 80px; margin-top: 80px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-bottom: 1px solid rgba(251, 191, 36, 0.3);">
-        <span style="margin-right: 0.5rem;">&#128226;</span> <span id="announcement-text"></span>
-    </div>
-
-    <!-- Events Section (Dynamic) -->
-    <section id="events" class="section first-section bg-light">
+{% block content %}
+<section id="events" class="section first-section bg-light">
         <div class="container">
             <div class="section-header text-center">
                 <h2>Featured Events</h2>
@@ -100,6 +35,11 @@
             </div>
 
             <div class="contact-form-container" style="max-width: 800px; margin: 0 auto; padding: 0;">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <a id="open-form-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeaXV2VdR08pr81JZa2zRefxB2HaUhi_qlBj6Zkaa0_t0RtuQ/viewform?usp=dialog" target="_blank" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; border-color: var(--color-primary); color: var(--color-primary); font-weight: 600;">
+                        <span>📋</span> Open Form in New Tab
+                    </a>
+                </div>
                 <!-- Google Form Embed Placeholder -->
                 <div
                     style="width: 100%; display: flex; justify-content: center; overflow: hidden; border-radius: 1rem;">
@@ -119,33 +59,29 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <img src="assets/asm_logo.png" alt="ASM Logo" width="40" style="filter: brightness(0) invert(1);">
-                    <span>ASM POLIMI</span>
-                </div>
-                <div class="footer-copyright">
-                    &copy; 2026 University Muslim Student Association. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
+{% endblock %}
 
-    <!-- Fetch Announcements and Events -->
-    <script>
+{% block extra_scripts %}
+<script>
         const DEFAULT_REG_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSeaXV2VdR08pr81JZa2zRefxB2HaUhi_qlBj6Zkaa0_t0RtuQ/viewform?usp=dialog';
         let activeDefaultForm = DEFAULT_REG_FORM;
+
+        function setRegistrationForm(url) {
+            const iframe = document.querySelector('#register-form iframe');
+            if (iframe) {
+                iframe.src = url;
+            }
+            const openBtn = document.getElementById('open-form-btn');
+            if (openBtn) {
+                openBtn.href = url;
+            }
+        }
 
         // Check if registration link was passed as query parameter
         const urlParams = new URLSearchParams(window.location.search);
         const queryRegLink = urlParams.get('reg_link');
         if (queryRegLink) {
-            const iframe = document.querySelector('#register-form iframe');
-            if (iframe) {
-                iframe.src = decodeURIComponent(queryRegLink);
-            }
+            setRegistrationForm(decodeURIComponent(queryRegLink));
         }
 
         fetch('/api/content')
@@ -158,10 +94,7 @@
 
                 // If no specific link query parameter exists, default the iframe to our active form
                 if (!queryRegLink) {
-                    const iframe = document.querySelector('#register-form iframe');
-                    if (iframe) {
-                        iframe.src = activeDefaultForm;
-                    }
+                    setRegistrationForm(activeDefaultForm);
                 }
 
                 // Announcement Banner
@@ -206,10 +139,7 @@
                                     </div>
                                 `;
                                 card.addEventListener('click', () => {
-                                    const iframe = document.querySelector('#register-form iframe');
-                                    if (iframe) {
-                                        iframe.src = event.reg_link && event.reg_link.trim() !== '' ? event.reg_link : activeDefaultForm;
-                                    }
+                                    setRegistrationForm(event.reg_link && event.reg_link.trim() !== '' ? event.reg_link : activeDefaultForm);
                                 });
                                 eventsContainer.appendChild(card);
                             }
@@ -221,6 +151,4 @@
             })
             .catch(err => console.error('Error fetching events/announcements:', err));
     </script>
-</body>
-
-</html>
+{% endblock %}

@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+
+{% block title %}Muslim Student Association | POLIMI {% endblock %}
+
+{% block extra_head %}
+content="Welcome to the University Muslim Student Association. Find out about our events, prayer times, and community.">
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section id="home" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <h1 class="animate-up">Welcome to your community.</h1>
+        <p class="animate-up delay-1">Fostering faith, brotherhood, sisterhood, and excellence on campus.</p>
+        <div class="hero-buttons animate-up delay-2">
+            <a href="events.html" class="btn btn-primary">Upcoming Events</a>
+            <a href="register.html" class="btn btn-secondary">Become a Member</a>
+        </div>
+    </div>
+</section>
+
+<!-- Daily Ayah Section -->
+<section id="daily-ayah-section" class="section bg-light fade-in" style="padding: 3rem 0;">
+    <div class="container">
+        <div class="daily-ayah-card">
+            <div class="ayah-quote"
+                style="font-size: 2rem; color: var(--color-secondary); margin-bottom: 1rem; opacity: 0.5;">&#10077;
+            </div>
+            <p id="daily-ayah-arabic"
+                style="font-size: 1.75rem; font-family: 'Traditional Arabic', serif; margin-bottom: 1.5rem; color: var(--color-primary); direction: rtl; line-height: 1.8;">
+            </p>
+            <p id="daily-ayah-text"
+                style="font-size: 1.25rem; font-weight: 500; font-style: italic; margin-bottom: 1rem; color: var(--color-primary);">
+                Loading Ayah of the day...</p>
+            <p id="daily-ayah-ref" style="font-weight: 600; color: var(--color-text-light);"></p>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section fade-in">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>About Us</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="about-grid stagger-children">
+            <div class="about-text">
+                <h3>Our Mission</h3>
+                <p id="mission-text">The Muslim Student Association (ASM) strives to facilitate a welcoming and active
+                    community for
+                    Muslim
+                    students on campus. We aim to support our members in balancing their academic pursuits with
+                    their spiritual growth, while fostering an inclusive environment that promotes understanding and
+                    dialogue.</p>
+
+                <h3>What We Do</h3>
+                <ul class="feature-list">
+                    <li><strong>Spiritual:</strong> Weekly Halaqas, daily prayers, and Jummah services.</li>
+                    <li><strong>Social:</strong> Brotherhood/Sisterhood events, dinners, and game nights.</li>
+                    <li><strong>Service:</strong> Community service projects and charity fundraisers.</li>
+                    <li><strong>Education:</strong> Islam Awareness Week, guest speakers, and workshops.</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <!-- Placeholder for community photo -->
+                <div class="image-placeholder" style="position: relative; overflow: hidden;">
+                    <img src="assets/community.png" alt="ASM POLIMI Community" onerror="this.style.display='none'"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                    <span>Community Photo</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Events Section (Dynamic) -->
+<section id="events" class="section bg-light fade-in">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Featured Events</h2>
+            <div class="divider"></div>
+            <p>Stay updated with our latest halaqas, socials, and activities.</p>
+        </div>
+
+        <div id="dynamic-events-container" class="team-grid stagger-children" style="margin-bottom: 3rem;">
+            <!-- Events will be populated here by JS -->
+            <p class="text-center w-100" style="grid-column: 1 / -1;">Loading events...</p>
+        </div>
+
+        <div class="text-center" style="margin-top: 1rem;">
+            <a href="events.html" class="btn"
+                style="padding: 1.25rem 2.5rem; font-size: 1.2rem; font-weight: 700; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); border: none; background-color: var(--color-secondary); color: var(--color-text); text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; transition: all 0.3s ease;">👉
+                See All Events & Register Now 👈</a>
+        </div>
+    </div>
+</section>
+
+<!-- Prayer Times Section -->
+<section id="prayer-times" class="section fade-in">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Daily Prayer Times</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="prayer-times-card">
+            <div class="date-display" id="current-date">Loading date...</div>
+
+            <div class="prayer-grid stagger-children">
+                <div class="prayer-item">
+                    <div class="prayer-name">Fajr</div>
+                    <div class="prayer-time" id="fajr-time">--:-- AM</div>
+                </div>
+                <div class="prayer-item">
+                    <div class="prayer-name">Dhuhr</div>
+                    <div class="prayer-time" id="dhuhr-time">--:-- PM</div>
+                </div>
+                <div class="prayer-item">
+                    <div class="prayer-name">Asr</div>
+                    <div class="prayer-time" id="asr-time">--:-- PM</div>
+                </div>
+                <div class="prayer-item">
+                    <div class="prayer-name">Maghrib</div>
+                    <div class="prayer-time" id="maghrib-time">--:-- PM</div>
+                </div>
+                <div class="prayer-item">
+                    <div class="prayer-name">Isha</div>
+                    <div class="prayer-time" id="isha-time">--:-- PM</div>
+                </div>
+            </div>
+
+            <a href="jumuah.html" class="jumuah-info" id="jumuah-prayer-info">
+                Check our <span style="text-decoration: underline; font-weight: 500;">Jumu'ah page</span> for
+                Jumu'ah timings and prayer locations
+            </a>
+        </div>
+
+        <div class="text-center" style="margin-top: 1rem;">
+            <a href="jumuah.html" class="btn"
+                style="padding: 1.25rem 2.5rem; font-size: 1.2rem; font-weight: 700; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); border: none; background-color: var(--color-secondary); color: var(--color-text); text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; transition: all 0.3s ease;">
+                Jumu'ah Info </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- Leadership Section -->
+<section id="leadership" class="section bg-light fade-in">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Our Board members</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="team-grid stagger-children" id="dynamic-board-container">
+            <!-- Board members will be populated here by JS -->
+            <p class="text-center w-100" style="grid-column: 1 / -1;">Loading team...</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact & Join Section -->
+<section id="contact" class="section fade-in">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Get in Touch</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="contact-grid stagger-children">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Have questions? Want to collaborate? Reach out to us!</p>
+
+                <div class="info-item">
+                    <strong>Email:</strong> asm.polimi@gmail.com
+                </div>
+                <div class="info-item">
+                    <strong>Office:</strong> Student Union Building, Room 302
+                </div>
+
+                <h3 class="mt-4">Follow Us</h3>
+                <div class="social-links" style="margin-bottom: 1rem;">
+                    <a href="https://www.instagram.com/asm.polimi/" class="social-icon">Instagram</a>
+                    <a href="https://www.facebook.com/ASMPolimi/" class="social-icon">Facebook</a>
+                    <a href="https://www.youtube.com/@asmpolimi7314" class="social-icon">Youtube</a>
+                </div>
+                <div class="social-links">
+                    <a href="https://chat.whatsapp.com/LhULMwU6OkMCboPEpmfhy2" class="social-icon">Whatsapp</a>
+                    <a href="https://t.me/asmpolimi" class="social-icon">Telegram</a>
+                </div>
+            </div>
+
+            <div class="contact-form-container" id="join">
+                <h3>Join Our Mailing List</h3>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">University Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Graduation Year</label>
+                        <select id="year">
+                            <option value="">Select Year...</option>
+                            <option value="2027">2027</option>
+                            <option value="2026">2026</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="grad">Graduate Student</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Fetch dynamic content
+    fetch('/api/content')
+        .then(response => response.json())
+        .then(data => {
+            if (data.mission_text && data.mission_text.trim() !== '') {
+                const missionEl = document.getElementById('mission-text');
+                if (missionEl) {
+                    missionEl.textContent = data.mission_text;
+                }
+            }
+            if (data.announcement && data.announcement.trim() !== '') {
+                const banner = document.getElementById('announcement-banner');
+                const text = document.getElementById('announcement-text');
+                if (banner && text) {
+                    text.textContent = data.announcement;
+                    banner.classList.remove('hidden');
+                    banner.style.display = 'block'; // Fallback in case hidden class is heavily overridden
+
+                    // Hide after 30 seconds
+                    setTimeout(() => {
+                        banner.style.transition = 'opacity 0.5s ease';
+                        banner.style.opacity = '0';
+                        setTimeout(() => {
+                            banner.classList.add('hidden');
+                            banner.style.display = 'none';
+                        }, 500);
+                    }, 20000);
+                }
+            }
+            if (data.jumuah_prayer && data.jumuah_prayer.trim() !== '') {
+                const jumuahInfo = document.getElementById('jumuah-prayer-info');
+                if (jumuahInfo) {
+                    jumuahInfo.innerHTML = `<strong>Jumu'ah Prayer:</strong> ${data.jumuah_prayer}`;
+                }
+            }
+
+            // Render Featured Events
+            if (data.events) {
+                const eventsContainer = document.getElementById('dynamic-events-container');
+                if (eventsContainer) {
+                    if (data.events.length === 0) {
+                        eventsContainer.innerHTML = '<p class="text-center w-100" style="grid-column: 1 / -1; color: var(--color-text-light);">No upcoming events scheduled at the moment.</p>';
+                    } else {
+                        eventsContainer.innerHTML = '';
+                        data.events.forEach(ev => {
+                            const card = document.createElement('a');
+                            card.href = ev.reg_link && ev.reg_link.trim() !== ''
+                                ? `events.html?reg_link=${encodeURIComponent(ev.reg_link)}#register-form`
+                                : 'events.html#register-form';
+                            card.className = 'team-card'; // Reuse team-card style
+                            card.style.textAlign = 'left';
+                            card.style.display = 'block';
+                            card.style.textDecoration = 'none';
+                            card.style.cursor = 'pointer';
+                            card.innerHTML = `
+                                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.25rem;">${ev.title}</h3>
+                                    <p style="color: var(--color-secondary); font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem;">${ev.date}</p>
+                                    <p style="color: var(--color-text-light); font-size: 0.95rem;">${ev.desc}</p>
+                                `;
+                            eventsContainer.appendChild(card);
+                        });
+                    }
+                }
+            }
+
+            // Render Board Members
+            if (data.board_members) {
+                const boardContainer = document.getElementById('dynamic-board-container');
+                if (boardContainer) {
+                    boardContainer.innerHTML = '';
+                    data.board_members.forEach(member => {
+                        const card = document.createElement('div');
+                        card.className = 'team-card';
+                        card.innerHTML = `
+                            <div class="team-avatar">
+                                <img src="assets/board_${member.role}.png" alt="${member.name}" onerror="this.style.display='none'">
+                                <span>${member.avatar}</span>
+                            </div>
+                            <h3 class="team-name">${member.name}</h3>
+                            <p class="team-role">${member.title}</p>
+                        `;
+                        boardContainer.appendChild(card);
+                    });
+
+                    // Initialize horizontal auto scroll on mobile (without stopping)
+                    setupBoardAutoScroll();
+                }
+            }
+        })
+        .catch(err => console.error('Error fetching dynamic content:', err));
+
+    function setupBoardAutoScroll() {
+        const container = document.getElementById('dynamic-board-container');
+        if (!container) return;
+
+        // Clean up any existing clones in case this is called multiple times
+        const existingClones = container.querySelectorAll('.team-card-clone');
+        existingClones.forEach(clone => clone.remove());
+
+        const originalCards = Array.from(container.children);
+        if (originalCards.length === 0) return;
+
+        // Clone all cards at least once for infinite continuous scrolling
+        originalCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.classList.add('team-card-clone');
+            container.appendChild(clone);
+        });
+
+        let scrollSpeed = 0.8; // speed of auto scroll (pixels per frame)
+        let animationId = null;
+
+        // Get original first card and first cloned card
+        const firstOriginal = originalCards[0];
+        const firstClone = container.children[originalCards.length];
+
+        function getWrapThreshold() {
+            return firstClone.offsetLeft - firstOriginal.offsetLeft;
+        }
+
+        // Determine if we need additional clones to cover the viewport width safely
+        const viewportWidth = container.clientWidth || window.innerWidth;
+        const estimatedCardWidth = 176; // 160px card width + 16px gap
+        const baseThreshold = getWrapThreshold() || (originalCards.length * estimatedCardWidth);
+        const additionalClonesNeeded = Math.ceil(viewportWidth / baseThreshold) - 1;
+
+        for (let i = 0; i < additionalClonesNeeded; i++) {
+            originalCards.forEach(card => {
+                const clone = card.cloneNode(true);
+                clone.classList.add('team-card-clone');
+                container.appendChild(clone);
+            });
+        }
+
+        function startAutoScroll() {
+            if (animationId) return;
+
+            function step() {
+                if (window.innerWidth <= 768) {
+                    container.scrollLeft += scrollSpeed;
+
+                    const wrapThreshold = getWrapThreshold() || baseThreshold;
+                    if (wrapThreshold > 0) {
+                        if (container.scrollLeft >= wrapThreshold) {
+                            container.scrollLeft -= wrapThreshold;
+                        } else if (container.scrollLeft < 0) {
+                            container.scrollLeft += wrapThreshold;
+                        }
+                    }
+                }
+                animationId = requestAnimationFrame(step);
+            }
+            animationId = requestAnimationFrame(step);
+        }
+
+        function stopAutoScroll() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+        }
+
+        // Handle viewport resize to start/stop appropriately
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                startAutoScroll();
+            } else {
+                stopAutoScroll();
+            }
+        });
+
+        // Start initially if on mobile
+        if (window.innerWidth <= 768) {
+            startAutoScroll();
+        }
+    }
+</script>
+{% endblock %}

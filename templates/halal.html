@@ -17,6 +17,7 @@
 
         .tab-buttons {
             display: flex;
+            flex-wrap: wrap;
             gap: 1rem;
             margin-bottom: 2rem;
             border-bottom: 2px solid var(--color-bg-light);
@@ -34,6 +35,12 @@
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex: 1 1 auto;
+            text-align: center;
         }
 
         .tab-btn.active {
@@ -144,6 +151,76 @@
             color: #d97706;
             font-weight: 700;
             text-decoration: underline;
+        }
+
+        /* Responsive Breakpoints for Zoom & Mobile */
+        @media (max-width: 768px) {
+            .scanner-card {
+                padding: 1.5rem;
+                border-radius: 1rem;
+            }
+
+            .tab-buttons {
+                gap: 0.5rem;
+                padding-bottom: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .tab-btn {
+                font-size: 0.95rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .result-card {
+                padding: 1.5rem;
+                gap: 1.25rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .tab-buttons {
+                flex-direction: column;
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+                border: 1px solid var(--color-bg-light);
+            }
+
+            .tab-btn.active {
+                border-color: transparent;
+                background-color: rgba(18, 74, 97, 0.08);
+            }
+
+            .result-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .result-image {
+                margin: 0 auto 1rem auto;
+            }
+
+            .result-info {
+                width: 100%;
+                text-align: left;
+            }
+
+            .result-info h3,
+            .result-info p {
+                text-align: center;
+            }
+
+            .status-badge {
+                display: block;
+                width: max-content;
+                margin: 0 auto 1rem auto;
+            }
         }
     </style>
 {% endblock %}

@@ -409,7 +409,7 @@
             const desc = document.getElementById('event-desc').value;
             const reg_link = document.getElementById('event-reg-link').value;
             if (title && date) {
-                events.push({ title, date, desc, reg_link });
+                events.unshift({ title, date, desc, reg_link });
                 renderEvents();
                 document.getElementById('event-title').value = '';
                 document.getElementById('event-date').value = '';

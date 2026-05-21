@@ -3,148 +3,148 @@
 {% block title %}Student Support | ASM POLIMIiis{% endblock %}
 
 {% block extra_head %}
-    <style>
-        .hidden {
-            display: none !important;
-        }
+<style>
+    .hidden {
+        display: none !important;
+    }
 
-        .success-message {
-            color: #198754;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            padding: 1rem;
-            background: #d1e7dd;
-            border-radius: var(--radius-sm);
-            border: 1px solid #badbcc;
-            font-weight: 500;
-            text-align: center;
-        }
+    .success-message {
+        color: #198754;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+        padding: 1rem;
+        background: #d1e7dd;
+        border-radius: var(--radius-sm);
+        border: 1px solid #badbcc;
+        font-weight: 500;
+        text-align: center;
+    }
 
-        .error-message {
-            color: #dc3545;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            padding: 1rem;
-            background: #f8d7da;
-            border-radius: var(--radius-sm);
-            border: 1px solid #f5c2c7;
-            font-weight: 500;
-            text-align: center;
-        }
-    </style>
+    .error-message {
+        color: #dc3545;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+        padding: 1rem;
+        background: #f8d7da;
+        border-radius: var(--radius-sm);
+        border: 1px solid #f5c2c7;
+        font-weight: 500;
+        text-align: center;
+    }
+</style>
 {% endblock %}
 
 {% block body_class %}class="bg-light"{% endblock %}
 
 {% block content %}
 <section class="section first-section" style="min-height: 80vh;">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2>Student Support</h2>
-                <div class="divider"></div>
-                <p>We are here for you. Whether you need a mentor or have a question.</p>
-            </div>
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Student Support</h2>
+            <div class="divider"></div>
+            <p>We are here for you. Whether you need a mentor or have a question.</p>
+        </div>
 
-            <div>
-                <!-- Ask a Question -->
-                <div class="contact-form-container" style="max-width: 600px; margin: 0 auto;">
-                    <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">"Ask an Imam" (Anonymous)</h3>
-                    <p style="margin-bottom: 1.5rem; color: var(--color-text-light);">Have a sensitive question about
-                        Fiqh, personal struggles, or campus life? Submit it anonymously below, and our affiliated local
-                        scholar will answer it privately or in an upcoming Halaqa.</p>
+        <div>
+            <!-- Ask a Question -->
+            <div class="contact-form-container" style="max-width: 600px; margin: 0 auto;">
+                <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">"Ask an Imam" (Anonymous)</h3>
+                <p style="margin-bottom: 1.5rem; color: var(--color-text-light);">Have a question about
+                    Fiqh, personal struggles, or campus life? Submit it below, and our affiliated local
+                    scholar will answer it privately.</p>
 
-                    <div id="submit-success" class="success-message hidden">
-                        Your question has been submitted successfully! The Imam will review it.
-                    </div>
-                    <div id="submit-error" class="error-message hidden"></div>
-
-                    <form class="contact-form" id="imam-question-form">
-                        <div class="form-group">
-                            <label for="q-topic">Topic</label>
-                            <select id="q-topic" required>
-                                <option value="">Select Topic...</option>
-                                <option value="prayer">Prayer & Worship</option>
-                                <option value="halal">Halal & Haram</option>
-                                <option value="relationships">Relationships & Marriage</option>
-                                <option value="mental-health">Mental Health & Stress</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="q-details">Your Question</label>
-                            <textarea id="q-details" rows="5" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-family: var(--font-body);"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="q-email">Email (Required if Phone is empty)</label>
-                            <input type="email" id="q-email">
-                        </div>
-                        <div class="form-group">
-                            <label for="q-phone">Phone Number (Required if Email is empty)</label>
-                            <input type="tel" id="q-phone">
-                        </div>
-                        <button type="submit" class="btn btn-secondary w-100"
-                            style="color: var(--color-primary); border-color: var(--color-primary);">Submit
-                            Question</button>
-                    </form>
+                <div id="submit-success" class="success-message hidden">
+                    Your question has been submitted successfully! The Imam will review it.
                 </div>
+                <div id="submit-error" class="error-message hidden"></div>
+
+                <form class="contact-form" id="imam-question-form">
+                    <div class="form-group">
+                        <label for="q-topic">Topic</label>
+                        <select id="q-topic" required>
+                            <option value="">Select Topic...</option>
+                            <option value="prayer">Prayer & Worship</option>
+                            <option value="halal">Halal & Haram</option>
+                            <option value="relationships">Relationships & Marriage</option>
+                            <option value="mental-health">Mental Health & Stress</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="q-details">Your Question</label>
+                        <textarea id="q-details" rows="5" required
+                            style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-family: var(--font-body);"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q-email">Email (Required if Phone number is empty)</label>
+                        <input type="email" id="q-email">
+                    </div>
+                    <div class="form-group">
+                        <label for="q-phone">Phone Number (Required if Email is empty)</label>
+                        <input type="tel" id="q-phone">
+                    </div>
+                    <button type="submit" class="btn btn-secondary w-100"
+                        style="color: var(--color-primary); border-color: var(--color-primary);">Submit
+                        Question</button>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
+<!-- Footer -->
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-        document.getElementById('imam-question-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const topic = document.getElementById('q-topic').value;
-            const question = document.getElementById('q-details').value;
-            const email = document.getElementById('q-email').value;
-            const phone = document.getElementById('q-phone').value;
-            const btn = e.target.querySelector('button[type="submit"]');
-            const originalText = btn.textContent;
+    document.getElementById('imam-question-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const topic = document.getElementById('q-topic').value;
+        const question = document.getElementById('q-details').value;
+        const email = document.getElementById('q-email').value;
+        const phone = document.getElementById('q-phone').value;
+        const btn = e.target.querySelector('button[type="submit"]');
+        const originalText = btn.textContent;
 
-            const successEl = document.getElementById('submit-success');
-            const errorEl = document.getElementById('submit-error');
+        const successEl = document.getElementById('submit-success');
+        const errorEl = document.getElementById('submit-error');
 
-            successEl.classList.add('hidden');
-            errorEl.classList.add('hidden');
+        successEl.classList.add('hidden');
+        errorEl.classList.add('hidden');
 
-            if (!email.trim() && !phone.trim()) {
-                errorEl.textContent = 'Please provide either an email or a phone number so the Imam can get back to you.';
-                errorEl.classList.remove('hidden');
+        if (!email.trim() && !phone.trim()) {
+            errorEl.textContent = 'Please provide either an email or a phone number so the Imam can get back to you.';
+            errorEl.classList.remove('hidden');
+            document.querySelector('.contact-form-container').scrollIntoView({ behavior: 'smooth' });
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+
+        try {
+            const response = await fetch('/api/questions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ topic, question, email, phone })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                successEl.classList.remove('hidden');
+                e.target.reset();
                 document.querySelector('.contact-form-container').scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = 'Submitting...';
-
-            try {
-                const response = await fetch('/api/questions', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ topic, question, email, phone })
-                });
-
-                const data = await response.json();
-                if (data.success) {
-                    successEl.classList.remove('hidden');
-                    e.target.reset();
-                    document.querySelector('.contact-form-container').scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    errorEl.textContent = data.message || 'Failed to submit question.';
-                    errorEl.classList.remove('hidden');
-                }
-            } catch (err) {
-                errorEl.textContent = 'Error connecting to the server. Please try again.';
+            } else {
+                errorEl.textContent = data.message || 'Failed to submit question.';
                 errorEl.classList.remove('hidden');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = originalText;
             }
-        });
-    </script>
+        } catch (err) {
+            errorEl.textContent = 'Error connecting to the server. Please try again.';
+            errorEl.classList.remove('hidden');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = originalText;
+        }
+    });
+</script>
 {% endblock %}

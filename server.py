@@ -64,7 +64,7 @@ def get_content():
                 content[row['key']] = row['value']
                 
         # Load events
-        c.execute("SELECT * FROM events")
+        c.execute("SELECT * FROM events ORDER BY id ASC")
         content['events'] = [dict(row) for row in c.fetchall()]
         
         # Load board members
@@ -315,6 +315,34 @@ def toggle_question_status():
     conn = get_db()
     c = conn.cursor()
     c.execute("UPDATE questions SET answered = 1 - answered WHERE id = ?", (q_id,))
+    updated = c.rowcount > 0
+    conn.commit()
+    
+    if updated:
+        c.execute("SELECT * FROM questions ORDER BY created_at DESC")
+        questions = [dict(row) for row in c.fetchall()]
+        for q in questions:
+            q['answered'] = bool(q['answered'])
+        conn.close()
+        return jsonify({"success": True, "questions": questions})
+        
+    conn.close()
+@app.route('/api/questions/answer', methods=['POST'])
+def answer_question():
+    auth_header = request.headers.get('Authorization')
+    role = get_user_role(auth_header)
+    if not role:
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+        
+    data = request.json
+    q_id = data.get('id') if data else None
+    answer = data.get('answer', '') if data else ''
+    if not q_id:
+        return jsonify({"success": False, "message": "Question ID required"}), 400
+        
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("UPDATE questions SET answer = ? WHERE id = ?", (answer, q_id))
     updated = c.rowcount > 0
     conn.commit()
     

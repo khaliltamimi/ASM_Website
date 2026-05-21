@@ -3,308 +3,330 @@
 {% block title %}Admin: Questions | ASM{% endblock %}
 
 {% block extra_head %}
-    <style>
-        .admin-container {
-            max-width: 800px;
-            margin: 100px auto 4rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-        }
+<style>
+    .admin-container {
+        max-width: 800px;
+        margin: 100px auto 4rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+    }
 
-        .hidden {
-            display: none !important;
-        }
+    .hidden {
+        display: none !important;
+    }
 
-        .error-message {
-            color: #dc3545;
-            font-size: 0.95rem;
-            padding: 1rem 1.5rem;
-            background: #f8d7da;
-            border-radius: var(--radius-md);
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 10000;
-            box-shadow: var(--shadow-lg);
-            border-left: 5px solid #dc3545;
-            font-weight: 500;
-        }
+    .error-message {
+        color: #dc3545;
+        font-size: 0.95rem;
+        padding: 1rem 1.5rem;
+        background: #f8d7da;
+        border-radius: var(--radius-md);
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 10000;
+        box-shadow: var(--shadow-lg);
+        border-left: 5px solid #dc3545;
+        font-weight: 500;
+    }
 
-        .success-message {
-            color: #198754;
-            font-size: 0.95rem;
-            padding: 1rem 1.5rem;
-            background: #d1e7dd;
-            border-radius: var(--radius-md);
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 10000;
-            box-shadow: var(--shadow-lg);
-            border-left: 5px solid #198754;
-            font-weight: 500;
-        }
+    .success-message {
+        color: #198754;
+        font-size: 0.95rem;
+        padding: 1rem 1.5rem;
+        background: #d1e7dd;
+        border-radius: var(--radius-md);
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 10000;
+        box-shadow: var(--shadow-lg);
+        border-left: 5px solid #198754;
+        font-weight: 500;
+    }
 
-        .question-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            background: #fff;
-            transition: all var(--transition-normal);
-            position: relative;
-        }
+    .question-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        background: #fff;
+        transition: all var(--transition-normal);
+        position: relative;
+    }
 
-        .question-card.answered {
-            border-color: #a3e635;
-            background-color: #f7fee7;
-            opacity: 0.85;
-        }
+    .question-card.answered {
+        border-color: #a3e635;
+        background-color: #f7fee7;
+        opacity: 0.85;
+    }
 
-        .question-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
+    .question-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
 
-        .question-topic {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--color-primary);
-            background: var(--color-bg-light);
-            padding: 0.25rem 0.6rem;
-            border-radius: 4px;
-        }
+    .question-topic {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--color-primary);
+        background: var(--color-bg-light);
+        padding: 0.25rem 0.6rem;
+        border-radius: 4px;
+    }
 
-        .question-card.answered .question-topic {
-            background-color: #d9f99d;
-            color: #365314;
-        }
+    .question-card.answered .question-topic {
+        background-color: #d9f99d;
+        color: #365314;
+    }
 
-        .question-time {
-            font-size: 0.85rem;
-            color: var(--color-text-light);
-        }
+    .question-time {
+        font-size: 0.85rem;
+        color: var(--color-text-light);
+    }
 
-        .question-text {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-            white-space: pre-wrap;
-            color: var(--color-text);
-        }
+    .question-text {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        white-space: pre-wrap;
+        color: var(--color-text);
+    }
 
-        .question-contacts {
-            font-size: 0.9rem;
-            border-top: 1px solid #f3f4f6;
-            padding-top: 0.75rem;
-            color: var(--color-text-light);
-        }
+    .question-contacts {
+        font-size: 0.9rem;
+        border-top: 1px solid #f3f4f6;
+        padding-top: 0.75rem;
+        color: var(--color-text-light);
+    }
 
-        .question-card.answered .question-contacts {
-            border-top-color: #e2e8f0;
-        }
+    .question-card.answered .question-contacts {
+        border-top-color: #e2e8f0;
+    }
 
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            user-select: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: var(--color-text);
-            margin-top: 0.5rem;
-        }
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--color-text);
+        margin-top: 0.5rem;
+    }
 
-        .checkbox-container input {
-            width: 1.2rem;
-            height: 1.2rem;
-            cursor: pointer;
-            accent-color: var(--color-secondary);
-        }
-    </style>
+    .checkbox-container input {
+        width: 1.2rem;
+        height: 1.2rem;
+        cursor: pointer;
+        accent-color: var(--color-secondary);
+    }
+
+    .admin-answer-section textarea {
+        background-color: #ffffff;
+        color: #1f2937;
+        border: 1px solid #d1d5db;
+    }
+
+    body.dark-mode .admin-answer-section textarea {
+        background-color: #374151 !important;
+        color: #e5e7eb !important;
+        border-color: #4b5563 !important;
+    }
+</style>
 {% endblock %}
 
-{% block header_style %}style="background-color: var(--color-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 0;"{% endblock %}
+{% block header_style %}style="background-color: var(--color-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding:
+0;"{% endblock %}
 
 {% block content %}
 <div class="container">
-        <!-- Login Section -->
-        <div class="admin-container" id="login-section" style="max-width: 600px;">
-            <h2 class="text-center mb-2">Admin Login</h2>
-            <div id="login-error" class="error-message hidden"></div>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
-            </form>
+    <!-- Login Section -->
+    <div class="admin-container" id="login-section" style="max-width: 600px;">
+        <h2 class="text-center mb-2">Admin Login</h2>
+        <div id="login-error" class="error-message hidden"></div>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div class="admin-container hidden" id="dashboard-section">
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <h2 style="margin: 0;">"Ask an Imam" Questions</h2>
+            <button id="logout-btn" class="btn btn-secondary"
+                style="padding: 0.4rem 1rem; border-color: #dc3545; color: #dc3545; background: none;">Logout</button>
         </div>
 
-        <!-- Dashboard Section -->
-        <div class="admin-container hidden" id="dashboard-section">
-            <div
-                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
-                <h2 style="margin: 0;">"Ask an Imam" Questions</h2>
-                <button id="logout-btn" class="btn btn-secondary"
-                    style="padding: 0.4rem 1rem; border-color: #dc3545; color: #dc3545; background: none;">Logout</button>
-            </div>
+        <div class="text-center mb-4" style="margin-bottom: 2rem;">
+            <a href="admin.html"
+                style="color: var(--color-primary); font-size: 0.9rem; text-decoration: underline;">Switch to Events
+                Admin</a>
+            <span style="margin: 0 0.5rem;">|</span>
+            <a href="admin_jumuah.html"
+                style="color: var(--color-primary); font-size: 0.9rem; text-decoration: underline;">Switch to
+                Jumu'ah Admin</a>
+            <span style="margin: 0 0.5rem;">|</span>
+            <a href="admin_users.html"
+                style="color: var(--color-primary); font-size: 0.9rem; text-decoration: underline;">Switch to Users
+                Admin</a>
+        </div>
 
-            <div class="text-center mb-4" style="margin-bottom: 2rem;">
-                <a href="admin.html"
-                    style="color: var(--color-primary); font-size: 0.9rem; text-decoration: underline;">Switch to Events
-                    Admin</a>
-                <span style="margin: 0 0.5rem;">|</span>
-                <a href="admin_jumuah.html"
-                    style="color: var(--color-primary); font-size: 0.9rem; text-decoration: underline;">Switch to
-                    Jumu'ah Admin</a>
-                <span style="margin: 0 0.5rem;">|</span>
-                <a href="admin_users.html"
-                    style="color: var(--color-primary); font-size: 0.9rem; text-decoration: underline;">Switch to Users
-                    Admin</a>
-            </div>
+        <div id="update-message" class="hidden"></div>
 
-            <div id="update-message" class="hidden"></div>
-
-            <div id="questions-list">
-                <p class="text-center">Loading questions...</p>
-            </div>
+        <div id="questions-list">
+            <p class="text-center">Loading questions...</p>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-        const loginSection = document.getElementById('login-section');
-        const dashboardSection = document.getElementById('dashboard-section');
-        const loginForm = document.getElementById('login-form');
-        const logoutBtn = document.getElementById('logout-btn');
-        const loginError = document.getElementById('login-error');
-        const updateMessage = document.getElementById('update-message');
-        const questionsList = document.getElementById('questions-list');
+    const loginSection = document.getElementById('login-section');
+    const dashboardSection = document.getElementById('dashboard-section');
+    const loginForm = document.getElementById('login-form');
+    const logoutBtn = document.getElementById('logout-btn');
+    const loginError = document.getElementById('login-error');
+    const updateMessage = document.getElementById('update-message');
+    const questionsList = document.getElementById('questions-list');
 
-        let token = localStorage.getItem('adminToken');
-        let role = localStorage.getItem('adminRole');
-        let questions = [];
+    let token = localStorage.getItem('adminToken');
+    let role = localStorage.getItem('adminRole');
+    let questions = [];
 
-        if (token && !role) {
-            const parts = token.split('token-');
-            if (parts.length > 1) {
-                const username = parts[1];
-                role = (username === 'admin') ? 'superadmin' : 'admin';
+    if (token && !role) {
+        const parts = token.split('token-');
+        if (parts.length > 1) {
+            const username = parts[1];
+            role = (username === 'admin') ? 'superadmin' : 'admin';
+            localStorage.setItem('adminRole', role);
+        }
+    }
+
+    if (token) {
+        showDashboard();
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                token = data.token;
+                role = data.role || 'admin';
+                localStorage.setItem('adminToken', token);
                 localStorage.setItem('adminRole', role);
-            }
-        }
-
-        if (token) {
-            showDashboard();
-        }
-
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-
-                const data = await response.json();
-                if (data.success) {
-                    token = data.token;
-                    role = data.role || 'admin';
-                    localStorage.setItem('adminToken', token);
-                    localStorage.setItem('adminRole', role);
-                    showDashboard();
-                } else {
-                    loginError.textContent = data.message || "Invalid credentials";
-                    loginError.classList.remove('hidden');
-                }
-            } catch (err) {
-                loginError.textContent = "Error connecting to server.";
+                showDashboard();
+            } else {
+                loginError.textContent = data.message || "Invalid credentials";
                 loginError.classList.remove('hidden');
             }
-        });
-
-        async function showDashboard() {
-            loginSection.classList.add('hidden');
-            dashboardSection.classList.remove('hidden');
-            fetchQuestions();
+        } catch (err) {
+            loginError.textContent = "Error connecting to server.";
+            loginError.classList.remove('hidden');
         }
+    });
 
-        async function fetchQuestions() {
-            try {
-                const response = await fetch('/api/questions', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+    async function showDashboard() {
+        loginSection.classList.add('hidden');
+        dashboardSection.classList.remove('hidden');
+        fetchQuestions();
+    }
 
-                if (response.status === 401) {
-                    logout();
-                    return;
+    async function fetchQuestions() {
+        try {
+            const response = await fetch('/api/questions', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
+            });
 
-                const data = await response.json();
-                if (data.success) {
-                    questions = data.questions || [];
-                    renderQuestions();
-                } else {
-                    showMessage(data.message || "Failed to load questions.", false);
-                }
-            } catch (err) {
-                showMessage("Failed to connect to the server.", false);
-            }
-        }
-
-        function renderQuestions() {
-            questionsList.innerHTML = '';
-            if (questions.length === 0) {
-                questionsList.innerHTML = '<p class="text-center" style="color: #6b7280; padding: 2rem 0;">No questions have been submitted yet.</p>';
+            if (response.status === 401) {
+                logout();
                 return;
             }
 
-            // Render from newest to oldest
-            const sortedQuestions = [...questions].reverse();
+            const data = await response.json();
+            if (data.success) {
+                questions = data.questions || [];
+                renderQuestions();
+            } else {
+                showMessage(data.message || "Failed to load questions.", false);
+            }
+        } catch (err) {
+            showMessage("Failed to connect to the server.", false);
+        }
+    }
 
-            sortedQuestions.forEach(q => {
-                const card = document.createElement('div');
-                card.className = `question-card ${q.answered ? 'answered' : ''}`;
+    function renderQuestions() {
+        questionsList.innerHTML = '';
+        if (questions.length === 0) {
+            questionsList.innerHTML = '<p class="text-center" style="color: #6b7280; padding: 2rem 0;">No questions have been submitted yet.</p>';
+            return;
+        }
 
-                // Format topic string
-                const topicDisplay = q.topic ? q.topic.replace('-', ' ') : 'General';
+        // Render from newest to oldest
+        const sortedQuestions = [...questions];
 
-                let contactInfo = [];
-                if (q.email) contactInfo.push(`<strong>Email:</strong> <a href="mailto:${q.email}" style="color:var(--color-primary);">${q.email}</a>`);
-                if (q.phone) contactInfo.push(`<strong>Phone:</strong> ${q.phone}`);
+        sortedQuestions.forEach(q => {
+            const card = document.createElement('div');
+            card.className = `question-card ${q.answered ? 'answered' : ''}`;
 
-                const contactHtml = contactInfo.length > 0
-                    ? `<div class="question-contacts">${contactInfo.join(' | ')}</div>`
-                    : '<div class="question-contacts">Anonymous (No contact details provided)</div>';
+            // Format topic string
+            const topicDisplay = q.topic ? q.topic.replace('-', ' ') : 'General';
 
-                card.innerHTML = `
+            let contactInfo = [];
+            if (q.email) contactInfo.push(`<strong>Email:</strong> <a href="mailto:${q.email}" style="color:var(--color-primary);">${q.email}</a>`);
+            if (q.phone) contactInfo.push(`<strong>Phone:</strong> ${q.phone}`);
+
+            const contactHtml = contactInfo.length > 0
+                ? `<div class="question-contacts">${contactInfo.join(' | ')}</div>`
+                : '<div class="question-contacts">Anonymous (No contact details provided)</div>';
+
+            const adminAnswer = q.answer || '';
+
+            card.innerHTML = `
                     <div class="question-meta">
                         <span class="question-topic">${topicDisplay}</span>
                         <span class="question-time">${q.created_at || 'Unknown Date'}</span>
                     </div>
                     <div class="question-text">${q.question || ''}</div>
                     ${contactHtml}
+                    <div class="admin-answer-section" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                        <label style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--color-text);">Admin Brief Answer:</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
+                            <textarea id="answer-input-${q.id}" placeholder="Type a brief answer for other admins to see... then press on SAVE then on ANSWERED & PRIVATE REPLY SENT" style="flex-grow: 1; min-height: 60px; padding: 0.5rem; border-radius: 4px; font-family: var(--font-body); font-size: 0.9rem; resize: vertical;">${adminAnswer}</textarea>
+                            <button type="button" class="btn btn-primary" onclick="saveAnswer('${q.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 4px; font-weight: 600;">Save</button>
+                        </div>
+                    </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.5rem;">
                         <label class="checkbox-container" style="margin-top: 0;">
                             <input type="checkbox" ${q.answered ? 'checked' : ''} onchange="toggleAnswered('${q.id}')">
@@ -313,95 +335,127 @@
                         ${role === 'superadmin' ? `<button type="button" class="btn btn-secondary" onclick="deleteQuestion('${q.id}')" style="padding: 0.25rem 0.75rem; font-size: 0.85rem; border-color: #dc3545; color: #fff; background: #dc3545; border-radius: 4px; transition: all var(--transition-normal); font-weight: 500;">Delete</button>` : ''}
                     </div>
                 `;
-                questionsList.appendChild(card);
+            questionsList.appendChild(card);
+        });
+    }
+
+    window.toggleAnswered = async function (id) {
+        try {
+            const response = await fetch('/api/questions/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ id })
             });
-        }
 
-        window.toggleAnswered = async function (id) {
-            try {
-                const response = await fetch('/api/questions/toggle', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ id })
-                });
-
-                if (response.status === 401) {
-                    logout();
-                    return;
-                }
-
-                const data = await response.json();
-                if (data.success) {
-                    // Update local state and re-render
-                    questions = data.questions || [];
-                    renderQuestions();
-                    showMessage("Question status updated successfully!", true);
-                } else {
-                    showMessage(data.message || "Failed to update question status.", false);
-                    // Re-render to undo checkbox check/uncheck state visually
-                    renderQuestions();
-                }
-            } catch (err) {
-                showMessage("Error connecting to server.", false);
-                renderQuestions();
-            }
-        };
-
-        window.deleteQuestion = async function (id) {
-            alert('Delete function triggered');
-            if (!confirm("Are you sure you want to delete this question?")) {
+            if (response.status === 401) {
+                logout();
                 return;
             }
 
-            try {
-                const response = await fetch('/api/questions', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ id })
-                });
-
-                if (response.status === 401) {
-                    logout();
-                    return;
-                }
-
-                const data = await response.json();
-                if (data.success) {
-                    questions = data.questions || [];
-                    renderQuestions();
-                    showMessage("Question deleted successfully!", true);
-                } else {
-                    showMessage(data.message || "Failed to delete question.", false);
-                }
-            } catch (err) {
-                showMessage("Error connecting to server.", false);
+            const data = await response.json();
+            if (data.success) {
+                // Update local state and re-render
+                questions = data.questions || [];
+                renderQuestions();
+                showMessage("Question status updated successfully!", true);
+            } else {
+                showMessage(data.message || "Failed to update question status.", false);
+                // Re-render to undo checkbox check/uncheck state visually
+                renderQuestions();
             }
-        };
+        } catch (err) {
+            showMessage("Error connecting to server.", false);
+            renderQuestions();
+        }
+    };
 
-        function showMessage(msg, isSuccess) {
-            updateMessage.textContent = msg;
-            updateMessage.className = isSuccess ? "success-message" : "error-message";
-            updateMessage.classList.remove('hidden');
-            setTimeout(() => updateMessage.classList.add('hidden'), 8000);
+    window.saveAnswer = async function (id) {
+        const answerInput = document.getElementById(`answer-input-${id}`);
+        const answer = answerInput ? answerInput.value : '';
+
+        try {
+            const response = await fetch('/api/questions/answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ id, answer })
+            });
+
+            if (response.status === 401) {
+                logout();
+                return;
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                questions = data.questions || [];
+                renderQuestions();
+                showMessage("Admin answer saved successfully!", true);
+            } else {
+                showMessage(data.message || "Failed to save answer.", false);
+            }
+        } catch (err) {
+            showMessage("Error connecting to server.", false);
+        }
+    };
+
+    window.deleteQuestion = async function (id) {
+        alert('Delete function triggered');
+        if (!confirm("Are you sure you want to delete this question?")) {
+            return;
         }
 
-        logoutBtn.addEventListener('click', logout);
+        try {
+            const response = await fetch('/api/questions', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ id })
+            });
 
-        function logout() {
-            localStorage.removeItem('adminToken');
-            localStorage.removeItem('adminRole');
-            token = null;
-            role = null;
-            document.getElementById('password').value = '';
-            dashboardSection.classList.add('hidden');
-            loginSection.classList.remove('hidden');
-            loginError.classList.add('hidden');
+            if (response.status === 401) {
+                logout();
+                return;
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                questions = data.questions || [];
+                renderQuestions();
+                showMessage("Question deleted successfully!", true);
+            } else {
+                showMessage(data.message || "Failed to delete question.", false);
+            }
+        } catch (err) {
+            showMessage("Error connecting to server.", false);
         }
-    </script>
+    };
+
+    function showMessage(msg, isSuccess) {
+        updateMessage.textContent = msg;
+        updateMessage.className = isSuccess ? "success-message" : "error-message";
+        updateMessage.classList.remove('hidden');
+        setTimeout(() => updateMessage.classList.add('hidden'), 8000);
+    }
+
+    logoutBtn.addEventListener('click', logout);
+
+    function logout() {
+        localStorage.removeItem('adminToken');
+        localStorage.removeItem('adminRole');
+        token = null;
+        role = null;
+        document.getElementById('password').value = '';
+        dashboardSection.classList.add('hidden');
+        loginSection.classList.remove('hidden');
+        loginError.classList.add('hidden');
+    }
+</script>
 {% endblock %}

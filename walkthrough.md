@@ -38,6 +38,15 @@ Expanded the admin panels to make all key sections of the website editable:
   - **Isha**: 10:15 PM
 - The next coming prayer is still highlighted correctly using these fallback times.
 
+### 1.5 Dark Mode Contrast Enhancements
+- Updated the "See All Events & Register Now" and "Jumu'ah Info" buttons in [index.html](file:///c:/Users/khalil.tamimi/.gemini/antigravity/scratch/templates/index.html) to inherit the `.btn-primary` stylesheet class. This fixes the low-contrast grey text on a gold background by utilizing high-contrast slate (`#0f172a`) text on the gold background, matching the "Open in Google Maps" button.
+- Added dark-mode overrides in [css/styles.css](file:///c:/Users/khalil.tamimi/.gemini/antigravity/scratch/css/styles.css) for the Jumu'ah info section inside the prayer times card to use a darker background (`#111827`) matching the main page background, creating a clean visual distinction for the Jumu'ah link.
+
+### 1.6 Admin Questions Enhancements
+- **Newest First Sorting**: Fixed the sorting in [admin_questions.html](file:///c:/Users/khalil.tamimi/.gemini/antigravity/scratch/templates/admin_questions.html) by removing the `.reverse()` operation in the rendering logic, which correctly displays the newest questions at the top of the list (matching the backend's `ORDER BY created_at DESC`).
+- **Brief Admin Answers**: Added a textarea and "Save" button to each question card in the admin dashboard so that admins can record a brief answer. These answers are saved to a new `answer` TEXT column in the SQLite `questions` database table via a new POST `/api/questions/answer` endpoint in [server.py](file:///c:/Users/khalil.tamimi/.gemini/antigravity/scratch/server.py). Other admins can see the recorded answer when viewing the questions dashboard.
+- **Aesthetic Dark Mode Styling**: Styled the textarea to have a matching dark background `#374151`, light text `#e5e7eb`, and subtle border `#4b5563` in dark mode to align with the site's design system.
+
 ---
 
 ## 2. Verification and Testing
@@ -56,3 +65,15 @@ Expanded the admin panels to make all key sections of the website editable:
 ### 2.3 Testing the Prayer Times Fallback
 1. To force a fallback, simulate a network failure or edit the Aladhan API URL in [js/main.js](file:///c:/Users/khalil.tamimi/.gemini/antigravity/scratch/js/main.js) to an invalid address.
 2. The homepage will load the default Milan times instead of displaying `--:--`, and highlight the next upcoming prayer accordingly.
+
+### 2.4 Testing Dark Mode Buttons and Info Contrast
+1. Toggle dark mode on the homepage.
+2. Verify that the "See All Events & Register Now" and "Jumu'ah Info" buttons on the homepage use the high-contrast slate-on-gold theme (`color: #0f172a` text on gold background), matching the "Open in Google Maps" button on the Jumu'ah page.
+3. Verify that the Jumu'ah prayer info card section has a darker background (#111827) distinct from the card's background (#1f2937) for visual hierarchy, and turns slate-on-blue on hover.
+
+### 2.5 Testing Admin Questions
+1. Log in to the Questions Admin Panel ([admin_questions.html](file:///c:/Users/khalil.tamimi/.gemini/antigravity/scratch/templates/admin_questions.html)) using `admin` and `password123`.
+2. Notice that the questions are ordered newest first (newest questions appear at the top).
+3. Type a brief answer inside the "Admin Brief Answer" textarea for any question and click **Save**.
+4. A notification "Admin answer saved successfully!" will appear, and the page will re-render showing your saved answer.
+5. Log out or reload the page to confirm that the answer persists and is visible to any other admin who logs in.

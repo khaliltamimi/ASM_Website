@@ -3,112 +3,113 @@
 {% block title %}Photo Gallery | ASM POLIMI{% endblock %}
 
 {% block extra_head %}
-    <style>
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
+<style>
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
 
-        .gallery-item {
-            position: relative;
-            border-radius: 1rem;
-            overflow: hidden;
-            background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
-            aspect-ratio: 4/3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-family: var(--font-heading);
-            font-weight: 600;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            transition: transform var(--transition-fast);
-            cursor: pointer;
-        }
+    .gallery-item {
+        position: relative;
+        border-radius: 1rem;
+        overflow: hidden;
+        background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+        aspect-ratio: 4/3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: var(--font-heading);
+        font-weight: 600;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transition: transform var(--transition-fast);
+        cursor: pointer;
+    }
 
-        .gallery-item:hover {
-            transform: scale(1.02);
-        }
+    .gallery-item:hover {
+        transform: scale(1.02);
+    }
 
-        .gallery-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            font-size: 0.9rem;
-            transform: translateY(100%);
-            transition: transform var(--transition-normal);
-        }
+    .gallery-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 1rem;
+        text-align: center;
+        font-size: 0.9rem;
+        transform: translateY(100%);
+        transition: transform var(--transition-normal);
+    }
 
-        .gallery-item:hover .gallery-caption {
-            transform: translateY(0);
-        }
-    </style>
+    .gallery-item:hover .gallery-caption {
+        transform: translateY(0);
+    }
+</style>
 {% endblock %}
 
 {% block body_class %}class="bg-light"{% endblock %}
 
 {% block content %}
 <section class="section first-section" style="min-height: 80vh;">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2>Media Gallery</h2>
-                <div class="divider"></div>
-                <p>Memories from our past events, halaqas, and community gatherings.</p>
-            </div>
-
-            <div class="gallery-grid stagger-children" id="dynamic-gallery-container">
-                <!-- Gallery items will load here -->
-                <p class="text-center w-100" style="grid-column: 1 / -1; color: var(--color-text-light);">Loading
-                    gallery...</p>
-            </div>
-
-            <div class="text-center mt-4" style="margin-top: 4rem;">
-                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Halaqa Recordings</h3>
-                <p style="color: var(--color-text-light); margin-bottom: 2rem;">Missed a Friday Khutbah or Wednesday
-                    Halaqa? Catch up on our YouTube channel.</p>
-                <a href="#" class="btn btn-primary">Visit our YouTube Channel</a>
-            </div>
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Media Gallery</h2>
+            <div class="divider"></div>
+            <p>Memories from our past events, halaqas, and community gatherings.</p>
         </div>
-    </section>
 
-    <!-- Footer -->
+        <div class="gallery-grid stagger-children" id="dynamic-gallery-container">
+            <!-- Gallery items will load here -->
+            <p class="text-center w-100" style="grid-column: 1 / -1; color: var(--color-text-light);">Loading
+                gallery...</p>
+        </div>
+
+        <div class="text-center mt-4" style="margin-top: 4rem;">
+            <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Halaqa Recordings</h3>
+            <p style="color: var(--color-text-light); margin-bottom: 2rem;">Would like to see more pictures? Visit our
+                One drive channel.</p>
+            <a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fdrive.google.com%2Fdrive%2Fmy-drive%3Fhl%3Dit&dsh=S151139889%3A1779365400555025&followup=https%3A%2F%2Fdrive.google.com%2Fdrive%2Fmy-drive%3Fhl%3Dit&hl=it&osid=1&passive=1209600&service=wise&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AWa2Pavw-Vmuq62hNFL6cLAb1Hmp-AW07H2lg0IaEs2CWMaHBsztGF2tQl0BgtGAXruKgWq1cOleyg"
+                class="btn btn-primary">Visit our One drive</a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-        fetch('/api/content')
-            .then(response => response.json())
-            .then(data => {
-                const galleryContainer = document.getElementById('dynamic-gallery-container');
-                if (galleryContainer && data.gallery) {
-                    galleryContainer.innerHTML = '';
-                    data.gallery.forEach((item, index) => {
-                        const div = document.createElement('div');
-                        div.className = 'gallery-item fade-in-up';
-                        div.style.transitionDelay = `${index * 120}ms`;
-                        div.innerHTML = `
+    fetch('/api/content')
+        .then(response => response.json())
+        .then(data => {
+            const galleryContainer = document.getElementById('dynamic-gallery-container');
+            if (galleryContainer && data.gallery) {
+                galleryContainer.innerHTML = '';
+                data.gallery.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'gallery-item fade-in-up';
+                    div.style.transitionDelay = `${index * 120}ms`;
+                    div.innerHTML = `
                             <img src="${item.image}" alt="${item.title}" onerror="this.style.display='none'"
                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
                             <span style="position: relative; z-index: 0;">Image ${index + 1}</span>
                             <div class="gallery-caption" style="z-index: 2;">${item.title}</div>
                         `;
-                        galleryContainer.appendChild(div);
+                    galleryContainer.appendChild(div);
 
-                        // Register with global scrollObserver if it exists
-                        if (window.scrollObserver) {
-                            window.scrollObserver.observe(div);
-                        } else {
-                            div.classList.add('is-visible');
-                        }
-                    });
-                }
-            })
-            .catch(err => console.error('Error fetching gallery content:', err));
-    </script>
+                    // Register with global scrollObserver if it exists
+                    if (window.scrollObserver) {
+                        window.scrollObserver.observe(div);
+                    } else {
+                        div.classList.add('is-visible');
+                    }
+                });
+            }
+        })
+        .catch(err => console.error('Error fetching gallery content:', err));
+</script>
 {% endblock %}

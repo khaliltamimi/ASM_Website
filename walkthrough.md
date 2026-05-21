@@ -41,6 +41,7 @@ Expanded the admin panels to make all key sections of the website editable:
 ### 1.5 Dark Mode Contrast Enhancements
 - Updated the "See All Events & Register Now" and "Jumu'ah Info" buttons in [index.html](file:///c:/Users/khalil.tamimi/.gemini/antigravity/scratch/templates/index.html) to inherit the `.btn-primary` stylesheet class. This fixes the low-contrast grey text on a gold background by utilizing high-contrast slate (`#0f172a`) text on the gold background, matching the "Open in Google Maps" button.
 - Added dark-mode overrides in [css/styles.css](file:///c:/Users/khalil.tamimi/.gemini/antigravity/scratch/css/styles.css) for the Jumu'ah info section inside the prayer times card to use a darker background (`#111827`) matching the main page background, creating a clean visual distinction for the Jumu'ah link.
+- Removed the legacy dynamic overwrite of the Jumu'ah text on the homepage, allowing the static, user-friendly link text *"Check our Jumu'ah page for Jumu'ah timings and prayer locations"* to be consistently displayed.
 
 ### 1.6 Admin Questions Enhancements
 - **Newest First Sorting**: Fixed the sorting in [admin_questions.html](file:///c:/Users/khalil.tamimi/.gemini/antigravity/scratch/templates/admin_questions.html) by removing the `.reverse()` operation in the rendering logic, which correctly displays the newest questions at the top of the list (matching the backend's `ORDER BY created_at DESC`).

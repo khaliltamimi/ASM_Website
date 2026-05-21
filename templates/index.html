@@ -254,12 +254,7 @@
                     }, 20000);
                 }
             }
-            if (data.jumuah_prayer && data.jumuah_prayer.trim() !== '') {
-                const jumuahInfo = document.getElementById('jumuah-prayer-info');
-                if (jumuahInfo) {
-                    jumuahInfo.innerHTML = `<strong>Jumu'ah Prayer:</strong> ${data.jumuah_prayer}`;
-                }
-            }
+
 
             // Render Featured Events
             if (data.events) {

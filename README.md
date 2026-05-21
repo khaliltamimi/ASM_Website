@@ -1,10 +1,10 @@
 # ASM_Website
-v1.0
+v1.0 Official
 
-to be added :   
-                i need to add the online form link so i can directly update the event and membership form by publishing it by the admin events 
-                in the home page i need to change the mission text 
-                community pic
-                gallery page to add the images 
-                add the images of the board members 
-                add the prayer times in the jumuah page 
+to be fixed :   
+                daily ayah
+order of new events
+colour of see event jumuah in dark 
+check general text info
+mailing list
+halal scanner

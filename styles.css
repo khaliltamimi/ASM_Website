@@ -484,6 +484,58 @@ a {
     border-radius: 0.5rem;
 }
 
+.copyable-iban {
+    cursor: pointer;
+    font-family: monospace;
+    font-weight: bold;
+    background: rgba(6, 78, 59, 0.08);
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all var(--transition-fast);
+    color: var(--color-primary);
+    position: relative;
+}
+
+.copyable-iban:hover {
+    background: rgba(6, 78, 59, 0.15);
+    transform: scale(1.02);
+}
+
+body.dark-mode .copyable-iban {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-primary);
+}
+
+body.dark-mode .copyable-iban:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.copyable-iban::after {
+    content: 'Copied!';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-5px);
+    background: #10b981;
+    color: white;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+    font-family: var(--font-body);
+    font-weight: normal;
+}
+
+.copyable-iban.copied::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
 .social-links {
     display: flex;
     gap: 1rem;

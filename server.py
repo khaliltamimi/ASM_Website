@@ -25,6 +25,23 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
+def init_db():
+    conn = get_db()
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS subscribers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            year TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+init_db()
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -405,6 +422,99 @@ def prayer_times():
         print("Error fetching prayer times:", e)
         
     return jsonify({"success": False, "message": "Could not fetch prayer times"}), 500
+
+@app.route('/api/subscribe', methods=['POST'])
+def subscribe():
+    data = request.json
+    if not data or not data.get('name') or not data.get('email'):
+        return jsonify({"success": False, "message": "Name and email are required"}), 400
+        
+    name = data.get('name')
+    email = data.get('email')
+    year = data.get('year', '')
+    
+    conn = get_db()
+    c = conn.cursor()
+    try:
+        # Check if already exists
+        c.execute("SELECT id FROM subscribers WHERE email = ?", (email,))
+        if c.fetchone():
+            conn.close()
+            return jsonify({"success": True, "message": "Already subscribed!"})
+            
+        c.execute("INSERT INTO subscribers (name, email, year) VALUES (?, ?, ?)", (name, email, year))
+        conn.commit()
+    except Exception as e:
+        conn.close()
+        return jsonify({"success": False, "message": str(e)}), 500
+        
+    conn.close()
+    return jsonify({"success": True})
+
+@app.route('/api/subscribers', methods=['GET'])
+def get_subscribers():
+    auth_header = request.headers.get('Authorization')
+    role = get_user_role(auth_header)
+    if not role:
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+        
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("SELECT * FROM subscribers ORDER BY created_at DESC")
+    subscribers = [dict(row) for row in c.fetchall()]
+    conn.close()
+    return jsonify({"success": True, "subscribers": subscribers})
+
+@app.route('/api/subscribers', methods=['DELETE'])
+def delete_subscriber():
+    auth_header = request.headers.get('Authorization')
+    role = get_user_role(auth_header)
+    if not role:
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+        
+    data = request.json
+    sub_id = data.get('id') if data else None
+    if not sub_id:
+        return jsonify({"success": False, "message": "Subscriber ID required"}), 400
+        
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("DELETE FROM subscribers WHERE id = ?", (sub_id,))
+    deleted = c.rowcount > 0
+    conn.commit()
+    conn.close()
+    
+    if not deleted:
+        return jsonify({"success": False, "message": "Subscriber not found"}), 404
+        
+    return jsonify({"success": True})
+
+@app.route('/api/subscribers/export', methods=['GET'])
+def export_subscribers():
+    token = request.args.get('token')
+    role = get_user_role(f"Bearer {token}" if token else None)
+    if not role:
+        return "Unauthorized", 401
+        
+    import io
+    import csv
+    from flask import Response
+    
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("SELECT name, email, year, created_at FROM subscribers ORDER BY created_at DESC")
+    rows = c.fetchall()
+    conn.close()
+    
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['Name', 'Email', 'Graduation Year', 'Subscribed At'])
+    for r in rows:
+        writer.writerow([r['name'], r['email'], r['year'], r['created_at']])
+        
+    response = Response(output.getvalue(), mimetype='text/csv')
+    response.headers['Content-Disposition'] = 'attachment; filename=subscribers.csv'
+    return response
 
 if __name__ == '__main__':
     print("Starting server on http://localhost:8080")

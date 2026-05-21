@@ -306,20 +306,46 @@ document.addEventListener('DOMContentLoaded', () => {
     // Form submission
     const form = document.querySelector('.contact-form');
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = form.querySelector('button');
             const originalText = btn.textContent;
-            btn.textContent = 'Subscribed!';
-            btn.style.backgroundColor = '#047857';
-            btn.style.color = 'white';
-            form.reset();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const year = document.getElementById('year').value;
 
-            setTimeout(() => {
+            btn.disabled = true;
+            btn.textContent = 'Subscribing...';
+
+            try {
+                const response = await fetch('/api/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, year })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    btn.textContent = result.message || 'Subscribed!';
+                    btn.style.backgroundColor = '#047857';
+                    btn.style.color = 'white';
+                    form.reset();
+                } else {
+                    alert(result.message || 'Error subscribing.');
+                    btn.textContent = originalText;
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error.');
                 btn.textContent = originalText;
-                btn.style.backgroundColor = '';
-                btn.style.color = '';
-            }, 3000);
+            } finally {
+                btn.disabled = false;
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.backgroundColor = '';
+                    btn.style.color = '';
+                }, 3000);
+            }
         });
     }
 
@@ -516,5 +542,22 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollObserver.observe(child);
         });
     });
+
+    // Click-to-copy IBAN functionality
+    const ibanCopyBtn = document.getElementById('iban-copy');
+    if (ibanCopyBtn) {
+        ibanCopyBtn.addEventListener('click', () => {
+            // Get text content, excluding the SVG icon/children text
+            const ibanText = ibanCopyBtn.childNodes[0].textContent.trim();
+            navigator.clipboard.writeText(ibanText).then(() => {
+                ibanCopyBtn.classList.add('copied');
+                setTimeout(() => {
+                    ibanCopyBtn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy IBAN: ', err);
+            });
+        });
+    }
 
 });

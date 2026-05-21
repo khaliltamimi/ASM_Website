@@ -195,6 +195,18 @@
             </form>
         </div>
 
+        <!-- Mailing List Subscribers Section -->
+        <div style="background: var(--color-bg-light); padding: 1.5rem; border-radius: var(--radius-sm); margin-top: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #e5e7eb;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                <h3 style="font-size: 1.2rem; margin: 0; color: var(--color-primary);">Mailing List Subscribers</h3>
+                <button type="button" class="btn btn-primary" id="export-subscribers-btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Export to Excel (CSV)</button>
+            </div>
+            
+            <div id="subscribers-container" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                <!-- Subscribers list will be populated here -->
+            </div>
+        </div>
+
         <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #e5e7eb;">
         <button type="button" class="btn btn-secondary w-100" id="logout-btn"
             style="color: var(--color-primary); border-color: var(--color-primary);">Logout</button>
@@ -263,6 +275,8 @@
             fetchGalleryCaptions();
             // Load board members
             fetchBoardMembers();
+            // Load subscribers
+            fetchSubscribers();
         } catch (err) {
             console.error("Failed to load content", err);
         }
@@ -497,6 +511,78 @@
             } catch (err) {
                 showMessage("Error connecting to server.", false);
             }
+        });
+    }
+
+    // Subscribers functionality
+    async function fetchSubscribers() {
+        try {
+            const response = await fetch('/api/subscribers', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await response.json();
+            if (data.success) {
+                renderSubscribers(data.subscribers);
+            } else {
+                if (response.status === 401) {
+                    logout();
+                }
+            }
+        } catch (err) {
+            console.error("Failed to load subscribers", err);
+        }
+    }
+
+    function renderSubscribers(subscribers) {
+        const container = document.getElementById('subscribers-container');
+        container.innerHTML = '';
+        if (!subscribers || subscribers.length === 0) {
+            container.innerHTML = '<p style="color: var(--color-text-light); font-size: 0.9rem; text-align: center; padding: 1rem;">No subscribers yet.</p>';
+            return;
+        }
+        subscribers.forEach(sub => {
+            const div = document.createElement('div');
+            div.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding: 0.75rem; background: var(--color-bg); border: 1px solid rgba(0,0,0,0.05); border-radius: 6px; margin-bottom: 0.5rem;';
+            div.innerHTML = `
+                <div style="min-width: 0; flex-grow: 1; padding-right: 0.5rem;">
+                    <div style="font-weight: 600; font-size: 0.95rem;">${sub.name}</div>
+                    <div style="font-size: 0.85rem; color: var(--color-text-light); word-break: break-all;">
+                        ${sub.email} &middot; <span style="font-style: italic;">Grad: ${sub.year || 'N/A'}</span>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; border-color: #dc3545; color: #dc3545; background: none; flex-shrink: 0;" onclick="deleteSubscriber(${sub.id})">Remove</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    window.deleteSubscriber = async function(id) {
+        if (!confirm("Are you sure you want to remove this subscriber from the mailing list?")) return;
+        try {
+            const response = await fetch('/api/subscribers', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ id })
+            });
+            const data = await response.json();
+            if (data.success) {
+                showMessage("Subscriber removed successfully", true);
+                fetchSubscribers();
+            } else {
+                showMessage(data.message || "Error removing subscriber", false);
+            }
+        } catch (err) {
+            showMessage("Error connecting to server", false);
+        }
+    };
+
+    const exportBtn = document.getElementById('export-subscribers-btn');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+            window.open(`/api/subscribers/export?token=${encodeURIComponent(token)}`);
         });
     }
 </script>

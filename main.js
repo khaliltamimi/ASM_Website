@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const adminLinks = [
             { text: 'Admin: Events', href: 'admin.html' },
             { text: "Admin: Jumu'ah", href: 'admin_jumuah.html' },
-            { text: 'Admin: Questions', href: 'admin_questions.html' }
+            { text: 'Admin: Questions', href: 'admin_questions.html' },
             { text: 'Admin: Users', href: 'admin_users.html' },
         ];
 

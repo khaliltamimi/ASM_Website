@@ -6,6 +6,7 @@ import sqlite3
 import urllib.request
 import urllib.error
 import datetime
+import openpyxl
 
 app = Flask(__name__, template_folder='templates')
 CORS(app)
@@ -422,6 +423,33 @@ def prayer_times():
         print("Error fetching prayer times:", e)
         
     return jsonify({"success": False, "message": "Could not fetch prayer times"}), 500
+
+@app.route('/api/custom_barcodes', methods=['GET'])
+def get_custom_barcodes():
+    barcodes = {}
+    try:
+        if os.path.exists('HalalScanner.xlsx'):
+            wb = openpyxl.load_workbook('HalalScanner.xlsx', data_only=True)
+            sheet = wb.active
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+                if row[0]:
+                    barcode = str(row[0]).strip()
+                    if '.' in barcode and barcode.endswith('0'): # Handling float representation of long ints like 1.234567890123E+12
+                        try:
+                            barcode = str(int(float(barcode)))
+                        except:
+                            pass
+                    barcodes[barcode] = {
+                        'product_name': str(row[1]).strip() if row[1] else 'Unknown Product',
+                        'brands': str(row[2]).strip() if row[2] else 'Unknown Brand',
+                        'ingredients_text': str(row[3]).strip() if row[3] else 'Manual Entry',
+                        'status': str(row[4]).lower().strip() if row[4] else 'mashbuh',
+                        'reasons': []
+                    }
+        return jsonify({"success": True, "data": barcodes})
+    except Exception as e:
+        print("Error reading HalalScanner.xlsx:", e)
+        return jsonify({"success": False, "message": str(e)})
 
 @app.route('/api/subscribe', methods=['POST'])
 def subscribe():

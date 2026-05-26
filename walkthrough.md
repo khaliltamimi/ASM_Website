@@ -13,8 +13,8 @@ A premium, dedicated scanner page that works completely client-side:
 - **Ingredients Analyzer**: A text area where users can copy-paste any product ingredients list to get an instant analysis.
 - **Status Classification & Highlights**: Matches ingredients against a local database:
   - **Haram** (Red status): *pork, lard, bacon, gelatin (from pork), carmine, cochineal, L-cysteine (from human hair), tallow (pork)*.
-  - **Mushbooh** (Amber status): *whey, gelatin, emulsifier, mono- and diglycerides, lecithin, rennet, pepsin*.
-  - Haram and Mushbooh ingredients are highlighted directly in the ingredients list.
+  - **Mashbuh** (Amber status): *whey, gelatin, emulsifier, mono- and diglycerides, lecithin, rennet, pepsin*.
+  - Haram and Mashbuh ingredients are highlighted directly in the ingredients list.
 
 ### 1.2 Enhanced Admin Dashboard
 Expanded the admin panels to make all key sections of the website editable:
@@ -55,7 +55,7 @@ Expanded the admin panels to make all key sections of the website editable:
 ### 2.1 Testing the Halal Scanner
 1. Navigate to `/halal.html`.
 2. Select **Barcode Search** and enter a barcode (e.g., `3017670986872` for Nutella, or any food barcode). The page will retrieve details and ingredients from Open Food Facts.
-3. Select **Ingredients Analyzer** and paste a text list (e.g. `Ingredients: sugar, vegetable palm oil, hazelnuts, cocoa, skimmed milk powder, whey powder, soy lecithin, vanillin`). The analyzer will flag `whey powder` and `soy lecithin` as **Mushbooh** and highlight them in amber.
+3. Select **Ingredients Analyzer** and paste a text list (e.g. `Ingredients: sugar, vegetable palm oil, hazelnuts, cocoa, skimmed milk powder, whey powder, soy lecithin, vanillin`). The analyzer will flag `whey powder` and `soy lecithin` as **Mashbuh** and highlight them in amber.
 4. Try pasting an ingredient containing `pork gelatin` or `carmine`. The analyzer will immediately flag it as **Haram** in red.
 
 ### 2.2 Testing the Admin Uploads & Mission Editor
